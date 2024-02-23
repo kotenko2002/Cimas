@@ -1,4 +1,4 @@
-﻿namespace Cimas.Domain.Auth
+﻿namespace Cimas.Domain.Models.Auth
 {
     public class TokensPair
     {

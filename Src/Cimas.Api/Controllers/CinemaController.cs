@@ -4,14 +4,14 @@ using MapsterMapper;
 using MediatR;
 using Cimas.Contracts.Cinemas;
 using Cimas.Application.Features.Cinemas.Commands.CreateCinema;
-using Cimas.Application.Features.Cinemas.Queries.GetCinemaById;
+using Cimas.Application.Features.Cinemas.Queries.GetCinema;
 using Cimas.Application.Features.Cinemas.Queries.GetAllCinemas;
 using Cimas.Application.Features.Cinemas.Commands.UpdateCinema;
 using Cimas.Application.Features.Cinemas.Commands.DeleteCinema;
 using Cimas.Api.Common.Extensions;
 using Mapster;
-using Cimas.Domain.Cinemas;
 using ErrorOr;
+using Cimas.Domain.Entities.Cinemas;
 
 namespace Cimas.Api.Controllers
 {

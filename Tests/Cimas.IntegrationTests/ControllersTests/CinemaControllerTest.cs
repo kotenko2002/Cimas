@@ -10,6 +10,7 @@ namespace Cimas.IntegrationTests.ControllersTests
     {
         private const string _baseUrl = "cinemas";
 
+        #region CreateCinema
         [Test]
         public Task CinemaController_CreateCinema_ShouldReturnOk()
         {
@@ -23,7 +24,7 @@ namespace Cimas.IntegrationTests.ControllersTests
 
                 // Act
                 var response = await client.PostAsync($"{_baseUrl}", content);
-                
+
                 var cinemas = await GetResponseContent<GetCinemaResponse>(response);
 
                 // Assert
@@ -31,7 +32,9 @@ namespace Cimas.IntegrationTests.ControllersTests
                 Assert.That(cinemas.Id.ToString(), Is.Not.EqualTo("00000000-0000-0000-0000-000000000000"));
             });
         }
+        #endregion
 
+        #region GetCinemaById
         [Test]
         public Task CinemaController_GetCinemaById_ShouldReturnOk()
         {
@@ -42,7 +45,7 @@ namespace Cimas.IntegrationTests.ControllersTests
 
                 // Act
                 var response = await client.GetAsync($"{_baseUrl}/{cinema1Id}");
-                
+
                 var cinemas = await GetResponseContent<GetCinemaResponse>(response);
 
                 // Assert
@@ -50,6 +53,24 @@ namespace Cimas.IntegrationTests.ControllersTests
             });
         }
 
+        [Test]
+        public Task CinemaController_GetCinemaById_ShouldReturnForbidden()
+        {
+            return PerformTest(async (client) =>
+            {
+                // Arrange
+                await GenerateTokenAndSetAsHeader(username: owner2UserName);
+
+                // Act
+                var response = await client.GetAsync($"{_baseUrl}/{cinema1Id}");
+
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
+            });
+        }
+        #endregion
+
+        #region GetAllCinemas
         [Test]
         public Task CinemaController_GetAllCinemas_ShouldReturnOk()
         {
@@ -60,7 +81,7 @@ namespace Cimas.IntegrationTests.ControllersTests
 
                 // Act
                 var response = await client.GetAsync($"{_baseUrl}");
-                
+
                 var cinemas = await GetResponseContent<List<GetCinemaResponse>>(response);
 
                 // Assert
@@ -68,7 +89,9 @@ namespace Cimas.IntegrationTests.ControllersTests
                 Assert.That(cinemas.Count, Is.EqualTo(2));
             });
         }
+        #endregion
 
+        #region UpdateCinema
         [Test]
         public Task CinemaController_UpdateCinema_ShouldReturnOk()
         {
@@ -89,6 +112,27 @@ namespace Cimas.IntegrationTests.ControllersTests
         }
 
         [Test]
+        public Task CinemaController_UpdateCinema_ShouldReturnForbidden()
+        {
+            return PerformTest(async (client) =>
+            {
+                // Arrange
+                await GenerateTokenAndSetAsHeader(username: owner2UserName);
+
+                var requestModel = new UpdateCinemaRequest("Cinema #updated", "updated street");
+                var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
+
+                // Act
+                var response = await client.PutAsync($"{_baseUrl}/{cinema1Id}", content);
+
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
+            });
+        }
+        #endregion
+
+        #region DeleteCinema
+        [Test]
         public Task CinemaController_DeleteCinema_ShouldReturnOk()
         {
             return PerformTest(async (client) =>
@@ -103,5 +147,22 @@ namespace Cimas.IntegrationTests.ControllersTests
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
             });
         }
+
+        [Test]
+        public Task CinemaController_DeleteCinema_ShouldReturnForbidden()
+        {
+            return PerformTest(async (client) =>
+            {
+                // Arrange
+                await GenerateTokenAndSetAsHeader(username: owner2UserName);
+
+                // Act
+                var response = await client.DeleteAsync($"{_baseUrl}/{cinema1Id}");
+
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
+            });
+        }
+        #endregion
     }
 }

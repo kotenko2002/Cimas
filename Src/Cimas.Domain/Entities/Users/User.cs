@@ -1,8 +1,8 @@
-﻿using Cimas.Domain.Companies;
-using Cimas.Domain.WorkDays;
+﻿using Cimas.Domain.Entities.Companies;
+using Cimas.Domain.Entities.WorkDays;
 using Microsoft.AspNetCore.Identity;
 
-namespace Cimas.Domain.Users
+namespace Cimas.Domain.Entities.Users
 {
     public class User : IdentityUser<Guid>
     {

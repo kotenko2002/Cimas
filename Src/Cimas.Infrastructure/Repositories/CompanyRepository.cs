@@ -1,7 +1,7 @@
 ﻿using Cimas.Infrastructure.Common;
-using Cimas.Domain.Companies;
 using Cimas.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Cimas.Domain.Entities.Companies;
 
 namespace Cimas.Infrastructure.Repositories
 {

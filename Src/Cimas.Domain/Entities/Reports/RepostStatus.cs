@@ -1,4 +1,4 @@
-﻿namespace Cimas.Domain.Reports
+﻿namespace Cimas.Domain.Entities.Reports
 {
     public enum RepostStatus
     {

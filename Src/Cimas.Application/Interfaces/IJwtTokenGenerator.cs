@@ -1,4 +1,4 @@
-﻿using Cimas.Domain.Auth;
+﻿using Cimas.Domain.Models.Auth;
 using ErrorOr;
 using System.Security.Claims;
 

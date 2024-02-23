@@ -1,5 +1,5 @@
 ﻿using Cimas.Application.Interfaces;
-using Cimas.Domain.Users;
+using Cimas.Domain.Entities.Users;
 using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

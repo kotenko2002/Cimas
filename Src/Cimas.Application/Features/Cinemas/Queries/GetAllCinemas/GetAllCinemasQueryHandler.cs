@@ -1,5 +1,6 @@
 ﻿using Cimas.Application.Interfaces;
-using Cimas.Domain.Cinemas;
+using Cimas.Domain.Entities.Cinemas;
+using Cimas.Domain.Entities.Users;
 using ErrorOr;
 using MediatR;
 
@@ -20,11 +21,7 @@ namespace Cimas.Application.Features.Cinemas.Queries.GetAllCinemas
 
         public async Task<ErrorOr<List<Cinema>>> Handle(GetAllCinemasQuery query, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByIdAsync(query.UserId.ToString());
-            if (user is null)
-            {
-                return Error.NotFound(description: "User with such id does not exist");
-            }
+            User user = await _userManager.FindByIdAsync(query.UserId.ToString());
 
             return await _uow.CinemaRepository.GetCinemasByCompanyIdAsync(user.CompanyId);
         }

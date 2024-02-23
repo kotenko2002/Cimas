@@ -40,10 +40,11 @@ namespace Cimas.Api.Controllers
             var statusCode = error.Type switch
             {
                 ErrorType.Failure => StatusCodes.Status400BadRequest,
+                ErrorType.Validation => StatusCodes.Status422UnprocessableEntity,
                 ErrorType.Conflict => StatusCodes.Status409Conflict,
-                ErrorType.Validation => StatusCodes.Status400BadRequest,
                 ErrorType.NotFound => StatusCodes.Status404NotFound,
                 ErrorType.Unauthorized => StatusCodes.Status401Unauthorized,
+                ErrorType.Forbidden => StatusCodes.Status403Forbidden,
                 _ => StatusCodes.Status500InternalServerError,
             };
 

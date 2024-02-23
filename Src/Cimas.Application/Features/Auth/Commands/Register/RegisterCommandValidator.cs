@@ -1,4 +1,4 @@
-﻿using Cimas.Domain.Users;
+﻿using Cimas.Domain.Entities.Users;
 using FluentValidation;
 
 namespace Cimas.Application.Features.Auth.Commands.Register

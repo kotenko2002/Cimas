@@ -1,7 +1,8 @@
-﻿using Cimas.Domain.Cinemas;
-using Cimas.Domain.Users;
+﻿using Cimas.Domain.Entities;
+using Cimas.Domain.Entities.Cinemas;
+using Cimas.Domain.Entities.Users;
 
-namespace Cimas.Domain.Companies
+namespace Cimas.Domain.Entities.Companies
 {
     public class Company : BaseEntity
     {

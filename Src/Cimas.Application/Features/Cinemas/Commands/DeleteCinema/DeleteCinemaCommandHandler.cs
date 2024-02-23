@@ -1,5 +1,6 @@
 ﻿using Cimas.Application.Interfaces;
-using Cimas.Domain.Users;
+using Cimas.Domain.Entities.Cinemas;
+using Cimas.Domain.Entities.Users;
 using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -22,13 +23,9 @@ namespace Cimas.Application.Features.Cinemas.Commands.DeleteCinema
 
         public async Task<ErrorOr<Success>> Handle(DeleteCinemaCommand command, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByIdAsync(command.UserId.ToString());
-            if(user is null)
-            {
-                return Error.NotFound(description: "User with such id does not exist");
-            }
+            User user = await _userManager.FindByIdAsync(command.UserId.ToString());
 
-            var cinema = await _uow.CinemaRepository.GetByIdAsync(command.CinemaId);
+            Cinema cinema = await _uow.CinemaRepository.GetByIdAsync(command.CinemaId);
             if (cinema is null)
             {
                 return Error.NotFound(description: "Cinema with such id does not exist");
@@ -36,7 +33,7 @@ namespace Cimas.Application.Features.Cinemas.Commands.DeleteCinema
 
             if (user.CompanyId != cinema.CompanyId)
             {
-                return Error.Unauthorized(description: "You do not have the necessary permissions to perform this action");
+                return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");
             }
 
             await _uow.CinemaRepository.RemoveAsync(cinema);

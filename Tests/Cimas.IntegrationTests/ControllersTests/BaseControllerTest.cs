@@ -1,7 +1,6 @@
 ﻿using Cimas.Api;
 using Cimas.Infrastructure.Common;
 using Cimas.Infrastructure.Auth;
-using Cimas.Domain.Users;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -14,10 +13,11 @@ using System.Security.Claims;
 using System.Text;
 using Cimas.Infrastructure.Identity;
 using System.Data;
-using Cimas.Domain.Companies;
-using Cimas.Domain.Cinemas;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
+using Cimas.Domain.Entities.Users;
+using Cimas.Domain.Entities.Companies;
+using Cimas.Domain.Entities.Cinemas;
 
 namespace Cimas.IntegrationTests.ControllersTests
 {
@@ -89,7 +89,7 @@ namespace Cimas.IntegrationTests.ControllersTests
 
         public async Task<T> GetResponseContent<T>(HttpResponseMessage response)
         {
-            var responseContent = await response.Content.ReadAsStringAsync();
+            string responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(responseContent);
         }
 

@@ -1,10 +1,11 @@
-﻿using Cimas.Domain.Companies;
-using Cimas.Domain.Films;
-using Cimas.Domain.Halls;
-using Cimas.Domain.Products;
-using Cimas.Domain.WorkDays;
+﻿using Cimas.Domain.Entities;
+using Cimas.Domain.Entities.Companies;
+using Cimas.Domain.Entities.Films;
+using Cimas.Domain.Entities.Halls;
+using Cimas.Domain.Entities.Products;
+using Cimas.Domain.Entities.WorkDays;
 
-namespace Cimas.Domain.Cinemas
+namespace Cimas.Domain.Entities.Cinemas
 {
     public class Cinema : BaseEntity
     {

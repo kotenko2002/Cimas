@@ -1,5 +1,6 @@
 ﻿using Cimas.Application.Interfaces;
-using Cimas.Domain.Cinemas;
+using Cimas.Domain.Entities.Cinemas;
+using Cimas.Domain.Entities.Users;
 using ErrorOr;
 using MediatR;
 
@@ -20,12 +21,8 @@ namespace Cimas.Application.Features.Cinemas.Commands.CreateCinema
 
         public async Task<ErrorOr<Cinema>> Handle(CreateCinemaCommand command, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByIdAsync(command.UserId.ToString());
-            if (user is null)
-            {
-                return Error.NotFound(description: "User with such id does not exist");
-            }
-
+            User user = await _userManager.FindByIdAsync(command.UserId.ToString());
+     
             var cinema = new Cinema()
             {
                 Id = Guid.NewGuid(),

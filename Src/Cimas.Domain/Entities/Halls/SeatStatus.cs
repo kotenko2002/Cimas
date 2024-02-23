@@ -1,4 +1,4 @@
-﻿namespace Cimas.Domain.Halls
+﻿namespace Cimas.Domain.Entities.Halls
 {
     public enum SeatStatus
     {

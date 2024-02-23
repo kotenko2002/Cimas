@@ -5,8 +5,8 @@ using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Options;
-using Cimas.Domain.Auth;
 using ErrorOr;
+using Cimas.Domain.Models.Auth;
 
 namespace Cimas.Infrastructure.Auth
 {

@@ -1,6 +1,6 @@
 ﻿using Cimas.Application;
 using Cimas.Application.Interfaces;
-using Cimas.Domain.Users;
+using Cimas.Domain.Entities.Users;
 using Cimas.Infrastructure.Auth;
 using Cimas.Infrastructure.Common;
 using Cimas.Infrastructure.Identity;

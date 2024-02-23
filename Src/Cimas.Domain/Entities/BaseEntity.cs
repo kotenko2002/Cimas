@@ -1,4 +1,4 @@
-﻿namespace Cimas.Domain
+﻿namespace Cimas.Domain.Entities
 {
     public class BaseEntity
     {

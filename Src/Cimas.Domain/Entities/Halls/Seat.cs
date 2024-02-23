@@ -1,6 +1,7 @@
-﻿using Cimas.Domain.Sessions;
+﻿using Cimas.Domain.Entities;
+using Cimas.Domain.Entities.Sessions;
 
-namespace Cimas.Domain.Halls
+namespace Cimas.Domain.Entities.Halls
 {
     public class Seat : BaseEntity
     {

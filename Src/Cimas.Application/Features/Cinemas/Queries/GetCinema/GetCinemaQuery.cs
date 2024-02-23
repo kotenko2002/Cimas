@@ -1,8 +1,8 @@
-﻿using Cimas.Domain.Cinemas;
+﻿using Cimas.Domain.Entities.Cinemas;
 using ErrorOr;
 using MediatR;
 
-namespace Cimas.Application.Features.Cinemas.Queries.GetCinemaById
+namespace Cimas.Application.Features.Cinemas.Queries.GetCinema
 {
     public record GetCinemaQuery(
         Guid UserId,

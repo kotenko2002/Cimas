@@ -1,4 +1,4 @@
-﻿using Cimas.Domain.Cinemas;
+﻿using Cimas.Domain.Entities.Cinemas;
 
 namespace Cimas.Application.Interfaces
 {

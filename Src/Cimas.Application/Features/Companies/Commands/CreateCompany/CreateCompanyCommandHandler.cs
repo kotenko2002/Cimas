@@ -1,5 +1,5 @@
 ﻿using Cimas.Application.Interfaces;
-using Cimas.Domain.Companies;
+using Cimas.Domain.Entities.Companies;
 using ErrorOr;
 using MediatR;
 

@@ -1,4 +1,4 @@
-﻿using Cimas.Domain.Companies;
+﻿using Cimas.Domain.Entities.Companies;
 
 namespace Cimas.Application.Interfaces
 {

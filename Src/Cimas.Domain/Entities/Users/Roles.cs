@@ -1,4 +1,4 @@
-﻿namespace Cimas.Domain.Users
+﻿namespace Cimas.Domain.Entities.Users
 {
     public static class Roles
     {

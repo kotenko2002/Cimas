@@ -1,4 +1,4 @@
-﻿using Cimas.Domain.Users;
+﻿using Cimas.Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

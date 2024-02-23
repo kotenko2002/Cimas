@@ -1,7 +1,8 @@
-﻿using Cimas.Domain.Cinemas;
-using Cimas.Domain.Sessions;
+﻿using Cimas.Domain.Entities;
+using Cimas.Domain.Entities.Cinemas;
+using Cimas.Domain.Entities.Sessions;
 
-namespace Cimas.Domain.Films
+namespace Cimas.Domain.Entities.Films
 {
     public class Film : BaseEntity
     {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ErrorOr;
 using MediatR;
-using Cimas.Domain.Users;
-using Cimas.Domain.Auth;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Cimas.Application.Interfaces;
+using Cimas.Domain.Entities.Users;
+using Cimas.Domain.Models.Auth;
 
 namespace Cimas.Application.Features.Auth.Commands.Login
 {

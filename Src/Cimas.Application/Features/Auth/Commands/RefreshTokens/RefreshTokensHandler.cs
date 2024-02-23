@@ -1,9 +1,8 @@
 ﻿using Cimas.Application.Interfaces;
-using Cimas.Domain.Auth;
-using Cimas.Domain.Users;
+using Cimas.Domain.Entities.Users;
+using Cimas.Domain.Models.Auth;
 using ErrorOr;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
 namespace Cimas.Application.Features.Auth.Commands.RefreshTokens
@@ -34,7 +33,7 @@ namespace Cimas.Application.Features.Auth.Commands.RefreshTokens
             User user = await _userManager.FindByNameAsync(username);
             if (user == null || user.RefreshToken != command.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
             {
-                return Error.Failure(description: "Invalid access token or refresh token");
+                return Error.Unauthorized(description: "Invalid access token or refresh token");
             }
 
             List<Claim> authClaims = getPrincipalResult.Value.Claims.ToList();

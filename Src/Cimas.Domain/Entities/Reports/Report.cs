@@ -1,6 +1,7 @@
-﻿using Cimas.Domain.WorkDays;
+﻿using Cimas.Domain.Entities;
+using Cimas.Domain.Entities.WorkDays;
 
-namespace Cimas.Domain.Reports
+namespace Cimas.Domain.Entities.Reports
 {
     public class Report : BaseEntity
     {

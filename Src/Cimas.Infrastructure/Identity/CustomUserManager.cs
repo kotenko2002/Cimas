@@ -1,5 +1,5 @@
 ﻿using Cimas.Application.Interfaces;
-using Cimas.Domain.Users;
+using Cimas.Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
