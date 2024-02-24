@@ -8,7 +8,7 @@ namespace Cimas.Application.Features.Companies.Commands.CreateCompany
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .MinimumLength(8);
+                .MinimumLength(6);
         }
     }
 }

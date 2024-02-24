@@ -17,7 +17,6 @@ namespace Cimas.Api
                 .AddEndpointsApiExplorer()
                 .AddSwagger()
                 .AddProblemDetails()
-                //.AddMapster();
                 .AddMapping();
 
             return services;

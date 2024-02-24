@@ -21,14 +21,13 @@ namespace Cimas.Application.Features.Cinemas.Commands.UpdateCinema
 
         public async Task<ErrorOr<Success>> Handle(UpdateCinemaCommand command, CancellationToken cancellationToken)
         {
-            User user = await _userManager.FindByIdAsync(command.UserId.ToString());
-
             Cinema cinema = await _uow.CinemaRepository.GetByIdAsync(command.CinemaId);
             if(cinema is null)
             {
                 return Error.NotFound(description: "Cinema with such id does not exist");
             }
             
+            User user = await _userManager.FindByIdAsync(command.UserId.ToString());
             if (user.CompanyId != cinema.CompanyId)
             {
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");

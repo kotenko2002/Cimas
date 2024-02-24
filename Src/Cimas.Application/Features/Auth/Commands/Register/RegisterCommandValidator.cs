@@ -9,7 +9,7 @@ namespace Cimas.Application.Features.Auth.Commands.Register
         {
             RuleFor(x => x.Username)
                 .NotEmpty()
-                .MinimumLength(8);
+                .MinimumLength(6);
 
             RuleFor(x => x.Password)
                 .NotEmpty()

@@ -12,10 +12,11 @@ using Cimas.Api.Common.Extensions;
 using Mapster;
 using ErrorOr;
 using Cimas.Domain.Entities.Cinemas;
+using Cimas.Domain.Entities.Users;
 
 namespace Cimas.Api.Controllers
 {
-    [Route("cinemas"), Authorize]
+    [Route("cinemas"), Authorize(Roles = Roles.Owner)]
     public class CinemaController : BaseController
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
