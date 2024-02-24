@@ -1,5 +1,6 @@
 ﻿using Cimas.Application.Features.Companies.Commands.CreateCompany;
 using Cimas.Contracts.Companies;
+using Mapster;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -10,14 +11,13 @@ namespace Cimas.Api.Controllers
     public class CompanyController : BaseController
     {
         public CompanyController(
-            IMediator mediator,
-            IMapper mapper
-        ) : base(mediator, mapper) {}
+            IMediator mediator
+        ) : base(mediator) {}
 
         [HttpPost]
         public async Task<IActionResult> CreateCompany(CreateCompanyRequest request)
         {
-            var command = _mapper.Map<CreateCompanyCommand>(request);
+            var command = request.Adapt<CreateCompanyCommand>();
 
             var createCompanyResult = await _mediator.Send(command);
 

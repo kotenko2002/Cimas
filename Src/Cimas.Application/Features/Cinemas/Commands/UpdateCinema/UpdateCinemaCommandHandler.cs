@@ -33,11 +33,8 @@ namespace Cimas.Application.Features.Cinemas.Commands.UpdateCinema
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");
             }
 
-            if(command.Name is not null)
-                cinema.Name = command.Name;
-
-            if(command.Adress is not null)
-                cinema.Adress = command.Adress;
+            cinema.Name = command.Name;
+            cinema.Adress = command.Adress;
 
             await _uow.CompleteAsync();
 

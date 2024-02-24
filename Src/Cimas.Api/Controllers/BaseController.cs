@@ -10,14 +10,11 @@ namespace Cimas.Api.Controllers
     public class BaseController : ControllerBase
     {
         protected readonly IMediator _mediator;
-        protected readonly IMapper _mapper;
 
         public BaseController(
-            IMediator mediator,
-            IMapper mapper)
+            IMediator mediator)
         {
             _mediator = mediator;
-            _mapper = mapper;
         }
 
         protected IActionResult Problem(List<Error> errors)

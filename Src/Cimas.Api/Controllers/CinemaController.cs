@@ -23,9 +23,8 @@ namespace Cimas.Api.Controllers
 
         public CinemaController(
             IMediator mediator,
-            IMapper mapper,
             IHttpContextAccessor httpContextAccessor
-        ) : base(mediator, mapper)
+        ) : base(mediator)
         {
             _httpContextAccessor = httpContextAccessor;
         }

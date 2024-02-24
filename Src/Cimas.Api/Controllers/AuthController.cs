@@ -2,7 +2,7 @@
 using Cimas.Application.Features.Auth.Commands.RefreshTokens;
 using Cimas.Application.Features.Auth.Commands.Register;
 using Cimas.Contracts.Auth;
-using MapsterMapper;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,16 +11,9 @@ namespace Cimas.Api.Controllers
     [Route("auth")]
     public class AuthController : BaseController
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
         public AuthController(
-            IMediator mediator,
-            IMapper mapper,
-            IHttpContextAccessor httpContextAccessor
-        ) : base(mediator, mapper)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
+            IMediator mediator
+        ) : base(mediator) {}
 
         /*
         * TODO: 
@@ -34,7 +27,7 @@ namespace Cimas.Api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
-            var command = _mapper.Map<RegisterCommand>(request);
+            var command = request.Adapt<RegisterCommand>();
 
             var loginResult = await _mediator.Send(command);
 
@@ -47,7 +40,7 @@ namespace Cimas.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest request)
         {
-            var command = _mapper.Map<LoginCommand>(request);
+            var command = request.Adapt<LoginCommand>();
 
             var loginResult = await _mediator.Send(command);
 
@@ -60,7 +53,7 @@ namespace Cimas.Api.Controllers
         [HttpPost("refresh-tokens")]
         public async Task<IActionResult> RefreshTokens(RefreshTokensRequest request)
         {
-            var command = _mapper.Map<RefreshTokensCommand>(request);
+            var command = request.Adapt<RefreshTokensCommand>();
 
             var refreshTokensResult = await _mediator.Send(command);
 
