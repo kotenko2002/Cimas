@@ -1,5 +1,4 @@
-﻿using Cimas.Domain.Entities;
-using Cimas.Domain.Entities.Sessions;
+﻿using Cimas.Domain.Entities.Sessions;
 
 namespace Cimas.Domain.Entities.Halls
 {

@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using Cimas.Domain.Entities.Users;
 using Cimas.Domain.Entities.Companies;
 using Cimas.Domain.Entities.Cinemas;
+using Cimas.Domain.Entities.Halls;
 
 namespace Cimas.IntegrationTests.ControllersTests
 {
@@ -131,6 +132,11 @@ namespace Cimas.IntegrationTests.ControllersTests
             Cinema cinema2 = new() { Id = Guid.NewGuid(), Company = company2, Name = "Cinema #2", Adress = "2 street" };
             Cinema cinema3 = new() { Id = Guid.NewGuid(), Company = company1, Name = "Cinema #3", Adress = "3 street" };
             await context.Cinemas.AddRangeAsync(cinema1, cinema2, cinema3);
+
+            Hall hall1 = new() { Id = Guid.NewGuid(), Cinema = cinema1, Name = "Hall #1" };
+            Hall hall2 = new() { Id = Guid.NewGuid(), Cinema = cinema1, Name = "Hall #2", IsDeleted = true };
+            Hall hall3 = new() { Id = Guid.NewGuid(), Cinema = cinema2, Name = "Hall #3" };
+            await context.Halls.AddRangeAsync(hall1, hall2, hall3);
 
             await context.SaveChangesAsync();
         }

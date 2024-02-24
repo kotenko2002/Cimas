@@ -25,11 +25,11 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Act
                 var response = await client.PostAsync($"{_baseUrl}", content);
 
-                var cinemas = await GetResponseContent<GetCinemaResponse>(response);
+                var cinema = await GetResponseContent<GetCinemaResponse>(response);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                Assert.That(cinemas.Id.ToString(), Is.Not.EqualTo("00000000-0000-0000-0000-000000000000"));
+                Assert.That(cinema.Id.ToString(), Is.Not.EqualTo("00000000-0000-0000-0000-000000000000"));
             });
         }
         #endregion
@@ -46,10 +46,27 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Act
                 var response = await client.GetAsync($"{_baseUrl}/{cinema1Id}");
 
-                var cinemas = await GetResponseContent<GetCinemaResponse>(response);
+                var cinema = await GetResponseContent<GetCinemaResponse>(response);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(cinema.Id.ToString(), Is.Not.EqualTo("00000000-0000-0000-0000-000000000000"));
+            });
+        }
+
+        [Test]
+        public Task CinemaController_GetCinemaById_ShouldReturnNotFound()
+        {
+            return PerformTest(async (client) =>
+            {
+                // Arrange
+                await GenerateTokenAndSetAsHeader(username: owner1UserName);
+
+                // Act
+                var response = await client.GetAsync($"{_baseUrl}/{Guid.NewGuid()}");
+
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
             });
         }
 
@@ -87,6 +104,8 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
                 Assert.That(cinemas.Count, Is.EqualTo(2));
+                foreach (var cinema in cinemas)
+                    Assert.That(cinema.Id.ToString(), Is.Not.EqualTo("00000000-0000-0000-0000-000000000000"));
             });
         }
         #endregion
@@ -108,6 +127,25 @@ namespace Cimas.IntegrationTests.ControllersTests
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
+            });
+        }
+
+        [Test]
+        public Task CinemaController_UpdateCinema_ShouldReturnNotFound()
+        {
+            return PerformTest(async (client) =>
+            {
+                // Arrange
+                await GenerateTokenAndSetAsHeader(username: owner1UserName);
+
+                var requestModel = new UpdateCinemaRequest("Cinema #updated", "updated street");
+                var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
+
+                // Act
+                var response = await client.PutAsync($"{_baseUrl}/{Guid.NewGuid()}", content);
+
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
             });
         }
 
@@ -145,6 +183,22 @@ namespace Cimas.IntegrationTests.ControllersTests
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
+            });
+        }
+
+        [Test]
+        public Task CinemaController_DeleteCinema_ShouldReturnNotFound()
+        {
+            return PerformTest(async (client) =>
+            {
+                // Arrange
+                await GenerateTokenAndSetAsHeader(username: owner1UserName);
+
+                // Act
+                var response = await client.DeleteAsync($"{_baseUrl}/{Guid.NewGuid()}");
+
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
             });
         }
 

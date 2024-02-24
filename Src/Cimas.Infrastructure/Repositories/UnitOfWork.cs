@@ -9,6 +9,8 @@ namespace Cimas.Infrastructure.Repositories
 
         public ICompanyRepository CompanyRepository { get; }
         public ICinemaRepository CinemaRepository { get; }
+        public IHallRepository HallRepository { get; }
+        public ISeatRepository SeatRepository { get; }
 
         public UnitOfWork(CimasDbContext context)
         {
@@ -16,6 +18,8 @@ namespace Cimas.Infrastructure.Repositories
 
             CompanyRepository = new CompanyRepository(_context);
             CinemaRepository = new CinemaRepository(_context);
+            HallRepository = new HallRepository(_context);
+            SeatRepository = new SeatRepository(_context);
         }
 
         public async Task CompleteAsync()

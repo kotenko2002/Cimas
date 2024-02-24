@@ -1,5 +1,4 @@
-﻿using Cimas.Domain.Entities;
-using Cimas.Domain.Entities.WorkDays;
+﻿using Cimas.Domain.Entities.WorkDays;
 
 namespace Cimas.Domain.Entities.Reports
 {
