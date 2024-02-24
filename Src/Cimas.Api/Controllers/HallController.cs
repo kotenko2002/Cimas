@@ -1,10 +1,9 @@
 ﻿using Cimas.Api.Common.Extensions;
-using Cimas.Application.Features.Cinemas.Queries.GetCinema;
+using Cimas.Application.Features.Cinemas.Commands.DeleteCinema;
 using Cimas.Application.Features.Halls.Commands.CreateHall;
+using Cimas.Application.Features.Halls.Commands.DeleteHall;
 using Cimas.Application.Features.Halls.Queries.GetHallsByCinemaId;
-using Cimas.Contracts.Cinemas;
 using Cimas.Contracts.Halls;
-using Cimas.Domain.Entities.Cinemas;
 using Cimas.Domain.Entities.Halls;
 using Cimas.Domain.Entities.Users;
 using ErrorOr;
@@ -60,6 +59,44 @@ namespace Cimas.Api.Controllers
 
             return getHallsResult.Match(
                 halls => Ok(halls.Adapt< List<GetHallResponse>>()),
+                Problem
+            );
+        }
+
+        // TODO: impliment PATCH endpoint to edit hall seats statuses
+        [HttpPatch("{hallId}")]
+        public async Task<IActionResult> EditHallSeats(Guid hallId, UpdateHallSeatsRequst requst)
+        {
+            ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
+            if (userIdResult.IsError)
+            {
+                return Problem(userIdResult.Errors);
+            }
+
+            //var command = new GetHallsByCinemaIdQuery(userIdResult.Value, cinemaId);
+            //ErrorOr<List<Hall>> getHallsResult = await _mediator.Send(command);
+
+            //return getHallsResult.Match(
+            //    halls => Ok(halls.Adapt<List<GetHallResponse>>()),
+            //    Problem
+            //);
+
+            return Ok();
+        }
+        [HttpDelete("{hallId}")]
+        public async Task<IActionResult> DeleteHall(Guid hallId)
+        {
+            ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
+            if (userIdResult.IsError)
+            {
+                return Problem(userIdResult.Errors);
+            }
+
+            var command = new DeleteHallCommand(userIdResult.Value, hallId);
+            ErrorOr<Success> deleteCinemaResult = await _mediator.Send(command);
+
+            return deleteCinemaResult.Match(
+                NoContent,
                 Problem
             );
         }

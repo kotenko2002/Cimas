@@ -3,5 +3,5 @@
     public record GetHallResponse(
        Guid Id,
        string Name
-   );
+    );
 }

@@ -124,5 +124,55 @@ namespace Cimas.IntegrationTests.ControllersTests
             });
         }
         #endregion
+
+        #region DeleteHall
+        [Test]
+        public Task HallController_DeleteHall_ShouldReturnOk()
+        {
+            return PerformTest(async (client) =>
+            {
+                // Arrange
+                await GenerateTokenAndSetAsHeader(username: owner1UserName);
+
+                // Act
+                var response = await client.DeleteAsync($"{_baseUrl}/{hall1Id}");
+
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
+            });
+        }
+
+        [Test]
+        public Task HallController_DeleteHall_ShouldReturnNotFound()
+        {
+            return PerformTest(async (client) =>
+            {
+                // Arrange
+                await GenerateTokenAndSetAsHeader(username: owner1UserName);
+
+                // Act
+                var response = await client.DeleteAsync($"{_baseUrl}/{Guid.NewGuid()}");
+
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            });
+        }
+
+        [Test]
+        public Task HallController_DeleteHall_ShouldReturnForbidden()
+        {
+            return PerformTest(async (client) =>
+            {
+                // Arrange
+                await GenerateTokenAndSetAsHeader(username: owner2UserName);
+
+                // Act
+                var response = await client.DeleteAsync($"{_baseUrl}/{hall1Id}");
+
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
+            });
+        }
+        #endregion
     }
 }
