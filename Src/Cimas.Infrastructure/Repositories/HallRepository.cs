@@ -26,13 +26,5 @@ namespace Cimas.Infrastructure.Repositories
 
             return hall.Cinema.Company.Id;
         }
-
-        public async Task<Hall> GetHallWithSeatsByIdAsync(Guid hallId)
-        {
-            return await Sourse
-                .Include(hall => hall.Seats)
-                .Where(hall => !hall.IsDeleted)
-                .FirstOrDefaultAsync(hall => hall.Id == hallId);
-        }
     }
 }

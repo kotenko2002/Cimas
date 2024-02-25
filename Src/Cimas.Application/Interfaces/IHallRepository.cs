@@ -6,6 +6,5 @@ namespace Cimas.Application.Interfaces
     {
         Task<List<Hall>> GetHallsByCinemaIdAsync(Guid cinemaId);
         Task<Guid> GetCompanyIdByHallIdAsync(Guid hallId);
-        Task<Hall> GetHallWithSeatsByIdAsync(Guid hallId);
     }
 }

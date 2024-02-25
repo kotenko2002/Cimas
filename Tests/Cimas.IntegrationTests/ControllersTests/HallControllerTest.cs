@@ -125,6 +125,10 @@ namespace Cimas.IntegrationTests.ControllersTests
         }
         #endregion
 
+        #region UpdateHallSeats
+        // TODO: write 4 tests, Ok, NotFound, Forbidden, NotFound
+        #endregion
+
         #region DeleteHall
         [Test]
         public Task HallController_DeleteHall_ShouldReturnOk()
