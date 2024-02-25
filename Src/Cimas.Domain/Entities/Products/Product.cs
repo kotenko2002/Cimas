@@ -1,5 +1,4 @@
-﻿using Cimas.Domain.Entities;
-using Cimas.Domain.Entities.Cinemas;
+﻿using Cimas.Domain.Entities.Cinemas;
 
 namespace Cimas.Domain.Entities.Products
 {

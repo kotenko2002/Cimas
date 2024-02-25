@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using Cimas.Domain.Entities.Users;
 using Cimas.Domain.Entities.Companies;
 using Cimas.Domain.Entities.Cinemas;
+using Cimas.Domain.Entities.Halls;
 
 namespace Cimas.IntegrationTests.ControllersTests
 {
@@ -35,6 +36,7 @@ namespace Cimas.IntegrationTests.ControllersTests
         protected readonly string reviewer2UserName = "reviewer2";
 
         protected readonly Guid cinema1Id = Guid.NewGuid();
+        protected readonly Guid hall1Id = Guid.NewGuid();
         #endregion
 
         public async Task PerformTest(Func<HttpClient, Task> testFunc, Action<IServiceCollection> configureServices = null)
@@ -66,8 +68,8 @@ namespace Cimas.IntegrationTests.ControllersTests
 
             var authClaims = new List<Claim>
             {
-                new Claim("userId", user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new("userId", user.Id.ToString()),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
             IList<string> userRoles = await userManager.GetRolesAsync(user);
 
@@ -131,6 +133,11 @@ namespace Cimas.IntegrationTests.ControllersTests
             Cinema cinema2 = new() { Id = Guid.NewGuid(), Company = company2, Name = "Cinema #2", Adress = "2 street" };
             Cinema cinema3 = new() { Id = Guid.NewGuid(), Company = company1, Name = "Cinema #3", Adress = "3 street" };
             await context.Cinemas.AddRangeAsync(cinema1, cinema2, cinema3);
+
+            Hall hall1 = new() { Id = hall1Id, Cinema = cinema1, Name = "Hall #1" };
+            Hall hall2 = new() { Id = Guid.NewGuid(), Cinema = cinema1, Name = "Hall #2", IsDeleted = true };
+            Hall hall3 = new() { Id = Guid.NewGuid(), Cinema = cinema2, Name = "Hall #3" };
+            await context.Halls.AddRangeAsync(hall1, hall2, hall3);
 
             await context.SaveChangesAsync();
         }

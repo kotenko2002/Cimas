@@ -2,9 +2,9 @@
 
 namespace Cimas.Application.Features.Companies.Commands.CreateCompany
 {
-    public class CreateCompanyValidator : AbstractValidator<CreateCompanyCommand>
+    public class CreateCompanyCommandValidator : AbstractValidator<CreateCompanyCommand>
     {
-        public CreateCompanyValidator()
+        public CreateCompanyCommandValidator()
         {
             RuleFor(x => x.Name)
                 .NotEmpty()

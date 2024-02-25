@@ -44,8 +44,8 @@ namespace Cimas.Application.Features.Auth.Commands.Login
         {
             var authClaims = new List<Claim>
             {
-                new Claim("userId", user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new("userId", user.Id.ToString()),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 
             IList<string> userRoles = await _userManager.GetRolesAsync(user);

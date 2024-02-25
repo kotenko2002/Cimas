@@ -1,5 +1,4 @@
-﻿using Cimas.Domain.Entities;
-using Cimas.Domain.Entities.Companies;
+﻿using Cimas.Domain.Entities.Companies;
 using Cimas.Domain.Entities.Films;
 using Cimas.Domain.Entities.Halls;
 using Cimas.Domain.Entities.Products;
