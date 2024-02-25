@@ -1,6 +1,7 @@
 ﻿using Cimas.Application.Features.Cinemas.Commands.CreateCinema;
 using Cimas.Application.Features.Cinemas.Commands.UpdateCinema;
 using Cimas.Application.Features.Halls.Commands.CreateHall;
+using Cimas.Application.Features.Halls.Commands.UpdateHallSeats;
 using Cimas.Contracts.Cinemas;
 using Cimas.Contracts.Halls;
 using Mapster;
@@ -15,7 +16,7 @@ namespace Cimas.Api.Common.Mapping
             AddHallControllerConfigs(config);
         }
 
-        private TypeAdapterConfig AddCinemaControllerConfigs(TypeAdapterConfig config)
+        private void AddCinemaControllerConfigs(TypeAdapterConfig config)
         {
             config.NewConfig<(Guid UserId, CreateCinemaRequest requset), CreateCinemaCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
@@ -25,17 +26,18 @@ namespace Cimas.Api.Common.Mapping
                 .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest.CinemaId, src => src.CinemaId)
                 .Map(dest => dest, src => src.requset);
-
-            return config;
         }
 
-        private TypeAdapterConfig AddHallControllerConfigs(TypeAdapterConfig config)
+        private void AddHallControllerConfigs(TypeAdapterConfig config)
         {
             config.NewConfig<(Guid UserId, CreateHallRequest requset), CreateHallCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest, src => src.requset);
 
-            return config;
+            config.NewConfig<(Guid UserId, Guid HallId, UpdateHallSeatsRequst requset), UpdateHallSeatsCommand>()
+                .Map(dest => dest.UserId, src => src.UserId)
+                .Map(dest => dest.HallId, src => src.HallId)
+                .Map(dest => dest, src => src.requset);
         }
     }
 }

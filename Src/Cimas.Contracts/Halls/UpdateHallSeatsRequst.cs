@@ -1,8 +1,8 @@
 ﻿namespace Cimas.Contracts.Halls
 {
-    public record UpdateHallSeatsRequst(List<UpdateHallSeat> seats);
+    public record UpdateHallSeatsRequst(List<HallSeatModel> Seats);
 
-    public record UpdateHallSeat(
+    public record HallSeatModel(
         Guid Id,
         int Status
     );

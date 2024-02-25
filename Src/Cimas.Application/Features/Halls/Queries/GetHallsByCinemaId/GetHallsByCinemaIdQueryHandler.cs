@@ -34,7 +34,7 @@ namespace Cimas.Application.Features.Halls.Queries.GetHallsByCinemaId
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");
             }
 
-            return await _uow.HallRepository.GetHallsByCinemaId(query.CinemaId);
+            return await _uow.HallRepository.GetHallsByCinemaIdAsync(query.CinemaId);
         }
     }
 }

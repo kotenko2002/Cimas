@@ -1,4 +1,5 @@
 ﻿using Cimas.Application.Interfaces;
+using Cimas.Domain.Entities.Cinemas;
 using Cimas.Domain.Entities.Halls;
 using Cimas.Infrastructure.Common;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ namespace Cimas.Infrastructure.Repositories
     {
         public HallRepository(CimasDbContext context) : base(context) {}
 
-        public async Task<List<Hall>> GetHallsByCinemaId(Guid cinemaId)
+        public async Task<List<Hall>> GetHallsByCinemaIdAsync(Guid cinemaId)
         {
             return await Sourse
                 .Where(hall => !hall.IsDeleted && hall.CinemaId == cinemaId)
@@ -24,6 +25,14 @@ namespace Cimas.Infrastructure.Repositories
                 .FirstOrDefaultAsync(hall => hall.Id == hallId);
 
             return hall.Cinema.Company.Id;
+        }
+
+        public async Task<Hall> GetHallWithSeatsByIdAsync(Guid hallId)
+        {
+            return await Sourse
+                .Include(hall => hall.Seats)
+                .Where(hall => !hall.IsDeleted)
+                .FirstOrDefaultAsync(hall => hall.Id == hallId);
         }
     }
 }

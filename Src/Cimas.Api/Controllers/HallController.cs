@@ -2,6 +2,7 @@
 using Cimas.Application.Features.Cinemas.Commands.DeleteCinema;
 using Cimas.Application.Features.Halls.Commands.CreateHall;
 using Cimas.Application.Features.Halls.Commands.DeleteHall;
+using Cimas.Application.Features.Halls.Commands.UpdateHallSeats;
 using Cimas.Application.Features.Halls.Queries.GetHallsByCinemaId;
 using Cimas.Contracts.Halls;
 using Cimas.Domain.Entities.Halls;
@@ -63,9 +64,8 @@ namespace Cimas.Api.Controllers
             );
         }
 
-        // TODO: impliment PATCH endpoint to edit hall seats statuses
         [HttpPatch("{hallId}")]
-        public async Task<IActionResult> EditHallSeats(Guid hallId, UpdateHallSeatsRequst requst)
+        public async Task<IActionResult> UpdateHallSeats(Guid hallId, UpdateHallSeatsRequst requst)
         {
             ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
             if (userIdResult.IsError)
@@ -73,16 +73,15 @@ namespace Cimas.Api.Controllers
                 return Problem(userIdResult.Errors);
             }
 
-            //var command = new GetHallsByCinemaIdQuery(userIdResult.Value, cinemaId);
-            //ErrorOr<List<Hall>> getHallsResult = await _mediator.Send(command);
+            var command = (userIdResult.Value, hallId, requst).Adapt<UpdateHallSeatsCommand>();
+            ErrorOr<Success> updateHallSeatsResult = await _mediator.Send(command);
 
-            //return getHallsResult.Match(
-            //    halls => Ok(halls.Adapt<List<GetHallResponse>>()),
-            //    Problem
-            //);
-
-            return Ok();
+            return updateHallSeatsResult.Match(
+                NoContent,
+                Problem
+            );
         }
+
         [HttpDelete("{hallId}")]
         public async Task<IActionResult> DeleteHall(Guid hallId)
         {
