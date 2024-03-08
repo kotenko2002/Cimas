@@ -21,22 +21,6 @@ namespace Cimas.Api.Common.Extensions
             return Error.Failure(description: $"Wrong Id format in token");
         }
 
-        public static ErrorOr<Guid> GetCompanyId(this ClaimsPrincipal principal)
-        {
-            var getСompanyIdResult = GetInfoByDataName(principal, "companyId");
-            if (getСompanyIdResult.IsError)
-            {
-                return getСompanyIdResult.Errors;
-            }
-
-            if (Guid.TryParse(getСompanyIdResult.Value, out Guid guid))
-            {
-                return guid;
-            }
-
-            return Error.Failure(description: $"Wrong Id format in token");
-        }
-
         private static ErrorOr<string> GetInfoByDataName(ClaimsPrincipal principal, string name)
         {
             var data = principal.FindFirstValue(name);

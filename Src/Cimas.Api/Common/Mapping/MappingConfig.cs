@@ -13,6 +13,7 @@ namespace Cimas.Api.Common.Mapping
         public void Register(TypeAdapterConfig config)
         {
             AddCinemaControllerConfigs(config);
+            AddFilmControllerConfigs(config);
             AddHallControllerConfigs(config);
         }
 
@@ -26,6 +27,11 @@ namespace Cimas.Api.Common.Mapping
                 .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest.CinemaId, src => src.CinemaId)
                 .Map(dest => dest, src => src.requset);
+        }
+
+        private void AddFilmControllerConfigs(TypeAdapterConfig config)
+        {
+           
         }
 
         private void AddHallControllerConfigs(TypeAdapterConfig config)
