@@ -6,9 +6,6 @@ namespace Cimas.Application.Features.Halls.Commands.CreateHall
     {
         public CreateHallCommandValidator()
         {
-            RuleFor(x => x.UserId)
-             .NotEmpty();
-
             RuleFor(x => x.CinemaId)
              .NotEmpty();
 

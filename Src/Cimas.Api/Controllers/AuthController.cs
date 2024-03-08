@@ -1,7 +1,7 @@
 ﻿using Cimas.Application.Features.Auth.Commands.Login;
 using Cimas.Application.Features.Auth.Commands.RefreshTokens;
 using Cimas.Application.Features.Auth.Commands.Register;
-using Cimas.Contracts.Auth;
+using Cimas.Api.Contracts.Auth;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

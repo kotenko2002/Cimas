@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using MapsterMapper;
 
 namespace Cimas.Api.Controllers
 {

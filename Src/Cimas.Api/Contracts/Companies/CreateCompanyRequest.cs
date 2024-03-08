@@ -1,4 +1,4 @@
-﻿namespace Cimas.Contracts.Companies
+﻿namespace Cimas.Api.Contracts.Companies
 {
     public record CreateCompanyRequest(
         string Name

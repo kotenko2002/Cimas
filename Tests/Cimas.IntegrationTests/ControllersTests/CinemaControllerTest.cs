@@ -1,4 +1,4 @@
-﻿using Cimas.Contracts.Cinemas;
+﻿using Cimas.Api.Contracts.Cinemas;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Net;

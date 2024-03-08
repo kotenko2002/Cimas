@@ -1,7 +1,6 @@
 ﻿using Cimas.Application.Features.Companies.Commands.CreateCompany;
-using Cimas.Contracts.Companies;
+using Cimas.Api.Contracts.Companies;
 using Mapster;
-using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

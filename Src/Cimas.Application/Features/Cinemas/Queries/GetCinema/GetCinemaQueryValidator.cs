@@ -6,9 +6,6 @@ namespace Cimas.Application.Features.Cinemas.Queries.GetCinema
     {
         public GetCinemaQueryValidator()
         {
-            RuleFor(x => x.UserId)
-                .NotEmpty();
-
             RuleFor(x => x.CinemaId)
                 .NotEmpty();
         }

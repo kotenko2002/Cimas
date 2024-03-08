@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cimas.Application\Cimas.Application.csproj" />
-    <ProjectReference Include="..\Cimas.Contracts\Cimas.Contracts.csproj" />
     <ProjectReference Include="..\Cimas.Infrastructure\Cimas.Infrastructure.csproj" />
   </ItemGroup>
 

@@ -1,10 +1,9 @@
 ﻿using Cimas.Api.Common.Extensions;
-using Cimas.Application.Features.Cinemas.Commands.DeleteCinema;
 using Cimas.Application.Features.Halls.Commands.CreateHall;
 using Cimas.Application.Features.Halls.Commands.DeleteHall;
 using Cimas.Application.Features.Halls.Commands.UpdateHallSeats;
 using Cimas.Application.Features.Halls.Queries.GetHallsByCinemaId;
-using Cimas.Contracts.Halls;
+using Cimas.Api.Contracts.Halls;
 using Cimas.Domain.Entities.Halls;
 using Cimas.Domain.Entities.Users;
 using ErrorOr;
@@ -28,8 +27,8 @@ namespace Cimas.Api.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateHall(CreateHallRequest request)
+        [HttpPost("{cinemaId}")]
+        public async Task<IActionResult> CreateHall(Guid cinemaId, CreateHallRequest request)
         {
             ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
             if (userIdResult.IsError)
@@ -37,7 +36,7 @@ namespace Cimas.Api.Controllers
                 return Problem(userIdResult.Errors);
             }
 
-            var command = (userIdResult.Value, request).Adapt<CreateHallCommand>();
+            var command = (userIdResult.Value, cinemaId, request).Adapt<CreateHallCommand>();
             ErrorOr<Success> createCinemaResult = await _mediator.Send(command);
 
             return createCinemaResult.Match(

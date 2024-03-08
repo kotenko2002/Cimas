@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MapsterMapper;
 using MediatR;
-using Cimas.Contracts.Cinemas;
+using Cimas.Api.Contracts.Cinemas;
 using Cimas.Application.Features.Cinemas.Commands.CreateCinema;
 using Cimas.Application.Features.Cinemas.Queries.GetCinema;
 using Cimas.Application.Features.Cinemas.Queries.GetAllCinemas;

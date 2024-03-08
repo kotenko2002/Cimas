@@ -65,7 +65,7 @@ namespace Cimas.Application.Features.Halls.Commands.CreateHall
                         Row = i,
                         Column = j,
                         Hall = hall,
-                        Status = SeatStatus.Free
+                        Status = SeatStatus.Available
                     });
 
                     numberOfSeat++;

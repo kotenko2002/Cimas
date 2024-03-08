@@ -1,5 +1,5 @@
-﻿using Cimas.Contracts.Cinemas;
-using Cimas.Contracts.Halls;
+﻿using Cimas.Api.Contracts.Halls;
+using Cimas.Domain.Entities.Halls;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Net;
@@ -20,11 +20,11 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: owner1UserName);
 
-                var requestModel = new CreateHallRequest(cinema1Id, "Hall #created", 5, 5);
+                var requestModel = new CreateHallRequest("Hall #created", 5, 5);
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
-                var response = await client.PostAsync($"{_baseUrl}", content);
+                var response = await client.PostAsync($"{_baseUrl}/{cinema1Id}", content);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
@@ -39,11 +39,11 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: owner1UserName);
 
-                var requestModel = new CreateHallRequest(Guid.NewGuid(), "Hall #created", 5, 5);
+                var requestModel = new CreateHallRequest("Hall #created", 5, 5);
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
-                var response = await client.PostAsync($"{_baseUrl}", content);
+                var response = await client.PostAsync($"{_baseUrl}/{Guid.NewGuid()}", content);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
@@ -58,11 +58,11 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: owner2UserName);
 
-                var requestModel = new CreateHallRequest(cinema1Id, "Hall #created", 5, 5);
+                var requestModel = new CreateHallRequest("Hall #created", 5, 5);
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
-                var response = await client.PostAsync($"{_baseUrl}", content);
+                var response = await client.PostAsync($"{_baseUrl}/{cinema1Id}", content);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
@@ -82,7 +82,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Act
                 var response = await client.GetAsync($"{_baseUrl}/{cinema1Id}");
 
-                var halls = await GetResponseContent<List<GetCinemaResponse>>(response);
+                var halls = await GetResponseContent<List<GetHallResponse>>(response);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -126,7 +126,97 @@ namespace Cimas.IntegrationTests.ControllersTests
         #endregion
 
         #region UpdateHallSeats
-        // TODO: write 4 tests, Ok, NotFound, Forbidden, NotFound
+        [Test]
+        public Task HallController_UpdateHallSeats_ShouldReturnOk()
+        {
+            return PerformTest(async (client) =>
+            {
+                // Arrange
+                await GenerateTokenAndSetAsHeader(username: owner1UserName);
+
+                var requestModel = new UpdateHallSeatsRequst(new List<HallSeatModel>()
+                {
+                    new HallSeatModel(seat1Id, SeatStatus.Available),
+                    new HallSeatModel(seat2Id, SeatStatus.Unavailable),
+                });
+                var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
+
+                // Act
+                var response = await client.PatchAsync($"{_baseUrl}/{hall1Id}", content);
+
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
+            });
+        }
+
+        [Test]
+        public Task HallController_UpdateHallSeats_ShouldReturnHallNotFound()
+        {
+            return PerformTest(async (client) =>
+            {
+                // Arrange
+                await GenerateTokenAndSetAsHeader(username: owner1UserName);
+
+                var requestModel = new UpdateHallSeatsRequst(new List<HallSeatModel>()
+                {
+                    new HallSeatModel(seat1Id, SeatStatus.Available),
+                    new HallSeatModel(seat2Id, SeatStatus.Unavailable),
+                });
+                var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
+
+                // Act
+                var response = await client.PatchAsync($"{_baseUrl}/{Guid.NewGuid()}", content);
+
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            });
+        }
+
+        [Test]
+        public Task HallController_UpdateHallSeats_ShouldReturnSeatNotFound()
+        {
+            return PerformTest(async (client) =>
+            {
+                // Arrange
+                await GenerateTokenAndSetAsHeader(username: owner1UserName);
+
+                var requestModel = new UpdateHallSeatsRequst(new List<HallSeatModel>()
+                {
+                    new HallSeatModel(Guid.NewGuid(), SeatStatus.Available),
+                    new HallSeatModel(seat2Id, SeatStatus.Unavailable),
+                });
+                var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
+
+                // Act
+                var response = await client.PatchAsync($"{_baseUrl}/{hall1Id}", content);
+
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            });
+        }
+
+        [Test]
+        public Task HallController_UpdateHallSeats_ShouldReturnForbidden()
+        {
+            return PerformTest(async (client) =>
+            {
+                // Arrange
+                await GenerateTokenAndSetAsHeader(username: owner2UserName);
+
+                var requestModel = new UpdateHallSeatsRequst(new List<HallSeatModel>()
+                {
+                    new HallSeatModel(seat1Id, SeatStatus.Available),
+                    new HallSeatModel(seat2Id, SeatStatus.Unavailable),
+                });
+                var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
+
+                // Act
+                var response = await client.PatchAsync($"{_baseUrl}/{hall1Id}", content);
+
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
+            });
+        }
         #endregion
 
         #region DeleteHall

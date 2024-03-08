@@ -37,6 +37,8 @@ namespace Cimas.IntegrationTests.ControllersTests
 
         protected readonly Guid cinema1Id = Guid.NewGuid();
         protected readonly Guid hall1Id = Guid.NewGuid();
+        protected readonly Guid seat1Id = Guid.NewGuid();
+        protected readonly Guid seat2Id = Guid.NewGuid();
         #endregion
 
         public async Task PerformTest(Func<HttpClient, Task> testFunc, Action<IServiceCollection> configureServices = null)
@@ -138,6 +140,12 @@ namespace Cimas.IntegrationTests.ControllersTests
             Hall hall2 = new() { Id = Guid.NewGuid(), Cinema = cinema1, Name = "Hall #2", IsDeleted = true };
             Hall hall3 = new() { Id = Guid.NewGuid(), Cinema = cinema2, Name = "Hall #3" };
             await context.Halls.AddRangeAsync(hall1, hall2, hall3);
+
+            Seat seat1 = new() { Id = seat1Id, Hall = hall1, Row = 0, Column = 0, Number = 1, Status = SeatStatus.NotExists };
+            Seat seat2 = new() { Id = seat2Id, Hall = hall1, Row = 0, Column = 1, Number = 2, Status = SeatStatus.NotExists };
+            Seat seat3 = new() { Id = Guid.NewGuid(), Hall = hall1, Row = 1, Column = 0, Number = 3, Status = SeatStatus.NotExists };
+            Seat seat4 = new() { Id = Guid.NewGuid(), Hall = hall1, Row = 1, Column = 1, Number = 4, Status = SeatStatus.NotExists };
+            await context.Seats.AddRangeAsync(seat1, seat2, seat3, seat4);
 
             await context.SaveChangesAsync();
         }

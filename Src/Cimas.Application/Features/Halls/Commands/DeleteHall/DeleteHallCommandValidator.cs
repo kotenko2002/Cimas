@@ -6,9 +6,6 @@ namespace Cimas.Application.Features.Halls.Commands.DeleteHall
     {
         public DeleteHallCommandValidator()
         {
-            RuleFor(x => x.UserId)
-                .NotEmpty();
-
             RuleFor(x => x.HallId)
                 .NotEmpty();
         }
