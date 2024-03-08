@@ -1,10 +1,9 @@
 ﻿using Cimas.Api.Common.Extensions;
-using Cimas.Application.Features.Cinemas.Commands.DeleteCinema;
 using Cimas.Application.Features.Halls.Commands.CreateHall;
 using Cimas.Application.Features.Halls.Commands.DeleteHall;
 using Cimas.Application.Features.Halls.Commands.UpdateHallSeats;
 using Cimas.Application.Features.Halls.Queries.GetHallsByCinemaId;
-using Cimas.Contracts.Halls;
+using Cimas.Api.Contracts.Halls;
 using Cimas.Domain.Entities.Halls;
 using Cimas.Domain.Entities.Users;
 using ErrorOr;

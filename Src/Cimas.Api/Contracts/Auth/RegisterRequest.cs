@@ -1,4 +1,4 @@
-﻿namespace Cimas.Contracts.Auth
+﻿namespace Cimas.Api.Contracts.Auth
 {
     public record RegisterRequest(
         Guid CompanyId,

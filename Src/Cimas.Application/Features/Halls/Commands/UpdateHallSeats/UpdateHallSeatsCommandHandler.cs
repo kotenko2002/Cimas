@@ -35,7 +35,8 @@ namespace Cimas.Application.Features.Halls.Commands.UpdateHallSeats
 
             List<Seat> seats = await _uow.SeatRepository.GetSeatsByIds(command.Seats.Select(seat => seat.Id));
 
-            UpdateSeat invalidSeat = command.Seats.FirstOrDefault(commandSeat => !seats.Any(s => s.Id == commandSeat.Id));
+            UpdateSeat invalidSeat = command.Seats
+                .FirstOrDefault(commandSeat => !seats.Any(s => s.Id == commandSeat.Id));
             if (invalidSeat != null)
             {
                 return Error.NotFound(description: $"Seat with id '{invalidSeat.Id}' does not exist");
@@ -44,7 +45,7 @@ namespace Cimas.Application.Features.Halls.Commands.UpdateHallSeats
             foreach (UpdateSeat commandSeat in command.Seats)
             {
                 Seat seat = seats.First(s => s.Id == commandSeat.Id);
-                seat.Status = (SeatStatus)commandSeat.Status;
+                seat.Status = commandSeat.Status;
             }
 
             await _uow.CompleteAsync();

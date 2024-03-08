@@ -2,8 +2,8 @@
 using Cimas.Application.Features.Cinemas.Commands.UpdateCinema;
 using Cimas.Application.Features.Halls.Commands.CreateHall;
 using Cimas.Application.Features.Halls.Commands.UpdateHallSeats;
-using Cimas.Contracts.Cinemas;
-using Cimas.Contracts.Halls;
+using Cimas.Api.Contracts.Cinemas;
+using Cimas.Api.Contracts.Halls;
 using Mapster;
 
 namespace Cimas.Api.Common.Mapping

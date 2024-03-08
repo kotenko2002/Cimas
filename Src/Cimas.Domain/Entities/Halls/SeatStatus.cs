@@ -2,8 +2,8 @@
 {
     public enum SeatStatus
     {
-        NotAvailable = 0,
-        Free = 1,
-        Booked = 2
+        NotExists = 0,
+        Available = 1,
+        Unavailable = 2
     }
 }

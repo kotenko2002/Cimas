@@ -1,4 +1,4 @@
-﻿using Cimas.Application.Extensions;
+﻿using Cimas.Domain.Entities.Halls;
 using FluentValidation;
 using FluentValidation.Results;
 
@@ -36,13 +36,12 @@ namespace Cimas.Application.Features.Halls.Commands.UpdateHallSeats
             {
                 context.AddFailure(new ValidationFailure(
                     "Seats",
-                    $"Seat with Id: {invalidSeat.Id} is not valid. Please ensure the seat is not null, has a valid Id, and has a valid status"));
+                    $"Seat with Id: {invalidSeat.Id} is not valid. Please ensure the seat has a valid Id, and has a valid status"));
             }
 
             return !invalidSeats.Any();
         }
-
         private bool IsValiSeat(UpdateSeat seat)
-            => seat != null && seat.Id != Guid.Empty && seat.Status.IsSeatStatus();
+            => seat.Id != Guid.Empty && Enum.IsDefined(typeof(SeatStatus), seat.Status);
     }
 }

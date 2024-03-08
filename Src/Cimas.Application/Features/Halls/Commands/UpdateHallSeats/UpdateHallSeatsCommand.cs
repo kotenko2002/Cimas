@@ -1,4 +1,5 @@
-﻿using ErrorOr;
+﻿using Cimas.Domain.Entities.Halls;
+using ErrorOr;
 using MediatR;
 
 namespace Cimas.Application.Features.Halls.Commands.UpdateHallSeats
@@ -11,6 +12,6 @@ namespace Cimas.Application.Features.Halls.Commands.UpdateHallSeats
 
     public record UpdateSeat(
         Guid Id,
-        int Status
+        SeatStatus Status
     );
 }

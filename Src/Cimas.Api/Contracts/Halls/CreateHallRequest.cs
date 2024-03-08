@@ -1,4 +1,4 @@
-﻿namespace Cimas.Contracts.Halls
+﻿namespace Cimas.Api.Contracts.Halls
 {
     public record CreateHallRequest(
         Guid CinemaId,
