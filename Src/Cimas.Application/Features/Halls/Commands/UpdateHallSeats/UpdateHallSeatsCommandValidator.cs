@@ -8,9 +8,6 @@ namespace Cimas.Application.Features.Halls.Commands.UpdateHallSeats
     {
         public UpdateHallSeatsCommandValidator()
         {
-            RuleFor(x => x.UserId)
-               .NotEmpty();
-
             RuleFor(x => x.HallId)
                .NotEmpty();
 

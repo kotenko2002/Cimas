@@ -6,9 +6,6 @@ namespace Cimas.Application.Features.Cinemas.Commands.UpdateCinema
     {
         public UpdateCinemaCommandValidator()
         {
-            RuleFor(x => x.UserId)
-                .NotEmpty();
-
             RuleFor(x => x.CinemaId)
                 .NotEmpty();
 

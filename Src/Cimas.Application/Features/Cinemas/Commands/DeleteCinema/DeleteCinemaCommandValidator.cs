@@ -6,9 +6,6 @@ namespace Cimas.Application.Features.Cinemas.Commands.DeleteCinema
     {
         public DeleteCinemaCommandValidator()
         {
-            RuleFor(x => x.UserId)
-                .NotEmpty();
-
             RuleFor(x => x.CinemaId)
                 .NotEmpty();
         }

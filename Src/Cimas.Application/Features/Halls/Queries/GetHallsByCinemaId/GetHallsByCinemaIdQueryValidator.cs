@@ -6,9 +6,6 @@ namespace Cimas.Application.Features.Halls.Queries.GetHallsByCinemaId
     {
         public GetHallsByCinemaIdQueryValidator()
         {
-            RuleFor(x => x.UserId)
-                .NotEmpty();
-
             RuleFor(x => x.CinemaId)
                 .NotEmpty();
         }
