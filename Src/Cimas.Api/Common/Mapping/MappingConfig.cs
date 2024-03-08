@@ -30,8 +30,9 @@ namespace Cimas.Api.Common.Mapping
 
         private void AddHallControllerConfigs(TypeAdapterConfig config)
         {
-            config.NewConfig<(Guid UserId, CreateHallRequest requset), CreateHallCommand>()
+            config.NewConfig<(Guid UserId, Guid CinemaId, CreateHallRequest requset), CreateHallCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
+                .Map(dest => dest.CinemaId, src => src.CinemaId)
                 .Map(dest => dest, src => src.requset);
 
             config.NewConfig<(Guid UserId, Guid HallId, UpdateHallSeatsRequst requset), UpdateHallSeatsCommand>()

@@ -20,11 +20,11 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: owner1UserName);
 
-                var requestModel = new CreateHallRequest(cinema1Id, "Hall #created", 5, 5);
+                var requestModel = new CreateHallRequest("Hall #created", 5, 5);
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
-                var response = await client.PostAsync($"{_baseUrl}", content);
+                var response = await client.PostAsync($"{_baseUrl}/{cinema1Id}", content);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
@@ -39,11 +39,11 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: owner1UserName);
 
-                var requestModel = new CreateHallRequest(Guid.NewGuid(), "Hall #created", 5, 5);
+                var requestModel = new CreateHallRequest("Hall #created", 5, 5);
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
-                var response = await client.PostAsync($"{_baseUrl}", content);
+                var response = await client.PostAsync($"{_baseUrl}/{Guid.NewGuid()}", content);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
@@ -58,11 +58,11 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: owner2UserName);
 
-                var requestModel = new CreateHallRequest(cinema1Id, "Hall #created", 5, 5);
+                var requestModel = new CreateHallRequest("Hall #created", 5, 5);
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
-                var response = await client.PostAsync($"{_baseUrl}", content);
+                var response = await client.PostAsync($"{_baseUrl}/{cinema1Id}", content);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
