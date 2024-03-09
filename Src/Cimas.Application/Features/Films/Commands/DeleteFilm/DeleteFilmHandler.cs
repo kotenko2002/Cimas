@@ -1,17 +1,17 @@
 ﻿using Cimas.Application.Interfaces;
-using Cimas.Domain.Entities.Halls;
+using Cimas.Domain.Entities.Films;
 using Cimas.Domain.Entities.Users;
 using ErrorOr;
 using MediatR;
 
-namespace Cimas.Application.Features.Halls.Commands.DeleteHall
+namespace Cimas.Application.Features.Films.Commands.DeleteFilm
 {
-    public class DeleteHallCommandHandler : IRequestHandler<DeleteHallCommand, ErrorOr<Success>>
+    public class DeleteFilmHandler : IRequestHandler<DeleteFilmCommand, ErrorOr<Success>>
     {
         private readonly IUnitOfWork _uow;
         private readonly ICustomUserManager _userManager;
 
-        public DeleteHallCommandHandler(
+        public DeleteFilmHandler(
             IUnitOfWork uow,
             ICustomUserManager userManager)
         {
@@ -19,21 +19,21 @@ namespace Cimas.Application.Features.Halls.Commands.DeleteHall
             _userManager = userManager;
         }
 
-        public async Task<ErrorOr<Success>> Handle(DeleteHallCommand command, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Success>> Handle(DeleteFilmCommand command, CancellationToken cancellationToken)
         {
-            Hall hall = await _uow.HallRepository.GetHallIncludedCinemaByIdAsync(command.HallId);
-            if (hall is null)
+            Film film = await _uow.FilmRepository.GetFilmIncludedCinemaByIdAsync(command.FilmId);
+            if (film is null)
             {
-                return Error.NotFound(description: "Hall with such id does not exist");
+                return Error.NotFound(description: "Film with such id does not exist");
             }
 
             User user = await _userManager.FindByIdAsync(command.UserId.ToString());
-            if (user.CompanyId != hall.Cinema.CompanyId)
+            if (user.CompanyId != film.Cinema.CompanyId)
             {
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");
             }
 
-            hall.IsDeleted = true;
+            film.IsDeleted = true;
 
             await _uow.CompleteAsync();
 

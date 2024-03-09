@@ -19,6 +19,7 @@ using Cimas.Domain.Entities.Users;
 using Cimas.Domain.Entities.Companies;
 using Cimas.Domain.Entities.Cinemas;
 using Cimas.Domain.Entities.Halls;
+using Cimas.Domain.Entities.Films;
 
 namespace Cimas.IntegrationTests.ControllersTests
 {
@@ -39,6 +40,7 @@ namespace Cimas.IntegrationTests.ControllersTests
         protected readonly Guid hall1Id = Guid.NewGuid();
         protected readonly Guid seat1Id = Guid.NewGuid();
         protected readonly Guid seat2Id = Guid.NewGuid();
+        protected readonly Guid film1Id = Guid.NewGuid();
         #endregion
 
         public async Task PerformTest(Func<HttpClient, Task> testFunc, Action<IServiceCollection> configureServices = null)
@@ -146,6 +148,11 @@ namespace Cimas.IntegrationTests.ControllersTests
             Seat seat3 = new() { Id = Guid.NewGuid(), Hall = hall1, Row = 1, Column = 0, Number = 3, Status = SeatStatus.NotExists };
             Seat seat4 = new() { Id = Guid.NewGuid(), Hall = hall1, Row = 1, Column = 1, Number = 4, Status = SeatStatus.NotExists };
             await context.Seats.AddRangeAsync(seat1, seat2, seat3, seat4);
+
+            Film film1 = new() { Id = film1Id, Cinema = cinema1, Name = "Film #1", Duration = 128.5 };
+            Film film2 = new() { Id = Guid.NewGuid(), Cinema = cinema1, Name = "Film #2", Duration = 128.5, IsDeleted = true };
+            Film film3 = new() { Id = Guid.NewGuid(), Cinema = cinema2, Name = "Film #3", Duration = 128.5 };
+            await context.Films.AddRangeAsync(film1, film2, film3);
 
             await context.SaveChangesAsync();
         }

@@ -21,14 +21,14 @@ namespace Cimas.Application.Features.Halls.Commands.UpdateHallSeats
 
         public async Task<ErrorOr<Success>> Handle(UpdateHallSeatsCommand command, CancellationToken cancellationToken)
         {
-            Hall hall = await _uow.HallRepository.GetByIdAsync(command.HallId);
+            Hall hall = await _uow.HallRepository.GetHallIncludedCinemaByIdAsync(command.HallId);
             if (hall is null)
             {
                 return Error.NotFound(description: "Hall with such id does not exist");
             }
 
             User user = await _userManager.FindByIdAsync(command.UserId.ToString());
-            if (user.CompanyId != await _uow.HallRepository.GetCompanyIdByHallIdAsync(command.HallId))
+            if (user.CompanyId != hall.Cinema.CompanyId)
             {
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");
             }
@@ -47,6 +47,8 @@ namespace Cimas.Application.Features.Halls.Commands.UpdateHallSeats
                 Seat seat = seats.First(s => s.Id == commandSeat.Id);
                 seat.Status = commandSeat.Status;
             }
+
+            // TODO: update numbers of seats
 
             await _uow.CompleteAsync();
 
