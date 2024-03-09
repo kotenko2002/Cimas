@@ -22,7 +22,7 @@ namespace Cimas.Infrastructure.Common
         public DbSet<Product> Products { get; set; }
         public DbSet<Hall> Halls { get; set; }
         public DbSet<Film> Films { get; set; }
-        public DbSet<Seat> Seats { get; set; }
+        public DbSet<HallSeat> Seats { get; set; }
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<WorkDay> WorkDays { get; set; }
@@ -102,7 +102,7 @@ namespace Cimas.Infrastructure.Common
                     .OnDelete(DeleteBehavior.NoAction);
             });
 
-            modelBuilder.Entity<Seat>(builder =>
+            modelBuilder.Entity<HallSeat>(builder =>
             {
                 builder.Property(c => c.Number).IsRequired();
                 builder.Property(c => c.Row).IsRequired();

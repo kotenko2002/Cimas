@@ -69,6 +69,20 @@ namespace Cimas.Api.Controllers
             return Ok();
         }
 
+        [HttpGet("seats/{sessionId}")]
+        public async Task<IActionResult> GetSeatsBySessionId(Guid sessionId)
+        {
+            ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
+            if (userIdResult.IsError)
+            {
+                return Problem(userIdResult.Errors);
+            }
+
+            // TODO: impliment
+
+            return Ok();
+        }
+
         [HttpDelete("{sessionId}")]
         public async Task<IActionResult> DeleteSession(Guid sessionId)
         {

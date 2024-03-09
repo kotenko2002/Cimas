@@ -29,7 +29,7 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTicket
                 return Error.NotFound(description: "Session with such id does not exist");
             }
 
-            Seat seat = await _uow.SeatRepository.GetByIdAsync(command.SeatId);
+            HallSeat seat = await _uow.SeatRepository.GetByIdAsync(command.SeatId);
             if (seat is null)
             {
                 return Error.NotFound(description: "Seat with such id does not exist");

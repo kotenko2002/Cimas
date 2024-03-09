@@ -12,7 +12,7 @@ namespace Cimas.Domain.Entities.Halls
         public Guid CinemaId { get; set; }
         public virtual Cinema Cinema { get; set; }
 
-        public virtual ICollection<Seat> Seats { get; set; }
+        public virtual ICollection<HallSeat> Seats { get; set; }
         public virtual ICollection<Session> Sessions { get; set; }
     }
 }

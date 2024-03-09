@@ -2,9 +2,9 @@
 
 namespace Cimas.Application.Interfaces
 {
-    public interface ISeatRepository : IBaseRepository<Seat>
+    public interface ISeatRepository : IBaseRepository<HallSeat>
     {
-        Task<List<Seat>> GetSeatsByHallId(Guid hallId);
-        Task<List<Seat>> GetSeatsByIds(IEnumerable<Guid> ids);
+        Task<List<HallSeat>> GetSeatsByHallId(Guid hallId);
+        Task<List<HallSeat>> GetSeatsByIdsAsync(IEnumerable<Guid> ids);
     }
 }

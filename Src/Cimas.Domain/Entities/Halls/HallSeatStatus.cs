@@ -1,6 +1,6 @@
 ﻿namespace Cimas.Domain.Entities.Halls
 {
-    public enum SeatStatus
+    public enum HallSeatStatus
     {
         NotExists = 0,
         Available = 1,

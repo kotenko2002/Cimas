@@ -143,10 +143,10 @@ namespace Cimas.IntegrationTests.ControllersTests
             Hall hall3 = new() { Id = Guid.NewGuid(), Cinema = cinema2, Name = "Hall #3" };
             await context.Halls.AddRangeAsync(hall1, hall2, hall3);
 
-            Seat seat1 = new() { Id = seat1Id, Hall = hall1, Row = 0, Column = 0, Number = 1, Status = SeatStatus.NotExists };
-            Seat seat2 = new() { Id = seat2Id, Hall = hall1, Row = 0, Column = 1, Number = 2, Status = SeatStatus.NotExists };
-            Seat seat3 = new() { Id = Guid.NewGuid(), Hall = hall1, Row = 1, Column = 0, Number = 3, Status = SeatStatus.NotExists };
-            Seat seat4 = new() { Id = Guid.NewGuid(), Hall = hall1, Row = 1, Column = 1, Number = 4, Status = SeatStatus.NotExists };
+            HallSeat seat1 = new() { Id = seat1Id, Hall = hall1, Row = 0, Column = 0, Number = 1, Status = HallSeatStatus.NotExists };
+            HallSeat seat2 = new() { Id = seat2Id, Hall = hall1, Row = 0, Column = 1, Number = 2, Status = HallSeatStatus.NotExists };
+            HallSeat seat3 = new() { Id = Guid.NewGuid(), Hall = hall1, Row = 1, Column = 0, Number = 3, Status = HallSeatStatus.NotExists };
+            HallSeat seat4 = new() { Id = Guid.NewGuid(), Hall = hall1, Row = 1, Column = 1, Number = 4, Status = HallSeatStatus.NotExists };
             await context.Seats.AddRangeAsync(seat1, seat2, seat3, seat4);
 
             Film film1 = new() { Id = film1Id, Cinema = cinema1, Name = "Film #1", Duration = 128.5 };

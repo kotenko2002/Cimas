@@ -7,6 +7,6 @@ namespace Cimas.Api.Contracts.Halls
         int Number,
         int Row,
         int Column,
-        SeatStatus Status
+        HallSeatStatus Status
     );
 }

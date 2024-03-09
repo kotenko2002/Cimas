@@ -33,7 +33,7 @@ namespace Cimas.Application.Features.Halls.Commands.UpdateHallSeats
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");
             }
 
-            List<Seat> seats = await _uow.SeatRepository.GetSeatsByIds(command.Seats.Select(seat => seat.Id));
+            List<HallSeat> seats = await _uow.SeatRepository.GetSeatsByIdsAsync(command.Seats.Select(seat => seat.Id));
 
             UpdateSeat invalidSeat = command.Seats
                 .FirstOrDefault(commandSeat => !seats.Any(s => s.Id == commandSeat.Id));
@@ -44,7 +44,7 @@ namespace Cimas.Application.Features.Halls.Commands.UpdateHallSeats
 
             foreach (UpdateSeat commandSeat in command.Seats)
             {
-                Seat seat = seats.First(s => s.Id == commandSeat.Id);
+                HallSeat seat = seats.First(s => s.Id == commandSeat.Id);
                 seat.Status = commandSeat.Status;
             }
 

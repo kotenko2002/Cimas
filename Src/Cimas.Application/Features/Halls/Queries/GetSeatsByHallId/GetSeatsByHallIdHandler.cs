@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Cimas.Application.Features.Halls.Queries.GetSeatsByHallId
 {
-    public class GetSeatsByHallIdHandler : IRequestHandler<GetSeatsByHallIdQuery, ErrorOr<List<Seat>>>
+    public class GetSeatsByHallIdHandler : IRequestHandler<GetSeatsByHallIdQuery, ErrorOr<List<HallSeat>>>
     {
         private readonly IUnitOfWork _uow;
         private readonly ICustomUserManager _userManager;
@@ -19,7 +19,7 @@ namespace Cimas.Application.Features.Halls.Queries.GetSeatsByHallId
             _userManager = userManager;
         }
 
-        public async Task<ErrorOr<List<Seat>>> Handle(GetSeatsByHallIdQuery query, CancellationToken cancellationToken)
+        public async Task<ErrorOr<List<HallSeat>>> Handle(GetSeatsByHallIdQuery query, CancellationToken cancellationToken)
         {
             Hall hall = await _uow.HallRepository.GetHallIncludedCinemaByIdAsync(query.HallId);
             if (hall is null)

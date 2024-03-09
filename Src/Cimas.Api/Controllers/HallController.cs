@@ -74,7 +74,7 @@ namespace Cimas.Api.Controllers
             }
 
             var command = new GetSeatsByHallIdQuery(userIdResult.Value, hallId);
-            ErrorOr<List<Seat>> getSeatsResult = await _mediator.Send(command);
+            ErrorOr<List<HallSeat>> getSeatsResult = await _mediator.Send(command);
 
             return getSeatsResult.Match(
                 halls => Ok(halls.Adapt<List<GetSeatResponse>>()),

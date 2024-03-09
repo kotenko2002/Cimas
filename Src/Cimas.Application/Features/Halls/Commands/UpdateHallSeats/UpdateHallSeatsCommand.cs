@@ -12,6 +12,6 @@ namespace Cimas.Application.Features.Halls.Commands.UpdateHallSeats
 
     public record UpdateSeat(
         Guid Id,
-        SeatStatus Status
+        HallSeatStatus Status
     );
 }

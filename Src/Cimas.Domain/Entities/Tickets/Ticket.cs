@@ -10,6 +10,6 @@ namespace Cimas.Domain.Entities.Tickets
         public Guid SessionId { get; set; }
         public virtual Session Session { get; set; }
         public Guid SeatId { get; set; }
-        public virtual Seat Seat { get; set; }
+        public virtual HallSeat Seat { get; set; }
     }
 }

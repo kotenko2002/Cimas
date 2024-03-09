@@ -46,6 +46,8 @@ namespace Cimas.Application.Features.Sessions.Commands.CreateSession
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");
             }
 
+            // TODO: add collision check
+
             Session session = new Session()
             {
                 StartTime = command.StartTime,

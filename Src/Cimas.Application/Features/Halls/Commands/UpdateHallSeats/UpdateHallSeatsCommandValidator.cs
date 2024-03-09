@@ -39,6 +39,6 @@ namespace Cimas.Application.Features.Halls.Commands.UpdateHallSeats
             return !invalidSeats.Any();
         }
         private bool IsValiSeat(UpdateSeat seat)
-            => seat.Id != Guid.Empty && Enum.IsDefined(typeof(SeatStatus), seat.Status);
+            => seat.Id != Guid.Empty && Enum.IsDefined(typeof(HallSeatStatus), seat.Status);
     }
 }

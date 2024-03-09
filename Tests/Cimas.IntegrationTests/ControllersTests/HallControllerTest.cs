@@ -136,8 +136,8 @@ namespace Cimas.IntegrationTests.ControllersTests
 
                 var requestModel = new UpdateHallSeatsRequst(new List<HallSeatModel>()
                 {
-                    new HallSeatModel(seat1Id, SeatStatus.Available),
-                    new HallSeatModel(seat2Id, SeatStatus.Unavailable),
+                    new HallSeatModel(seat1Id, HallSeatStatus.Available),
+                    new HallSeatModel(seat2Id, HallSeatStatus.Unavailable),
                 });
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
@@ -159,8 +159,8 @@ namespace Cimas.IntegrationTests.ControllersTests
 
                 var requestModel = new UpdateHallSeatsRequst(new List<HallSeatModel>()
                 {
-                    new HallSeatModel(seat1Id, SeatStatus.Available),
-                    new HallSeatModel(seat2Id, SeatStatus.Unavailable),
+                    new HallSeatModel(seat1Id, HallSeatStatus.Available),
+                    new HallSeatModel(seat2Id, HallSeatStatus.Unavailable),
                 });
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
@@ -182,8 +182,8 @@ namespace Cimas.IntegrationTests.ControllersTests
 
                 var requestModel = new UpdateHallSeatsRequst(new List<HallSeatModel>()
                 {
-                    new HallSeatModel(Guid.NewGuid(), SeatStatus.Available),
-                    new HallSeatModel(seat2Id, SeatStatus.Unavailable),
+                    new HallSeatModel(Guid.NewGuid(), HallSeatStatus.Available),
+                    new HallSeatModel(seat2Id, HallSeatStatus.Unavailable),
                 });
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
@@ -205,8 +205,8 @@ namespace Cimas.IntegrationTests.ControllersTests
 
                 var requestModel = new UpdateHallSeatsRequst(new List<HallSeatModel>()
                 {
-                    new HallSeatModel(seat1Id, SeatStatus.Available),
-                    new HallSeatModel(seat2Id, SeatStatus.Unavailable),
+                    new HallSeatModel(seat1Id, HallSeatStatus.Available),
+                    new HallSeatModel(seat2Id, HallSeatStatus.Unavailable),
                 });
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
