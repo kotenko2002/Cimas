@@ -9,10 +9,17 @@ namespace Cimas.Infrastructure.Repositories
     {
         public SeatRepository(CimasDbContext context) : base(context) {}
 
+        public async Task<List<Seat>> GetSeatsByHallId(Guid hallId)
+        {
+            return await Sourse
+               .Where(seat => seat.HallId == hallId)
+               .ToListAsync();
+        }
+
         public async Task<List<Seat>> GetSeatsByIds(IEnumerable<Guid> ids)
         {
             return await Sourse
-               .Where(entity => ids.Contains(entity.Id))
+               .Where(seat => ids.Contains(seat.Id))
                .ToListAsync();
         }
     }
