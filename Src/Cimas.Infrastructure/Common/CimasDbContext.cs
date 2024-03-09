@@ -5,6 +5,7 @@ using Cimas.Domain.Entities.Halls;
 using Cimas.Domain.Entities.Products;
 using Cimas.Domain.Entities.Reports;
 using Cimas.Domain.Entities.Sessions;
+using Cimas.Domain.Entities.Tickets;
 using Cimas.Domain.Entities.Users;
 using Cimas.Domain.Entities.WorkDays;
 using Microsoft.AspNetCore.Identity;

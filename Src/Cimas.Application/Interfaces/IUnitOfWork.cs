@@ -7,6 +7,8 @@
         IHallRepository HallRepository { get; }
         ISeatRepository SeatRepository { get; }
         IFilmRepository FilmRepository { get; }
+        ISessionRepository SessionRepository { get; }
+        ITicketRepository TicketRepository { get; }
 
         Task CompleteAsync();
     }

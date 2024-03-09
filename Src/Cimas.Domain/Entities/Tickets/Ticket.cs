@@ -1,14 +1,15 @@
 ﻿using Cimas.Domain.Entities.Halls;
+using Cimas.Domain.Entities.Sessions;
 
-namespace Cimas.Domain.Entities.Sessions
+namespace Cimas.Domain.Entities.Tickets
 {
     public class Ticket : BaseEntity
     {
         public DateTime CreationTime { get; set; }
 
-        public Guid SeatId { get; set; }
-        public virtual Seat Seat { get; set; }
         public Guid SessionId { get; set; }
         public virtual Session Session { get; set; }
+        public Guid SeatId { get; set; }
+        public virtual Seat Seat { get; set; }
     }
 }

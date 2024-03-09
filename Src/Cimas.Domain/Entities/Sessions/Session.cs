@@ -1,5 +1,6 @@
 ﻿using Cimas.Domain.Entities.Films;
 using Cimas.Domain.Entities.Halls;
+using Cimas.Domain.Entities.Tickets;
 
 namespace Cimas.Domain.Entities.Sessions
 {

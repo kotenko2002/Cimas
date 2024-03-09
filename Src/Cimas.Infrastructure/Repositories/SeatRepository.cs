@@ -7,9 +7,7 @@ namespace Cimas.Infrastructure.Repositories
 {
     public class SeatRepository : BaseRepository<Seat>, ISeatRepository
     {
-        public SeatRepository(CimasDbContext context) : base(context)
-        {
-        }
+        public SeatRepository(CimasDbContext context) : base(context) {}
 
         public async Task<List<Seat>> GetSeatsByIds(IEnumerable<Guid> ids)
         {

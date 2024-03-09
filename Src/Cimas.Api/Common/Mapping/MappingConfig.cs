@@ -7,6 +7,10 @@ using Cimas.Api.Contracts.Halls;
 using Mapster;
 using Cimas.Application.Features.Films.Commands.CreateFilm;
 using Cimas.Api.Contracts.Films;
+using Cimas.Api.Contracts.Sessions;
+using Cimas.Application.Features.Tickets.Commands.CreateTicket;
+using Cimas.Api.Contracts.Tickets;
+using Cimas.Application.Features.Sessions.Commands.CreateSession;
 
 namespace Cimas.Api.Common.Mapping
 {
@@ -17,6 +21,8 @@ namespace Cimas.Api.Common.Mapping
             AddCinemaControllerConfigs(config);
             AddFilmControllerConfigs(config);
             AddHallControllerConfigs(config);
+            AddSessionControllerConfigs(config);
+            AddTicketControllerConfigs(config);
         }
 
         private void AddCinemaControllerConfigs(TypeAdapterConfig config)
@@ -49,6 +55,20 @@ namespace Cimas.Api.Common.Mapping
             config.NewConfig<(Guid UserId, Guid HallId, UpdateHallSeatsRequst requset), UpdateHallSeatsCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest.HallId, src => src.HallId)
+                .Map(dest => dest, src => src.requset);
+        }
+
+        private void AddSessionControllerConfigs(TypeAdapterConfig config)
+        {
+            config.NewConfig<(Guid UserId, CreateSessionRequest requset), CreateSessionCommand>()
+                .Map(dest => dest.UserId, src => src.UserId)
+                .Map(dest => dest, src => src.requset);
+        }
+
+        private void AddTicketControllerConfigs(TypeAdapterConfig config)
+        {
+            config.NewConfig<(Guid UserId, CreateTicketRequest requset), CreateTicketCommand>()
+                .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest, src => src.requset);
         }
     }
