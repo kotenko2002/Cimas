@@ -4,8 +4,8 @@ using MediatR;
 
 namespace Cimas.Application.Features.Films.Queries.GetFilmsByCinemaId
 {
-    public record GetFilmsByCinemaIdCommand(
+    public record GetFilmsByCinemaIdQuery(
         Guid UserId,
-        Guid FilmId
+        Guid CinemaId
     ) : IRequest<ErrorOr<List<Film>>>;
 }

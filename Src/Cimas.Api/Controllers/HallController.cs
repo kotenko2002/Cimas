@@ -37,9 +37,9 @@ namespace Cimas.Api.Controllers
             }
 
             var command = (userIdResult.Value, cinemaId, request).Adapt<CreateHallCommand>();
-            ErrorOr<Success> createCinemaResult = await _mediator.Send(command);
+            ErrorOr<Success> createHallResult = await _mediator.Send(command);
 
-            return createCinemaResult.Match(
+            return createHallResult.Match(
                 NoContent,
                 Problem
             );
@@ -91,9 +91,9 @@ namespace Cimas.Api.Controllers
             }
 
             var command = new DeleteHallCommand(userIdResult.Value, hallId);
-            ErrorOr<Success> deleteCinemaResult = await _mediator.Send(command);
+            ErrorOr<Success> deleteHallResult = await _mediator.Send(command);
 
-            return deleteCinemaResult.Match(
+            return deleteHallResult.Match(
                 NoContent,
                 Problem
             );

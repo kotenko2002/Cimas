@@ -1,14 +1,19 @@
 ﻿using Cimas.Api.Common.Extensions;
 using Cimas.Api.Contracts.Films;
+using Cimas.Application.Features.Films.Commands.CreateFilm;
+using Cimas.Application.Features.Films.Commands.DeleteFilm;
+using Cimas.Application.Features.Films.Queries.GetFilmsByCinemaId;
+using Cimas.Domain.Entities.Films;
 using Cimas.Domain.Entities.Users;
 using ErrorOr;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cimas.Api.Controllers
 {
-    [Route("films"), Authorize(Roles = Roles.Worker)]
+    [Route("films"), Authorize] // Authorize(Roles = Roles.Worker)
     public class FilmController : BaseController
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -30,7 +35,13 @@ namespace Cimas.Api.Controllers
                 return Problem(userIdResult.Errors);
             }
 
-            return Ok();
+            var command = (userIdResult.Value, cinemaId, request).Adapt<CreateFilmCommand>();
+            ErrorOr<Success> createFilmResult = await _mediator.Send(command);
+
+            return createFilmResult.Match(
+                NoContent,
+                Problem
+            );
         }
 
         [HttpGet("{cinemaId}")]
@@ -42,7 +53,13 @@ namespace Cimas.Api.Controllers
                 return Problem(userIdResult.Errors);
             }
 
-            return Ok();
+            var query = new GetFilmsByCinemaIdQuery(userIdResult.Value, cinemaId);
+            ErrorOr<List<Film>> getFilmsResult = await _mediator.Send(query);
+
+            return getFilmsResult.Match(
+                halls => Ok(halls.Adapt<List<GetFilmResponse>>()),
+                Problem
+            );
         }
         
         [HttpDelete("{filmId}")]
@@ -54,7 +71,13 @@ namespace Cimas.Api.Controllers
                 return Problem(userIdResult.Errors);
             }
 
-            return Ok();
+            var command = new DeleteFilmCommand(userIdResult.Value, filmId);
+            ErrorOr<Success> deleteFilmResult = await _mediator.Send(command);
+
+            return deleteFilmResult.Match(
+                NoContent,
+                Problem
+            );
         }
     }
 }

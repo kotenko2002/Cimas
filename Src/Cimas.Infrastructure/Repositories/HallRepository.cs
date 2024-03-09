@@ -10,21 +10,18 @@ namespace Cimas.Infrastructure.Repositories
     {
         public HallRepository(CimasDbContext context) : base(context) {}
 
+        public async Task<Hall> GetHallIncludedCinemaByIdAsync(Guid hallId)
+        {
+            return await Sourse
+                .Include(hall => hall.Cinema)
+                .FirstOrDefaultAsync(hall => hall.Id == hallId);
+        }
+
         public async Task<List<Hall>> GetHallsByCinemaIdAsync(Guid cinemaId)
         {
             return await Sourse
                 .Where(hall => !hall.IsDeleted && hall.CinemaId == cinemaId)
                 .ToListAsync();
-        }
-
-        public async Task<Guid> GetCompanyIdByHallIdAsync(Guid hallId)
-        {
-            var hall = await Sourse
-                .Include(hall => hall.Cinema)
-                    .ThenInclude(cinema => cinema.Company)
-                .FirstOrDefaultAsync(hall => hall.Id == hallId);
-
-            return hall.Cinema.Company.Id;
         }
     }
 }

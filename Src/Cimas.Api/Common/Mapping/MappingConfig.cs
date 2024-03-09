@@ -5,6 +5,8 @@ using Cimas.Application.Features.Halls.Commands.UpdateHallSeats;
 using Cimas.Api.Contracts.Cinemas;
 using Cimas.Api.Contracts.Halls;
 using Mapster;
+using Cimas.Application.Features.Films.Commands.CreateFilm;
+using Cimas.Api.Contracts.Films;
 
 namespace Cimas.Api.Common.Mapping
 {
@@ -31,7 +33,10 @@ namespace Cimas.Api.Common.Mapping
 
         private void AddFilmControllerConfigs(TypeAdapterConfig config)
         {
-           
+            config.NewConfig<(Guid UserId, Guid CinemaId, CreateFilmRequest requset), CreateFilmCommand>()
+                .Map(dest => dest.UserId, src => src.UserId)
+                .Map(dest => dest.CinemaId, src => src.CinemaId)
+                .Map(dest => dest, src => src.requset);
         }
 
         private void AddHallControllerConfigs(TypeAdapterConfig config)

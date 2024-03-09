@@ -11,6 +11,7 @@ namespace Cimas.Infrastructure.Repositories
         public ICinemaRepository CinemaRepository { get; }
         public IHallRepository HallRepository { get; }
         public ISeatRepository SeatRepository { get; }
+        public IFilmRepository FilmRepository { get; }
 
         public UnitOfWork(CimasDbContext context)
         {
@@ -20,6 +21,7 @@ namespace Cimas.Infrastructure.Repositories
             CinemaRepository = new CinemaRepository(_context);
             HallRepository = new HallRepository(_context);
             SeatRepository = new SeatRepository(_context);
+            FilmRepository = new FilmRepository(_context);
         }
 
         public async Task CompleteAsync()
