@@ -4,7 +4,6 @@ using Cimas.Application.Features.Films.Commands.CreateFilm;
 using Cimas.Application.Features.Films.Commands.DeleteFilm;
 using Cimas.Application.Features.Films.Queries.GetFilmsByCinemaId;
 using Cimas.Domain.Entities.Films;
-using Cimas.Domain.Entities.Users;
 using ErrorOr;
 using Mapster;
 using MediatR;
@@ -45,7 +44,7 @@ namespace Cimas.Api.Controllers
         }
 
         [HttpGet("{cinemaId}")]
-        public async Task<IActionResult> GetFilmssByCinemaId(Guid cinemaId)
+        public async Task<IActionResult> GetFilmsByCinemaId(Guid cinemaId)
         {
             ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
             if (userIdResult.IsError)
