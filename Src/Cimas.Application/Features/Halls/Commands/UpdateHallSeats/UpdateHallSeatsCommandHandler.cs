@@ -48,6 +48,8 @@ namespace Cimas.Application.Features.Halls.Commands.UpdateHallSeats
                 seat.Status = commandSeat.Status;
             }
 
+            // TODO: update numbers of seats
+
             await _uow.CompleteAsync();
 
             return Result.Success;
