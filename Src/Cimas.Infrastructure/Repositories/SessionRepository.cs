@@ -15,5 +15,17 @@ namespace Cimas.Infrastructure.Repositories
                 .Include(session => session.Tickets)
                 .FirstOrDefaultAsync(session => session.Id == sessionId);
         }
+
+        public async Task<List<Session>> GetSessionsByRangeAsync(Guid cinemaId, DateTime fromDateTime, DateTime toDateTime)
+        {
+            return await Sourse
+                .Include(session => session.Hall)
+                .Where(session => 
+                    session.Hall.CinemaId == cinemaId
+                    && !session.Hall.IsDeleted
+                    && fromDateTime <= session.StartTime
+                    && toDateTime >= session.StartTime)
+                .ToListAsync();
+        }
     }
 }

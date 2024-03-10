@@ -1,7 +1,10 @@
-﻿using Cimas.Api.Common.Extensions;
+﻿using Azure.Core;
+using Cimas.Api.Common.Extensions;
 using Cimas.Api.Contracts.Sessions;
 using Cimas.Application.Features.Sessions.Commands.CreateSession;
+using Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId;
 using Cimas.Domain.Entities.Users;
+using Cimas.Domain.Models.Sessions;
 using ErrorOr;
 using Mapster;
 using MediatR;
@@ -42,7 +45,7 @@ namespace Cimas.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetSessionsByRange()
+        public async Task<IActionResult> GetSessionsByRange(GetSessionsByRangeRequest request)
         {
             ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
             if (userIdResult.IsError)
@@ -55,7 +58,7 @@ namespace Cimas.Api.Controllers
             return Ok();
         }
 
-        [HttpGet("{sessionId}")]
+        [HttpGet("{sessionId}")] // do I need this endpoint?
         public async Task<IActionResult> GetSessionById(Guid sessionId)
         {
             ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
@@ -78,9 +81,13 @@ namespace Cimas.Api.Controllers
                 return Problem(userIdResult.Errors);
             }
 
-            // TODO: impliment
+            var query = new GetSeatsBySessionIdQuery(userIdResult.Value, sessionId);
+            ErrorOr<List<SessionSeat>> getSeatsBySessionIdResult = await _mediator.Send(query);
 
-            return Ok();
+            return getSeatsBySessionIdResult.Match(
+                Ok,
+                Problem
+            );
         }
 
         [HttpDelete("{sessionId}")]
