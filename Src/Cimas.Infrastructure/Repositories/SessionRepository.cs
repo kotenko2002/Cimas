@@ -20,6 +20,7 @@ namespace Cimas.Infrastructure.Repositories
         {
             return await Sourse
                 .Include(session => session.Hall)
+                .Include(session => session.Film)
                 .Where(session => 
                     session.Hall.CinemaId == cinemaId
                     && !session.Hall.IsDeleted

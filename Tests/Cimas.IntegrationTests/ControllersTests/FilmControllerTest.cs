@@ -19,7 +19,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: worker1UserName);
 
-                var requestModel = new CreateFilmRequest("Film #created", 128.5);
+                var requestModel = new CreateFilmRequest("Film #created", new TimeSpan(1, 0, 0));
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
@@ -38,7 +38,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: worker1UserName);
 
-                var requestModel = new CreateFilmRequest("Film #created", 128.5);
+                var requestModel = new CreateFilmRequest("Film #created", new TimeSpan(1, 0, 0));
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
@@ -57,7 +57,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: worker2UserName);
 
-                var requestModel = new CreateFilmRequest("Film #created", 128.5);
+                var requestModel = new CreateFilmRequest("Film #created", new TimeSpan(1, 0, 0));
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act

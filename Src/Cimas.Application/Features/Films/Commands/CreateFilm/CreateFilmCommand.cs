@@ -7,6 +7,6 @@ namespace Cimas.Application.Features.Films.Commands.CreateFilm
         Guid UserId,
         Guid CinemaId,
         string Name,
-        double Duration
+        TimeSpan Duration
     ) : IRequest<ErrorOr<Success>>;
 }

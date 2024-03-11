@@ -6,7 +6,7 @@ namespace Cimas.Domain.Entities.Films
     public class Film : BaseEntity
     {
         public string Name { get; set; }
-        public double Duration { get; set; }
+        public TimeSpan Duration { get; set; }
 
         public bool IsDeleted { get; set; }
 

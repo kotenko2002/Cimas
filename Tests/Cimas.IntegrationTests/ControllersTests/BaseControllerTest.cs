@@ -149,9 +149,9 @@ namespace Cimas.IntegrationTests.ControllersTests
             HallSeat seat4 = new() { Id = Guid.NewGuid(), Hall = hall1, Row = 1, Column = 1, Number = 4, Status = HallSeatStatus.NotExists };
             await context.Seats.AddRangeAsync(seat1, seat2, seat3, seat4);
 
-            Film film1 = new() { Id = film1Id, Cinema = cinema1, Name = "Film #1", Duration = 128.5 };
-            Film film2 = new() { Id = Guid.NewGuid(), Cinema = cinema1, Name = "Film #2", Duration = 128.5, IsDeleted = true };
-            Film film3 = new() { Id = Guid.NewGuid(), Cinema = cinema2, Name = "Film #3", Duration = 128.5 };
+            Film film1 = new() { Id = film1Id, Cinema = cinema1, Name = "Film #1", Duration = new TimeSpan(1, 0, 0) };
+            Film film2 = new() { Id = Guid.NewGuid(), Cinema = cinema1, Name = "Film #2", Duration = new TimeSpan(1, 0, 0), IsDeleted = true };
+            Film film3 = new() { Id = Guid.NewGuid(), Cinema = cinema2, Name = "Film #3", Duration = new TimeSpan(1, 0, 0), };
             await context.Films.AddRangeAsync(film1, film2, film3);
 
             await context.SaveChangesAsync();

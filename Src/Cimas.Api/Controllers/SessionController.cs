@@ -1,9 +1,9 @@
-﻿using Azure.Core;
-using Cimas.Api.Common.Extensions;
+﻿using Cimas.Api.Common.Extensions;
 using Cimas.Api.Contracts.Sessions;
 using Cimas.Application.Features.Sessions.Commands.CreateSession;
 using Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId;
-using Cimas.Domain.Entities.Users;
+using Cimas.Application.Features.Sessions.Queries.GetSessionsByRange;
+using Cimas.Domain.Entities.Sessions;
 using Cimas.Domain.Models.Sessions;
 using ErrorOr;
 using Mapster;
@@ -53,12 +53,16 @@ namespace Cimas.Api.Controllers
                 return Problem(userIdResult.Errors);
             }
 
-            // TODO: impliment
-            
-            return Ok();
+            var query = (userIdResult.Value, request).Adapt<GetSessionsByRangeQuery>();
+            ErrorOr<List<Session>> getSessionsByRangeResult = await _mediator.Send(query);
+
+            return getSessionsByRangeResult.Match(
+                sessions => Ok(sessions.Adapt<List<SessionResponse>>()),
+                Problem
+            );
         }
 
-        [HttpGet("{sessionId}")] // do I need this endpoint?
+        [HttpGet("{sessionId}")] // do I need this endpoint? // YES!
         public async Task<IActionResult> GetSessionById(Guid sessionId)
         {
             ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();

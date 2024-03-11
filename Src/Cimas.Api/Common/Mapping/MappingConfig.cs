@@ -11,6 +11,8 @@ using Cimas.Api.Contracts.Sessions;
 using Cimas.Application.Features.Tickets.Commands.CreateTicket;
 using Cimas.Api.Contracts.Tickets;
 using Cimas.Application.Features.Sessions.Commands.CreateSession;
+using Cimas.Application.Features.Sessions.Queries.GetSessionsByRange;
+using Cimas.Domain.Entities.Sessions;
 
 namespace Cimas.Api.Common.Mapping
 {
@@ -63,6 +65,17 @@ namespace Cimas.Api.Common.Mapping
             config.NewConfig<(Guid UserId, CreateSessionRequest requset), CreateSessionCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest, src => src.requset);
+
+            config.NewConfig<(Guid UserId, GetSessionsByRangeRequest requset), GetSessionsByRangeQuery>()
+                .Map(dest => dest.UserId, src => src.UserId)
+                .Map(dest => dest, src => src.requset);
+
+            config.NewConfig<Session, SessionResponse>()
+                .Map(dest => dest.Id, src => src.Id)
+                .Map(dest => dest.StartDateTime, src => src.StartTime)
+                .Map(dest => dest.EndDateTime, src => src.StartTime + src.Film.Duration)
+                .Map(dest => dest.HallName, src => src.Hall.Name)
+                .Map(dest => dest.FilmName, src => src.Film.Name);
         }
 
         private void AddTicketControllerConfigs(TypeAdapterConfig config)

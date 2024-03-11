@@ -11,6 +11,7 @@ using Cimas.Domain.Entities.WorkDays;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cimas.Infrastructure.Common
 {
@@ -91,7 +92,9 @@ namespace Cimas.Infrastructure.Common
             modelBuilder.Entity<Film>(builder =>
             {
                 builder.Property(c => c.Name).IsRequired();
-                builder.Property(c => c.Duration).IsRequired();
+                builder.Property(c => c.Duration)
+                    .IsRequired()
+                    .HasConversion(new TimeSpanToStringConverter());
 
                 builder.Property(c => c.IsDeleted).IsRequired();
 

@@ -6,7 +6,14 @@ namespace Cimas.Application.Features.Sessions.Queries.GetSessionsByRange
     {
         public GetSessionsByRangeValidator()
         {
-            // add rules
+            RuleFor(x => x.CinemaId)
+               .NotEmpty();
+
+            RuleFor(x => x.FromDateTime)
+               .NotEmpty();
+
+            RuleFor(x => x.ToDateTime)
+               .NotEmpty();
         }
     }
 }
