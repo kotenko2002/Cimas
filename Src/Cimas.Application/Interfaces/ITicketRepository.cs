@@ -4,5 +4,6 @@ namespace Cimas.Application.Interfaces
 {
     public interface ITicketRepository : IBaseRepository<Ticket>
     {
+        Task<List<Ticket>> GetTicketsBySessionIdAsync(Guid sessionId);
     }
 }

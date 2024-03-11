@@ -6,5 +6,6 @@ namespace Cimas.Application.Interfaces
     {
         Task<Session> GetSessionIncludedTicketsByIdAsync(Guid sessionId);
         Task<List<Session>> GetSessionsByRangeAsync(Guid cinemaId, DateTime fromDateTime, DateTime toDateTime);
+        Task<Session> GetSessionsIncludedHallThenIncludedCinemaByIdAsync(Guid sessionId);
     }
 }

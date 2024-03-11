@@ -16,7 +16,8 @@ namespace Cimas.Infrastructure.Repositories
                 .FirstOrDefaultAsync(session => session.Id == sessionId);
         }
 
-        public async Task<List<Session>> GetSessionsByRangeAsync(Guid cinemaId, DateTime fromDateTime, DateTime toDateTime)
+        public async Task<List<Session>> GetSessionsByRangeAsync(
+            Guid cinemaId, DateTime fromDateTime, DateTime toDateTime)
         {
             return await Sourse
                 .Include(session => session.Hall)
@@ -27,6 +28,14 @@ namespace Cimas.Infrastructure.Repositories
                     && fromDateTime <= session.StartTime
                     && toDateTime >= session.StartTime)
                 .ToListAsync();
+        }
+
+        public async Task<Session> GetSessionsIncludedHallThenIncludedCinemaByIdAsync(Guid sessionId)
+        {
+            return await Sourse
+                .Include(session => session.Hall)
+                    .ThenInclude(hall => hall.Cinema)
+                .FirstOrDefaultAsync(session => session.Id == sessionId);
         }
     }
 }

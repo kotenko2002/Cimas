@@ -1,6 +1,7 @@
 ﻿using Cimas.Api.Common.Extensions;
 using Cimas.Api.Contracts.Sessions;
 using Cimas.Application.Features.Sessions.Commands.CreateSession;
+using Cimas.Application.Features.Sessions.Commands.DeleteSession;
 using Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId;
 using Cimas.Application.Features.Sessions.Queries.GetSessionsByRange;
 using Cimas.Domain.Entities.Sessions;
@@ -62,7 +63,7 @@ namespace Cimas.Api.Controllers
             );
         }
 
-        [HttpGet("{sessionId}")] // do I need this endpoint? // YES!
+        [HttpGet("{sessionId}")] // do I need this endpoint? // так, треба повертати Hall та Film окаремим ендпоінтом
         public async Task<IActionResult> GetSessionById(Guid sessionId)
         {
             ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
@@ -79,6 +80,7 @@ namespace Cimas.Api.Controllers
         [HttpGet("seats/{sessionId}")]
         public async Task<IActionResult> GetSeatsBySessionId(Guid sessionId)
         {
+            // вертати не тільки місця, а і всю іншу
             ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
             if (userIdResult.IsError)
             {
@@ -103,9 +105,13 @@ namespace Cimas.Api.Controllers
                 return Problem(userIdResult.Errors);
             }
 
-            // TODO: impliment
+            var command = new DeleteSessionCommand(userIdResult.Value, sessionId);
+            ErrorOr<Success> deleteSessionResult = await _mediator.Send(command);
 
-            return Ok();
+            return deleteSessionResult.Match(
+                NoContent,
+                Problem
+            );
         }
     }
 }
