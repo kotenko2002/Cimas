@@ -125,6 +125,61 @@ namespace Cimas.IntegrationTests.ControllersTests
         }
         #endregion
 
+        #region GetSeatsByHallId
+        [Test]
+        public Task HallController_GetSeatsByHallId_ShouldReturnOk()
+        {
+            return PerformTest(async (client) =>
+            {
+                // Arrange
+                await GenerateTokenAndSetAsHeader(username: owner1UserName);
+
+                // Act
+                var response = await client.GetAsync($"{_baseUrl}/seats/{hall1Id}");
+
+                var seats = await GetResponseContent<List<SeatResponse>>(response);
+
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(seats.Count, Is.EqualTo(4));
+                foreach (var seat in seats)
+                    Assert.That(seat.Id.ToString(), Is.Not.EqualTo("00000000-0000-0000-0000-000000000000"));
+            });
+        }
+
+        [Test]
+        public Task HallController_GetSeatsByHallId_ShouldReturnNotFound()
+        {
+            return PerformTest(async (client) =>
+            {
+                // Arrange
+                await GenerateTokenAndSetAsHeader(username: owner1UserName);
+
+                // Act
+                var response = await client.GetAsync($"{_baseUrl}/seats/{Guid.NewGuid()}");
+
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            });
+        }
+
+        [Test]
+        public Task HallController_GetSeatsByHallId_ShouldReturnForbidden()
+        {
+            return PerformTest(async (client) =>
+            {
+                // Arrange
+                await GenerateTokenAndSetAsHeader(username: owner2UserName);
+
+                // Act
+                var response = await client.GetAsync($"{_baseUrl}/seats/{hall1Id}");
+
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
+            });
+        }
+        #endregion
+
         #region UpdateHallSeats
         [Test]
         public Task HallController_UpdateHallSeats_ShouldReturnOk()

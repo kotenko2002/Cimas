@@ -77,7 +77,7 @@ namespace Cimas.Api.Controllers
             ErrorOr<List<HallSeat>> getSeatsResult = await _mediator.Send(command);
 
             return getSeatsResult.Match(
-                halls => Ok(halls.Adapt<List<GetSeatResponse>>()),
+                halls => Ok(halls.Adapt<List<SeatResponse>>()),
                 Problem
             );
         }

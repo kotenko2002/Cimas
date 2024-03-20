@@ -8,7 +8,7 @@ namespace Cimas.Application.Features.Tickets.Commands.DeleteTicket
         {
             RuleFor(x => x.TicketIds)
              .NotEmpty()
-             .Must(tickets => tickets.Count < 1)
+             .Must(tickets => tickets.Count > 0)
              .WithMessage("'TicketIds' must contain at least 1 Id");
         }
     }

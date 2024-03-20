@@ -46,8 +46,8 @@ namespace Cimas.Api.Controllers
             );
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetSessionsByRange(GetSessionsByRangeRequest request)
+        [HttpGet("byRange")]
+        public async Task<IActionResult> GetSessionsByRange([FromQuery] GetSessionsByRangeRequest request)
         {
             ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
             if (userIdResult.IsError)

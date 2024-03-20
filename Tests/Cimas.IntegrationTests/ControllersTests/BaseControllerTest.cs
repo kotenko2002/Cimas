@@ -20,6 +20,8 @@ using Cimas.Domain.Entities.Companies;
 using Cimas.Domain.Entities.Cinemas;
 using Cimas.Domain.Entities.Halls;
 using Cimas.Domain.Entities.Films;
+using Cimas.Domain.Entities.Sessions;
+using Cimas.Domain.Entities.Tickets;
 
 namespace Cimas.IntegrationTests.ControllersTests
 {
@@ -41,6 +43,10 @@ namespace Cimas.IntegrationTests.ControllersTests
         protected readonly Guid seat1Id = Guid.NewGuid();
         protected readonly Guid seat2Id = Guid.NewGuid();
         protected readonly Guid film1Id = Guid.NewGuid();
+        protected readonly Guid film3Id = Guid.NewGuid();
+        protected readonly Guid session1Id = Guid.NewGuid();
+        protected readonly Guid ticket1Id = Guid.NewGuid();
+        protected readonly Guid ticket2Id = Guid.NewGuid();
         #endregion
 
         public async Task PerformTest(Func<HttpClient, Task> testFunc, Action<IServiceCollection> configureServices = null)
@@ -151,8 +157,21 @@ namespace Cimas.IntegrationTests.ControllersTests
 
             Film film1 = new() { Id = film1Id, Cinema = cinema1, Name = "Film #1", Duration = new TimeSpan(1, 0, 0) };
             Film film2 = new() { Id = Guid.NewGuid(), Cinema = cinema1, Name = "Film #2", Duration = new TimeSpan(1, 0, 0), IsDeleted = true };
-            Film film3 = new() { Id = Guid.NewGuid(), Cinema = cinema2, Name = "Film #3", Duration = new TimeSpan(1, 0, 0), };
+            Film film3 = new() { Id = film3Id, Cinema = cinema2, Name = "Film #3", Duration = new TimeSpan(1, 0, 0), };
             await context.Films.AddRangeAsync(film1, film2, film3);
+
+            Session session1 = new() { Id = session1Id, Film = film1, Hall = hall1, StartTime = DateTime.UtcNow };
+            Session session2 = new() { Id = Guid.NewGuid(), Film = film2, Hall = hall1, StartTime = DateTime.UtcNow.AddMinutes(15) + film1.Duration };
+            Session session3 = new() { Id = Guid.NewGuid(), Film = film3, Hall = hall3, StartTime = DateTime.UtcNow.AddDays(1) };
+            Session session4 = new() { Id = Guid.NewGuid(), Film = film1, Hall = hall1, StartTime = DateTime.UtcNow.AddDays(2) };
+            Session session5 = new() { Id = Guid.NewGuid(), Film = film2, Hall = hall1, StartTime = DateTime.UtcNow.AddDays(3) };
+            Session session6 = new() { Id = Guid.NewGuid(), Film = film3, Hall = hall3, StartTime = DateTime.UtcNow.AddDays(4) };
+            await context.Sessions.AddRangeAsync(session1, session2, session3, session4, session5, session6);
+
+            Ticket ticket1 = new() { Id = ticket1Id, Seat = seat1, Session = session1, CreationTime = DateTime.UtcNow };
+            Ticket ticket2 = new() { Id = ticket2Id, Seat = seat2, Session = session1, CreationTime = DateTime.UtcNow };
+            Ticket ticket3 = new() { Id = Guid.NewGuid(), Seat = seat3, Session = session3, CreationTime = DateTime.UtcNow };
+            await context.Tickets.AddRangeAsync(ticket1, ticket2, ticket3);
 
             await context.SaveChangesAsync();
         }

@@ -2,7 +2,7 @@
 
 namespace Cimas.Api.Contracts.Halls
 {
-    public record GetSeatResponse(
+    public record SeatResponse(
         Guid Id,
         int Number,
         int Row,

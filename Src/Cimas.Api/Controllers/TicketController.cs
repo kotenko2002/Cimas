@@ -50,7 +50,6 @@ namespace Cimas.Api.Controllers
             {
                 return Problem(userIdResult.Errors);
             }
-            
 
             var command = new DeleteTicketCommand(userIdResult.Value, request.TikectIds);
             ErrorOr<Success> createTicketResult = await _mediator.Send(command);
