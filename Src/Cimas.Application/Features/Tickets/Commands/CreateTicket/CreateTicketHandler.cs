@@ -1,4 +1,5 @@
-﻿using Cimas.Application.Interfaces;
+﻿using Cimas.Application.Common.Extensions;
+using Cimas.Application.Interfaces;
 using Cimas.Domain.Entities.Halls;
 using Cimas.Domain.Entities.Sessions;
 using Cimas.Domain.Entities.Tickets;
@@ -23,8 +24,9 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTicket
 
         public async Task<ErrorOr<Success>> Handle(CreateTicketCommand command, CancellationToken cancellationToken)
         {
-            Guid? sessionId = GetJointSessionIdOrNull(command.Tickets);
-            if(!sessionId.HasValue)
+            
+            Guid? sessionId = command.Tickets.GetSingleDistinctIdOrNull(ticket => ticket.SessionId);
+            if (!sessionId.HasValue)
             {
                 return Error.Failure(description: "Session Ids are not all the same");
             }
@@ -42,7 +44,7 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTicket
                 return Error.NotFound(description: "One or more seats with such ids does not exist");
             }
 
-            Guid? hallId = GetJointHallIdOrNull(seats);
+            Guid? hallId = seats.GetSingleDistinctIdOrNull(seat => seat.HallId);
             if (!hallId.HasValue || session.HallId != hallId.Value)
             {
                 return Error.Failure(description: "The seat does not belong to the same hall as the session");
@@ -55,12 +57,18 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTicket
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");
             }
 
-            // TODO: Check if there is already a ticket for a session with this seat
+            bool isTicketsAlreadyExists = await _uow.TicketRepository.IsTicketsAlreadyExists(
+                session.Id,
+                command.Tickets.Select(ticket => ticket.SeatId).ToList());
+            if (isTicketsAlreadyExists)
+            {
+                return Error.Failure(description: "Ticket for one of the seats is already sold out");
+            }
 
             List<Ticket> tickets = command.Tickets
                 .Select(ticket => new Ticket()
                 {
-                    CreationTime = DateTime.Now,
+                    CreationTime = DateTime.UtcNow,
                     Session = session,
                     Seat = seats.First(seat => seat.Id == ticket.SeatId)
                 }).ToList();
@@ -70,24 +78,6 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTicket
             await _uow.CompleteAsync();
 
             return Result.Success;
-        }
-
-        private Guid? GetJointSessionIdOrNull(List<CreateTicketModel> tickets)
-        {
-            IEnumerable<Guid> distinctSessionIds = tickets
-                .Select(t => t.SessionId)
-                .Distinct();
-
-            return distinctSessionIds.Count() == 1 ? distinctSessionIds.First() : null;
-        }
-
-        private Guid? GetJointHallIdOrNull(List<HallSeat> seats)
-        {
-            IEnumerable<Guid> distinctSeatIds = seats
-                .Select(t => t.HallId)
-                .Distinct();
-
-            return distinctSeatIds.Count() == 1 ? distinctSeatIds.First() : null;
         }
     }
 }

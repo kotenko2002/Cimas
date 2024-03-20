@@ -46,7 +46,14 @@ namespace Cimas.Application.Features.Sessions.Commands.CreateSession
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");
             }
 
-            // TODO: add collision check
+            bool isCollisionDetected = await _uow.SessionRepository.IsSessionCollisionDetectedAsync(
+                hall.Id,
+                command.StartTime,
+                command.StartTime + film.Duration);
+            if (isCollisionDetected)
+            {
+                return Error.Failure(description: "There is another session in this hall at this time");
+            }
 
             Session session = new Session()
             {

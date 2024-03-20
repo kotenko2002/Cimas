@@ -64,18 +64,6 @@ namespace Cimas.Api.Controllers
             );
         }
 
-        //[HttpGet("{sessionId}")] // do I need this endpoint? // думаю ні, я зможу прокидувати назву залу та фільму і час як пропси в розкладі
-        //public async Task<IActionResult> GetSessionById(Guid sessionId)
-        //{
-        //    ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
-        //    if (userIdResult.IsError)
-        //    {
-        //        return Problem(userIdResult.Errors);
-        //    }
-        //    // TODO: impliment
-        //    return Ok();
-        //}
-
         [HttpGet("seats/{sessionId}")]
         public async Task<IActionResult> GetSeatsBySessionId(Guid sessionId)
         {

@@ -84,7 +84,7 @@ namespace Cimas.IntegrationTests.ControllersTests
             var accessToken = new JwtSecurityToken(
                 issuer: config.ValidIssuer,
                 audience: config.ValidAudience,
-                expires: DateTime.Now.AddMinutes(config.TokenValidityInMinutes),
+                expires: DateTime.UtcNow.AddMinutes(config.TokenValidityInMinutes),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
             );
@@ -168,7 +168,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 Company = company,
                 UserName = username,
                 RefreshToken = "refresh_token",
-                RefreshTokenExpiryTime = DateTime.Now.AddDays(1)
+                RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(1)
             };
 
             await userManager.CreateAsync(user, "Qwerty123!");

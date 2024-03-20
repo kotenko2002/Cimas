@@ -37,5 +37,18 @@ namespace Cimas.Infrastructure.Repositories
                     .ThenInclude(hall => hall.Cinema)
                 .FirstOrDefaultAsync(session => session.Id == sessionId);
         }
+
+        public async Task<bool> IsSessionCollisionDetectedAsync(
+            Guid hallId,
+            DateTime newSessionStartDateTime,
+            DateTime newSessionEndDateTime)
+        {
+            return await Sourse
+                .Include(session => session.Film)
+                .Where(session => session.HallId == hallId)
+                .AnyAsync(existingSession =>
+                    !(newSessionEndDateTime <= existingSession.StartTime
+                        || newSessionStartDateTime >= existingSession.StartTime + existingSession.Film.Duration));
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace Cimas.Application.Features.Sessions.Commands.CreateSession
 
             RuleFor(x => x.StartTime)
                 .NotEmpty()
-                .Must(StartTime => StartTime > DateTime.Now)
+                .Must(StartTime => StartTime > DateTime.UtcNow)
                 .WithMessage("StartTime must be in the future");
         }
     }

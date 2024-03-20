@@ -34,7 +34,7 @@ namespace Cimas.Infrastructure.Auth
                 RefreshToken = new Token()
                 {
                     Value = refreshToken,
-                    ValidTo = DateTime.Now.AddDays(_config.RefreshTokenValidityInDays)
+                    ValidTo = DateTime.UtcNow.AddDays(_config.RefreshTokenValidityInDays)
                 }
             };
         }
@@ -69,7 +69,7 @@ namespace Cimas.Infrastructure.Auth
             return new JwtSecurityToken(
                 issuer: _config.ValidIssuer,
                 audience: _config.ValidAudience,
-                expires: DateTime.Now.AddMinutes(_config.TokenValidityInMinutes),
+                expires: DateTime.UtcNow.AddMinutes(_config.TokenValidityInMinutes),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
             );
