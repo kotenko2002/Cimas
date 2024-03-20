@@ -5,7 +5,11 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTicket
 {
     public record CreateTicketCommand(
         Guid UserId,
-        Guid SessionId,
-        Guid SeatId
+        List<CreateTicketModel> Tickets
     ) : IRequest<ErrorOr<Success>>;
+
+    public record CreateTicketModel(
+       Guid SessionId,
+       Guid SeatId
+    );
 }

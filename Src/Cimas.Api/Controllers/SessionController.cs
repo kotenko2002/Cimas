@@ -5,6 +5,7 @@ using Cimas.Application.Features.Sessions.Commands.DeleteSession;
 using Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId;
 using Cimas.Application.Features.Sessions.Queries.GetSessionsByRange;
 using Cimas.Domain.Entities.Sessions;
+using Cimas.Domain.Entities.Users;
 using Cimas.Domain.Models.Sessions;
 using ErrorOr;
 using Mapster;
@@ -14,7 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Cimas.Api.Controllers
 {
-    [Route("sessions"), Authorize] // (Roles = Roles.Worker)
+    [Route("sessions"), Authorize(Roles = Roles.Worker)]
     public class SessionController : BaseController
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -63,24 +64,21 @@ namespace Cimas.Api.Controllers
             );
         }
 
-        [HttpGet("{sessionId}")] // do I need this endpoint? // так, треба повертати Hall та Film окаремим ендпоінтом
-        public async Task<IActionResult> GetSessionById(Guid sessionId)
-        {
-            ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
-            if (userIdResult.IsError)
-            {
-                return Problem(userIdResult.Errors);
-            }
-
-            // TODO: impliment
-
-            return Ok();
-        }
+        //[HttpGet("{sessionId}")] // do I need this endpoint? // думаю ні, я зможу прокидувати назву залу та фільму і час як пропси в розкладі
+        //public async Task<IActionResult> GetSessionById(Guid sessionId)
+        //{
+        //    ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
+        //    if (userIdResult.IsError)
+        //    {
+        //        return Problem(userIdResult.Errors);
+        //    }
+        //    // TODO: impliment
+        //    return Ok();
+        //}
 
         [HttpGet("seats/{sessionId}")]
         public async Task<IActionResult> GetSeatsBySessionId(Guid sessionId)
         {
-            // вертати не тільки місця, а і всю іншу
             ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
             if (userIdResult.IsError)
             {

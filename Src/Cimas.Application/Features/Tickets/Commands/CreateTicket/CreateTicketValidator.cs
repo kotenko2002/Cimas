@@ -6,11 +6,10 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTicket
     {
         public CreateTicketValidator()
         {
-            RuleFor(x => x.SessionId)
-                .NotEmpty();
-
-            RuleFor(x => x.SeatId)
-                .NotEmpty();
+            RuleFor(x => x.Tickets)
+                .NotEmpty()
+                .Must(tickets => tickets.Count < 1)
+                .WithMessage("'Tickets' must contain at least 1 tickets");
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Cimas.Api.Common.Extensions;
 using Cimas.Api.Contracts.Tickets;
 using Cimas.Application.Features.Tickets.Commands.CreateTicket;
+using Cimas.Application.Features.Tickets.Commands.DeleteTicket;
+using Cimas.Domain.Entities.Users;
 using ErrorOr;
 using Mapster;
 using MediatR;
@@ -9,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Cimas.Api.Controllers
 {
-    [Route("tickets"), Authorize] // (Roles = Roles.Worker)
+    [Route("tickets"), Authorize(Roles = Roles.Worker)]
     public class TicketController : BaseController
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -23,7 +25,7 @@ namespace Cimas.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTicket(CreateTicketRequest request)
+        public async Task<IActionResult> CreateTicket(CreateTicketsRequest request)
         {
             ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
             if (userIdResult.IsError)
@@ -40,18 +42,23 @@ namespace Cimas.Api.Controllers
             );
         }
 
-        [HttpDelete("{ticketId}")]
-        public async Task<IActionResult> DeleteTicket(Guid ticketId)
+        [HttpDelete]
+        public async Task<IActionResult> DeleteTicket(DeleteTicketsRequest request)
         {
             ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
             if (userIdResult.IsError)
             {
                 return Problem(userIdResult.Errors);
             }
+            
 
-            // TODO: impliment
+            var command = new DeleteTicketCommand(userIdResult.Value, request.TikectIds);
+            ErrorOr<Success> createTicketResult = await _mediator.Send(command);
 
-            return Ok();
+            return createTicketResult.Match(
+                NoContent,
+                Problem
+            );
         }
     }
 }

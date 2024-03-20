@@ -4,6 +4,7 @@ using Cimas.Application.Features.Films.Commands.CreateFilm;
 using Cimas.Application.Features.Films.Commands.DeleteFilm;
 using Cimas.Application.Features.Films.Queries.GetFilmsByCinemaId;
 using Cimas.Domain.Entities.Films;
+using Cimas.Domain.Entities.Users;
 using ErrorOr;
 using Mapster;
 using MediatR;
@@ -12,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Cimas.Api.Controllers
 {
-    [Route("films"), Authorize] // Authorize(Roles = Roles.Worker)
+    [Route("films"), Authorize(Roles = Roles.Worker)]
     public class FilmController : BaseController
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
