@@ -5,11 +5,13 @@ using Cimas.Domain.Entities.Halls;
 using Cimas.Domain.Entities.Products;
 using Cimas.Domain.Entities.Reports;
 using Cimas.Domain.Entities.Sessions;
+using Cimas.Domain.Entities.Tickets;
 using Cimas.Domain.Entities.Users;
 using Cimas.Domain.Entities.WorkDays;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cimas.Infrastructure.Common
 {
@@ -21,7 +23,7 @@ namespace Cimas.Infrastructure.Common
         public DbSet<Product> Products { get; set; }
         public DbSet<Hall> Halls { get; set; }
         public DbSet<Film> Films { get; set; }
-        public DbSet<Seat> Seats { get; set; }
+        public DbSet<HallSeat> Seats { get; set; }
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<WorkDay> WorkDays { get; set; }
@@ -90,7 +92,9 @@ namespace Cimas.Infrastructure.Common
             modelBuilder.Entity<Film>(builder =>
             {
                 builder.Property(c => c.Name).IsRequired();
-                builder.Property(c => c.Duration).IsRequired();
+                builder.Property(c => c.Duration)
+                    .IsRequired()
+                    .HasConversion(new TimeSpanToStringConverter());
 
                 builder.Property(c => c.IsDeleted).IsRequired();
 
@@ -101,9 +105,8 @@ namespace Cimas.Infrastructure.Common
                     .OnDelete(DeleteBehavior.NoAction);
             });
 
-            modelBuilder.Entity<Seat>(builder =>
+            modelBuilder.Entity<HallSeat>(builder =>
             {
-                builder.Property(c => c.Number).IsRequired();
                 builder.Property(c => c.Row).IsRequired();
                 builder.Property(c => c.Column).IsRequired();
                 builder.Property(c => c.Status).IsRequired();
@@ -117,7 +120,7 @@ namespace Cimas.Infrastructure.Common
 
             modelBuilder.Entity<Session>(builder =>
             {
-                builder.Property(c => c.StartTime).IsRequired();
+                builder.Property(c => c.StartDateTime).IsRequired();
 
                 builder
                     .HasOne(s => s.Hall)

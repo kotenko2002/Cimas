@@ -20,6 +20,8 @@ using Cimas.Domain.Entities.Companies;
 using Cimas.Domain.Entities.Cinemas;
 using Cimas.Domain.Entities.Halls;
 using Cimas.Domain.Entities.Films;
+using Cimas.Domain.Entities.Sessions;
+using Cimas.Domain.Entities.Tickets;
 
 namespace Cimas.IntegrationTests.ControllersTests
 {
@@ -40,7 +42,16 @@ namespace Cimas.IntegrationTests.ControllersTests
         protected readonly Guid hall1Id = Guid.NewGuid();
         protected readonly Guid seat1Id = Guid.NewGuid();
         protected readonly Guid seat2Id = Guid.NewGuid();
+        protected readonly Guid seat3Id = Guid.NewGuid();
+        protected readonly Guid seat4Id = Guid.NewGuid();
+        protected readonly Guid seat5Id = Guid.NewGuid();
         protected readonly Guid film1Id = Guid.NewGuid();
+        protected readonly Guid film3Id = Guid.NewGuid();
+        protected readonly Guid session1Id = Guid.NewGuid();
+        protected readonly Guid session2Id = Guid.NewGuid();
+        protected readonly Guid ticket1Id = Guid.NewGuid();
+        protected readonly Guid ticket2Id = Guid.NewGuid();
+        protected readonly Guid ticket3Id = Guid.NewGuid();
         #endregion
 
         public async Task PerformTest(Func<HttpClient, Task> testFunc, Action<IServiceCollection> configureServices = null)
@@ -84,7 +95,7 @@ namespace Cimas.IntegrationTests.ControllersTests
             var accessToken = new JwtSecurityToken(
                 issuer: config.ValidIssuer,
                 audience: config.ValidAudience,
-                expires: DateTime.Now.AddMinutes(config.TokenValidityInMinutes),
+                expires: DateTime.UtcNow.AddMinutes(config.TokenValidityInMinutes),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
             );
@@ -143,16 +154,30 @@ namespace Cimas.IntegrationTests.ControllersTests
             Hall hall3 = new() { Id = Guid.NewGuid(), Cinema = cinema2, Name = "Hall #3" };
             await context.Halls.AddRangeAsync(hall1, hall2, hall3);
 
-            Seat seat1 = new() { Id = seat1Id, Hall = hall1, Row = 0, Column = 0, Number = 1, Status = SeatStatus.NotExists };
-            Seat seat2 = new() { Id = seat2Id, Hall = hall1, Row = 0, Column = 1, Number = 2, Status = SeatStatus.NotExists };
-            Seat seat3 = new() { Id = Guid.NewGuid(), Hall = hall1, Row = 1, Column = 0, Number = 3, Status = SeatStatus.NotExists };
-            Seat seat4 = new() { Id = Guid.NewGuid(), Hall = hall1, Row = 1, Column = 1, Number = 4, Status = SeatStatus.NotExists };
-            await context.Seats.AddRangeAsync(seat1, seat2, seat3, seat4);
+            HallSeat seat1 = new() { Id = seat1Id, Hall = hall1, Row = 0, Column = 0, Status = HallSeatStatus.Available };
+            HallSeat seat2 = new() { Id = seat2Id, Hall = hall1, Row = 0, Column = 1, Status = HallSeatStatus.Available };
+            HallSeat seat3 = new() { Id = seat3Id, Hall = hall1, Row = 1, Column = 0, Status = HallSeatStatus.Available };
+            HallSeat seat4 = new() { Id = seat4Id, Hall = hall1, Row = 1, Column = 1, Status = HallSeatStatus.Available };
+            HallSeat seat5 = new() { Id = seat5Id, Hall = hall2, Row = 0, Column = 0, Status = HallSeatStatus.Available };
+            await context.Seats.AddRangeAsync(seat1, seat2, seat3, seat4, seat5);
 
-            Film film1 = new() { Id = film1Id, Cinema = cinema1, Name = "Film #1", Duration = 128.5 };
-            Film film2 = new() { Id = Guid.NewGuid(), Cinema = cinema1, Name = "Film #2", Duration = 128.5, IsDeleted = true };
-            Film film3 = new() { Id = Guid.NewGuid(), Cinema = cinema2, Name = "Film #3", Duration = 128.5 };
+            Film film1 = new() { Id = film1Id, Cinema = cinema1, Name = "Film #1", Duration = new TimeSpan(1, 0, 0) };
+            Film film2 = new() { Id = Guid.NewGuid(), Cinema = cinema1, Name = "Film #2", Duration = new TimeSpan(1, 0, 0), IsDeleted = true };
+            Film film3 = new() { Id = film3Id, Cinema = cinema2, Name = "Film #3", Duration = new TimeSpan(1, 0, 0), };
             await context.Films.AddRangeAsync(film1, film2, film3);
+
+            Session session1 = new() { Id = session1Id, Film = film1, Hall = hall1, StartDateTime = DateTime.UtcNow };
+            Session session2 = new() { Id = session2Id, Film = film2, Hall = hall1, StartDateTime = DateTime.UtcNow.AddMinutes(15) + film1.Duration };
+            Session session3 = new() { Id = Guid.NewGuid(), Film = film3, Hall = hall3, StartDateTime = DateTime.UtcNow.AddDays(1) };
+            Session session4 = new() { Id = Guid.NewGuid(), Film = film1, Hall = hall1, StartDateTime = DateTime.UtcNow.AddDays(2) };
+            Session session5 = new() { Id = Guid.NewGuid(), Film = film2, Hall = hall1, StartDateTime = DateTime.UtcNow.AddDays(3) };
+            Session session6 = new() { Id = Guid.NewGuid(), Film = film3, Hall = hall3, StartDateTime = DateTime.UtcNow.AddDays(4) };
+            await context.Sessions.AddRangeAsync(session1, session2, session3, session4, session5, session6);
+
+            Ticket ticket1 = new() { Id = ticket1Id, Seat = seat1, Session = session1, Status = TicketStatus.Booked, CreationTime = DateTime.UtcNow };
+            Ticket ticket2 = new() { Id = ticket2Id, Seat = seat2, Session = session1, Status = TicketStatus.Sold, CreationTime = DateTime.UtcNow };
+            Ticket ticket3 = new() { Id = ticket3Id, Seat = seat3, Session = session3, CreationTime = DateTime.UtcNow };
+            await context.Tickets.AddRangeAsync(ticket1, ticket2, ticket3);
 
             await context.SaveChangesAsync();
         }
@@ -168,7 +193,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 Company = company,
                 UserName = username,
                 RefreshToken = "refresh_token",
-                RefreshTokenExpiryTime = DateTime.Now.AddDays(1)
+                RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(1)
             };
 
             await userManager.CreateAsync(user, "Qwerty123!");

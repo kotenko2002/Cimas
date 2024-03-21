@@ -11,6 +11,7 @@ using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Cimas.Application.Features.Halls.Queries.GetSeatsByHallId;
 
 namespace Cimas.Api.Controllers
 {
@@ -58,7 +59,25 @@ namespace Cimas.Api.Controllers
             ErrorOr<List<Hall>> getHallsResult = await _mediator.Send(command);
 
             return getHallsResult.Match(
-                halls => Ok(halls.Adapt<List<GetHallResponse>>()),
+                halls => Ok(halls.Adapt<List<HallResponse>>()),
+                Problem
+            );
+        }
+
+        [HttpGet("seats/{hallId}")]
+        public async Task<IActionResult> GetSeatsByHallId(Guid hallId)
+        {
+            ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
+            if (userIdResult.IsError)
+            {
+                return Problem(userIdResult.Errors);
+            }
+
+            var command = new GetSeatsByHallIdQuery(userIdResult.Value, hallId);
+            ErrorOr<List<HallSeat>> getSeatsResult = await _mediator.Send(command);
+
+            return getSeatsResult.Match(
+                halls => Ok(halls.Adapt<List<SeatResponse>>()),
                 Problem
             );
         }

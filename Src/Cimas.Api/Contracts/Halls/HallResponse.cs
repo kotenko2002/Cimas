@@ -1,6 +1,6 @@
 ﻿namespace Cimas.Api.Contracts.Halls
 {
-    public record GetHallResponse(
+    public record HallResponse(
        Guid Id,
        string Name
     );

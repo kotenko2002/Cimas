@@ -22,7 +22,7 @@ namespace Cimas.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Cimas.Domain.Cinemas.Cinema", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Cinemas.Cinema", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -46,7 +46,7 @@ namespace Cimas.Infrastructure.Migrations
                     b.ToTable("Cinemas");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Companies.Company", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Companies.Company", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,7 +60,7 @@ namespace Cimas.Infrastructure.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Films.Film", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Films.Film", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,8 +69,9 @@ namespace Cimas.Infrastructure.Migrations
                     b.Property<Guid>("CinemaId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<double>("Duration")
-                        .HasColumnType("float");
+                    b.Property<string>("Duration")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(48)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -86,7 +87,7 @@ namespace Cimas.Infrastructure.Migrations
                     b.ToTable("Films");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Halls.Hall", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Halls.Hall", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -109,7 +110,7 @@ namespace Cimas.Infrastructure.Migrations
                     b.ToTable("Halls");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Halls.Seat", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Halls.HallSeat", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -120,9 +121,6 @@ namespace Cimas.Infrastructure.Migrations
 
                     b.Property<Guid>("HallId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
 
                     b.Property<int>("Row")
                         .HasColumnType("int");
@@ -137,7 +135,7 @@ namespace Cimas.Infrastructure.Migrations
                     b.ToTable("Seats");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Products.Product", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Products.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -173,7 +171,7 @@ namespace Cimas.Infrastructure.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Reports.Report", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Reports.Report", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -193,7 +191,7 @@ namespace Cimas.Infrastructure.Migrations
                     b.ToTable("Reports");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Sessions.Session", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Sessions.Session", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -205,7 +203,7 @@ namespace Cimas.Infrastructure.Migrations
                     b.Property<Guid>("HallId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("StartTime")
+                    b.Property<DateTime>("StartDateTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -217,7 +215,7 @@ namespace Cimas.Infrastructure.Migrations
                     b.ToTable("Sessions");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Sessions.Ticket", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Tickets.Ticket", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -232,6 +230,9 @@ namespace Cimas.Infrastructure.Migrations
                     b.Property<Guid>("SessionId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("SeatId");
@@ -241,7 +242,7 @@ namespace Cimas.Infrastructure.Migrations
                     b.ToTable("Tickets");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Users.User", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -321,7 +322,7 @@ namespace Cimas.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Cimas.Domain.WorkDays.WorkDay", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.WorkDays.WorkDay", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -479,9 +480,9 @@ namespace Cimas.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Cinemas.Cinema", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Cinemas.Cinema", b =>
                 {
-                    b.HasOne("Cimas.Domain.Companies.Company", "Company")
+                    b.HasOne("Cimas.Domain.Entities.Companies.Company", "Company")
                         .WithMany("Cinemas")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -490,9 +491,9 @@ namespace Cimas.Infrastructure.Migrations
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Films.Film", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Films.Film", b =>
                 {
-                    b.HasOne("Cimas.Domain.Cinemas.Cinema", "Cinema")
+                    b.HasOne("Cimas.Domain.Entities.Cinemas.Cinema", "Cinema")
                         .WithMany("Films")
                         .HasForeignKey("CinemaId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -501,9 +502,9 @@ namespace Cimas.Infrastructure.Migrations
                     b.Navigation("Cinema");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Halls.Hall", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Halls.Hall", b =>
                 {
-                    b.HasOne("Cimas.Domain.Cinemas.Cinema", "Cinema")
+                    b.HasOne("Cimas.Domain.Entities.Cinemas.Cinema", "Cinema")
                         .WithMany("Halls")
                         .HasForeignKey("CinemaId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -512,9 +513,9 @@ namespace Cimas.Infrastructure.Migrations
                     b.Navigation("Cinema");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Halls.Seat", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Halls.HallSeat", b =>
                 {
-                    b.HasOne("Cimas.Domain.Halls.Hall", "Hall")
+                    b.HasOne("Cimas.Domain.Entities.Halls.Hall", "Hall")
                         .WithMany("Seats")
                         .HasForeignKey("HallId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -523,9 +524,9 @@ namespace Cimas.Infrastructure.Migrations
                     b.Navigation("Hall");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Products.Product", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Products.Product", b =>
                 {
-                    b.HasOne("Cimas.Domain.Cinemas.Cinema", "Cinema")
+                    b.HasOne("Cimas.Domain.Entities.Cinemas.Cinema", "Cinema")
                         .WithMany("Products")
                         .HasForeignKey("CinemaId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -534,26 +535,26 @@ namespace Cimas.Infrastructure.Migrations
                     b.Navigation("Cinema");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Reports.Report", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Reports.Report", b =>
                 {
-                    b.HasOne("Cimas.Domain.WorkDays.WorkDay", "WorkDay")
+                    b.HasOne("Cimas.Domain.Entities.WorkDays.WorkDay", "WorkDay")
                         .WithOne("Report")
-                        .HasForeignKey("Cimas.Domain.Reports.Report", "WorkDayId")
+                        .HasForeignKey("Cimas.Domain.Entities.Reports.Report", "WorkDayId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("WorkDay");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Sessions.Session", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Sessions.Session", b =>
                 {
-                    b.HasOne("Cimas.Domain.Films.Film", "Film")
+                    b.HasOne("Cimas.Domain.Entities.Films.Film", "Film")
                         .WithMany("Sessions")
                         .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Cimas.Domain.Halls.Hall", "Hall")
+                    b.HasOne("Cimas.Domain.Entities.Halls.Hall", "Hall")
                         .WithMany("Sessions")
                         .HasForeignKey("HallId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -564,15 +565,15 @@ namespace Cimas.Infrastructure.Migrations
                     b.Navigation("Hall");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Sessions.Ticket", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Tickets.Ticket", b =>
                 {
-                    b.HasOne("Cimas.Domain.Halls.Seat", "Seat")
+                    b.HasOne("Cimas.Domain.Entities.Halls.HallSeat", "Seat")
                         .WithMany("Tickets")
                         .HasForeignKey("SeatId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Cimas.Domain.Sessions.Session", "Session")
+                    b.HasOne("Cimas.Domain.Entities.Sessions.Session", "Session")
                         .WithMany("Tickets")
                         .HasForeignKey("SessionId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -583,9 +584,9 @@ namespace Cimas.Infrastructure.Migrations
                     b.Navigation("Session");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Users.User", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Users.User", b =>
                 {
-                    b.HasOne("Cimas.Domain.Companies.Company", "Company")
+                    b.HasOne("Cimas.Domain.Entities.Companies.Company", "Company")
                         .WithMany("Users")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -594,15 +595,15 @@ namespace Cimas.Infrastructure.Migrations
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.WorkDays.WorkDay", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.WorkDays.WorkDay", b =>
                 {
-                    b.HasOne("Cimas.Domain.Cinemas.Cinema", "Cinema")
+                    b.HasOne("Cimas.Domain.Entities.Cinemas.Cinema", "Cinema")
                         .WithMany("WorkDays")
                         .HasForeignKey("CinemaId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Cimas.Domain.Users.User", "User")
+                    b.HasOne("Cimas.Domain.Entities.Users.User", "User")
                         .WithMany("WorkDays")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -624,7 +625,7 @@ namespace Cimas.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Cimas.Domain.Users.User", null)
+                    b.HasOne("Cimas.Domain.Entities.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -633,7 +634,7 @@ namespace Cimas.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("Cimas.Domain.Users.User", null)
+                    b.HasOne("Cimas.Domain.Entities.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -648,7 +649,7 @@ namespace Cimas.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Cimas.Domain.Users.User", null)
+                    b.HasOne("Cimas.Domain.Entities.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -657,14 +658,14 @@ namespace Cimas.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("Cimas.Domain.Users.User", null)
+                    b.HasOne("Cimas.Domain.Entities.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Cinemas.Cinema", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Cinemas.Cinema", b =>
                 {
                     b.Navigation("Films");
 
@@ -675,41 +676,41 @@ namespace Cimas.Infrastructure.Migrations
                     b.Navigation("WorkDays");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Companies.Company", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Companies.Company", b =>
                 {
                     b.Navigation("Cinemas");
 
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Films.Film", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Films.Film", b =>
                 {
                     b.Navigation("Sessions");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Halls.Hall", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Halls.Hall", b =>
                 {
                     b.Navigation("Seats");
 
                     b.Navigation("Sessions");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Halls.Seat", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Halls.HallSeat", b =>
                 {
                     b.Navigation("Tickets");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Sessions.Session", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Sessions.Session", b =>
                 {
                     b.Navigation("Tickets");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.Users.User", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.Users.User", b =>
                 {
                     b.Navigation("WorkDays");
                 });
 
-            modelBuilder.Entity("Cimas.Domain.WorkDays.WorkDay", b =>
+            modelBuilder.Entity("Cimas.Domain.Entities.WorkDays.WorkDay", b =>
                 {
                     b.Navigation("Report");
                 });

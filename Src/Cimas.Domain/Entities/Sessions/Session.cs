@@ -1,11 +1,12 @@
 ﻿using Cimas.Domain.Entities.Films;
 using Cimas.Domain.Entities.Halls;
+using Cimas.Domain.Entities.Tickets;
 
 namespace Cimas.Domain.Entities.Sessions
 {
     public class Session : BaseEntity
     {
-        public DateTime StartTime { get; set; }
+        public DateTime StartDateTime { get; set; }
 
         public Guid HallId { get; set; }
         public virtual Hall Hall { get; set; }

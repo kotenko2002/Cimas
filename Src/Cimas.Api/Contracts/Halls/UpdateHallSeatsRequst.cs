@@ -6,6 +6,6 @@ namespace Cimas.Api.Contracts.Halls
 
     public record HallSeatModel(
         Guid Id,
-        SeatStatus Status
+        HallSeatStatus Status
     );
 }

@@ -15,7 +15,8 @@ namespace Cimas.Application.Features.Films.Commands.CreateFilm
 
             RuleFor(x => x.Duration)
                 .NotEmpty()
-                .InclusiveBetween(0.1, 300);
+                .Must(d => d.TotalMinutes >= 0.1 && d.TotalMinutes <= 300)
+                .WithMessage("Duration must be between 0.1 and 300 minutes");
         }
     }
 }

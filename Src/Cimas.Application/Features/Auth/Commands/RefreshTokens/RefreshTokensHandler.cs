@@ -31,7 +31,7 @@ namespace Cimas.Application.Features.Auth.Commands.RefreshTokens
 
             string username = getPrincipalResult.Value.Identity.Name;
             User user = await _userManager.FindByNameAsync(username);
-            if (user == null || user.RefreshToken != command.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            if (user == null || user.RefreshToken != command.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
             {
                 return Error.Unauthorized(description: "Invalid access token or refresh token");
             }

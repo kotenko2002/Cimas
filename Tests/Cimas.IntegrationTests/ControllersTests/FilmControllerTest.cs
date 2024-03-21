@@ -19,7 +19,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: worker1UserName);
 
-                var requestModel = new CreateFilmRequest("Film #created", 128.5);
+                var requestModel = new CreateFilmRequest("Film #created", new TimeSpan(1, 0, 0));
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
@@ -38,7 +38,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: worker1UserName);
 
-                var requestModel = new CreateFilmRequest("Film #created", 128.5);
+                var requestModel = new CreateFilmRequest("Film #created", new TimeSpan(1, 0, 0));
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
@@ -57,7 +57,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: worker2UserName);
 
-                var requestModel = new CreateFilmRequest("Film #created", 128.5);
+                var requestModel = new CreateFilmRequest("Film #created", new TimeSpan(1, 0, 0));
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
@@ -81,7 +81,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Act
                 var response = await client.GetAsync($"{_baseUrl}/{cinema1Id}");
 
-                var films = await GetResponseContent<List<GetFilmResponse>>(response);
+                var films = await GetResponseContent<List<FilmResponse>>(response);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));

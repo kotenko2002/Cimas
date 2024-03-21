@@ -41,7 +41,7 @@ namespace Cimas.Api.Controllers
             ErrorOr<Cinema> createCinemaResult = await _mediator.Send(command);
 
             return createCinemaResult.Match(
-                cinema => Ok(cinema.Adapt<GetCinemaResponse>()),
+                cinema => Ok(cinema.Adapt<CinemaResponse>()),
                 Problem
             );
         }
@@ -59,7 +59,7 @@ namespace Cimas.Api.Controllers
             ErrorOr<Cinema> getCinemaResult = await _mediator.Send(command);
 
             return getCinemaResult.Match(
-                cinema => Ok(cinema.Adapt<GetCinemaResponse>()),
+                cinema => Ok(cinema.Adapt<CinemaResponse>()),
                 Problem
             );
         }
@@ -77,7 +77,7 @@ namespace Cimas.Api.Controllers
             ErrorOr<List<Cinema>> getCinemasResult = await _mediator.Send(command);
 
             return getCinemasResult.Match(
-                cinemas => Ok(cinemas.Adapt<List<GetCinemaResponse>>()),
+                cinemas => Ok(cinemas.Adapt<List<CinemaResponse>>()),
                 Problem
             );
         }

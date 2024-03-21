@@ -5,16 +5,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cimas.Infrastructure.Repositories
 {
-    public class SeatRepository : BaseRepository<Seat>, ISeatRepository
+    public class SeatRepository : BaseRepository<HallSeat>, ISeatRepository
     {
-        public SeatRepository(CimasDbContext context) : base(context)
-        {
-        }
+        public SeatRepository(CimasDbContext context) : base(context) {}
 
-        public async Task<List<Seat>> GetSeatsByIds(IEnumerable<Guid> ids)
+        public async Task<List<HallSeat>> GetSeatsByHallId(Guid hallId)
         {
             return await Sourse
-               .Where(entity => ids.Contains(entity.Id))
+               .Where(seat => seat.HallId == hallId)
+               .ToListAsync();
+        }
+
+        public async Task<List<HallSeat>> GetSeatsByIdsAsync(IEnumerable<Guid> ids)
+        {
+            return await Sourse
+               .Where(seat => ids.Contains(seat.Id))
                .ToListAsync();
         }
     }

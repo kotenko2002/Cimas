@@ -16,6 +16,13 @@ namespace Cimas.Infrastructure.Repositories
                 .Include(hall => hall.Cinema)
                 .FirstOrDefaultAsync(hall => hall.Id == hallId);
         }
+        public async Task<Hall> GetHallIncludedCinemaAndSeatsByIdAsync(Guid hallId)
+        {
+            return await Sourse
+                .Include(hall => hall.Cinema)
+                .Include(hall => hall.Seats)
+                .FirstOrDefaultAsync(hall => hall.Id == hallId);
+        }
 
         public async Task<List<Hall>> GetHallsByCinemaIdAsync(Guid cinemaId)
         {

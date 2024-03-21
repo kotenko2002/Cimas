@@ -42,7 +42,7 @@ namespace Cimas.Application.Features.Halls.Commands.CreateHall
             };
             await _uow.HallRepository.AddAsync(hall);
 
-            List<Seat> seats = GenerateSeats(hall, command.NumberOfRows, command.NumberOfColumns);
+            List<HallSeat> seats = GenerateSeats(hall, command.NumberOfRows, command.NumberOfColumns);
             await _uow.SeatRepository.AddRangeAsync(seats);
 
             await _uow.CompleteAsync();
@@ -50,25 +50,21 @@ namespace Cimas.Application.Features.Halls.Commands.CreateHall
             return Result.Success;
         }
 
-        private List<Seat> GenerateSeats(Hall hall, int numberOfRows, int numberOfColumns)
+        private List<HallSeat> GenerateSeats(Hall hall, int numberOfRows, int numberOfColumns)
         {
-            List<Seat> seats = new();
-            int numberOfSeat = 1;
+            List<HallSeat> seats = new();
 
             for (int i = 0; i < numberOfRows; i++)
             {
                 for (int j = 0; j < numberOfColumns; j++)
                 {
-                    seats.Add(new Seat()
+                    seats.Add(new HallSeat()
                     {
-                        Number = numberOfSeat,
                         Row = i,
                         Column = j,
                         Hall = hall,
-                        Status = SeatStatus.Available
+                        Status = HallSeatStatus.Available
                     });
-
-                    numberOfSeat++;
                 }
             }
 

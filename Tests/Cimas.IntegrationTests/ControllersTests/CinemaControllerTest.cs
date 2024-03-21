@@ -25,7 +25,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Act
                 var response = await client.PostAsync($"{_baseUrl}", content);
 
-                var cinema = await GetResponseContent<GetCinemaResponse>(response);
+                var cinema = await GetResponseContent<CinemaResponse>(response);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -46,7 +46,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Act
                 var response = await client.GetAsync($"{_baseUrl}/{cinema1Id}");
 
-                var cinema = await GetResponseContent<GetCinemaResponse>(response);
+                var cinema = await GetResponseContent<CinemaResponse>(response);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -99,7 +99,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Act
                 var response = await client.GetAsync($"{_baseUrl}");
 
-                var cinemas = await GetResponseContent<List<GetCinemaResponse>>(response);
+                var cinemas = await GetResponseContent<List<CinemaResponse>>(response);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
