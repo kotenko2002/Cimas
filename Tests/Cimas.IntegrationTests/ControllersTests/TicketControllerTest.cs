@@ -24,8 +24,10 @@ namespace Cimas.IntegrationTests.ControllersTests
             {
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: worker1UserName);
-
-                var requestModel = new CreateTicketsRequest(new List<Guid> { seat3Id, seat4Id});
+                var requestModel = new CreateTicketsRequest([
+                    new (seat3Id, TicketStatus.Booked),
+                    new (seat4Id, TicketStatus.Sold)
+                ]);
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act

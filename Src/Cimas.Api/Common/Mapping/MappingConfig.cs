@@ -83,7 +83,7 @@ namespace Cimas.Api.Common.Mapping
             config.NewConfig<(Guid UserId, Guid SessionId, CreateTicketsRequest requset), CreateTicketCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest.SessionId, src => src.SessionId)
-                .Map(dest => dest.SeatIds, src => src.requset.SeatIds);
+                .Map(dest => dest, src => src.requset);
         }
     }
 }

@@ -47,7 +47,7 @@ namespace Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId
                         SeatId = seat.Id,
                         Row = seat.Row,
                         Column = seat.Column,
-                        Status = SessionSeatStatus.Booked
+                        Status = (SessionSeatStatus)ticket.Status
                     };
                 })
                 .ToList();

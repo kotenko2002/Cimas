@@ -31,8 +31,9 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTicket
                 return Error.NotFound(description: "Session with such id does not exist");
             }
 
-            List<HallSeat> seats = await _uow.SeatRepository.GetSeatsByIdsAsync(command.SeatIds);
-            if (command.SeatIds.Count != seats.Count)
+            List<Guid> seatIds = command.Tickets.Select(ticket => ticket.SeatId).ToList();
+            List<HallSeat> seats = await _uow.SeatRepository.GetSeatsByIdsAsync(seatIds);
+            if (seatIds.Count != seats.Count)
             {
                 return Error.NotFound(description: "One or more seats with such ids does not exist");
             }
@@ -57,18 +58,19 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTicket
 
             bool isTicketsAlreadyExists = await _uow.TicketRepository.IsTicketsAlreadyExists(
                 session.Id,
-                command.SeatIds);
+                seatIds);
             if (isTicketsAlreadyExists)
             {
                 return Error.Failure(description: "Ticket for one of the seats is already sold out");
             }
 
-            List<Ticket> tickets = command.SeatIds
-                .Select(seatId => new Ticket()
+            List<Ticket> tickets = command.Tickets
+                .Select(ticket => new Ticket()
                 {
-                    CreationTime = DateTime.UtcNow,
                     Session = session,
-                    Seat = seats.First(seat => seat.Id == seatId)
+                    Seat = seats.First(seat => seat.Id == ticket.SeatId),
+                    CreationTime = DateTime.UtcNow,
+                    Status = ticket.Status
                 }).ToList();
 
             await _uow.TicketRepository.AddRangeAsync(tickets);
