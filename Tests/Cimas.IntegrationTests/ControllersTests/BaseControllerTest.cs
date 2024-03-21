@@ -151,10 +151,10 @@ namespace Cimas.IntegrationTests.ControllersTests
             Hall hall3 = new() { Id = Guid.NewGuid(), Cinema = cinema2, Name = "Hall #3" };
             await context.Halls.AddRangeAsync(hall1, hall2, hall3);
 
-            HallSeat seat1 = new() { Id = seat1Id, Hall = hall1, Row = 0, Column = 0, Number = 1, Status = HallSeatStatus.Available };
-            HallSeat seat2 = new() { Id = seat2Id, Hall = hall1, Row = 0, Column = 1, Number = 2, Status = HallSeatStatus.Available };
-            HallSeat seat3 = new() { Id = seat3Id, Hall = hall1, Row = 1, Column = 0, Number = 3, Status = HallSeatStatus.Available };
-            HallSeat seat4 = new() { Id = seat4Id, Hall = hall1, Row = 1, Column = 1, Number = 4, Status = HallSeatStatus.Available };
+            HallSeat seat1 = new() { Id = seat1Id, Hall = hall1, Row = 0, Column = 0, Status = HallSeatStatus.Available };
+            HallSeat seat2 = new() { Id = seat2Id, Hall = hall1, Row = 0, Column = 1, Status = HallSeatStatus.Available };
+            HallSeat seat3 = new() { Id = seat3Id, Hall = hall1, Row = 1, Column = 0, Status = HallSeatStatus.Available };
+            HallSeat seat4 = new() { Id = seat4Id, Hall = hall1, Row = 1, Column = 1, Status = HallSeatStatus.Available };
             await context.Seats.AddRangeAsync(seat1, seat2, seat3, seat4);
 
             Film film1 = new() { Id = film1Id, Cinema = cinema1, Name = "Film #1", Duration = new TimeSpan(1, 0, 0) };
@@ -162,12 +162,12 @@ namespace Cimas.IntegrationTests.ControllersTests
             Film film3 = new() { Id = film3Id, Cinema = cinema2, Name = "Film #3", Duration = new TimeSpan(1, 0, 0), };
             await context.Films.AddRangeAsync(film1, film2, film3);
 
-            Session session1 = new() { Id = session1Id, Film = film1, Hall = hall1, StartTime = DateTime.UtcNow };
-            Session session2 = new() { Id = Guid.NewGuid(), Film = film2, Hall = hall1, StartTime = DateTime.UtcNow.AddMinutes(15) + film1.Duration };
-            Session session3 = new() { Id = Guid.NewGuid(), Film = film3, Hall = hall3, StartTime = DateTime.UtcNow.AddDays(1) };
-            Session session4 = new() { Id = Guid.NewGuid(), Film = film1, Hall = hall1, StartTime = DateTime.UtcNow.AddDays(2) };
-            Session session5 = new() { Id = Guid.NewGuid(), Film = film2, Hall = hall1, StartTime = DateTime.UtcNow.AddDays(3) };
-            Session session6 = new() { Id = Guid.NewGuid(), Film = film3, Hall = hall3, StartTime = DateTime.UtcNow.AddDays(4) };
+            Session session1 = new() { Id = session1Id, Film = film1, Hall = hall1, StartDateTime = DateTime.UtcNow };
+            Session session2 = new() { Id = Guid.NewGuid(), Film = film2, Hall = hall1, StartDateTime = DateTime.UtcNow.AddMinutes(15) + film1.Duration };
+            Session session3 = new() { Id = Guid.NewGuid(), Film = film3, Hall = hall3, StartDateTime = DateTime.UtcNow.AddDays(1) };
+            Session session4 = new() { Id = Guid.NewGuid(), Film = film1, Hall = hall1, StartDateTime = DateTime.UtcNow.AddDays(2) };
+            Session session5 = new() { Id = Guid.NewGuid(), Film = film2, Hall = hall1, StartDateTime = DateTime.UtcNow.AddDays(3) };
+            Session session6 = new() { Id = Guid.NewGuid(), Film = film3, Hall = hall3, StartDateTime = DateTime.UtcNow.AddDays(4) };
             await context.Sessions.AddRangeAsync(session1, session2, session3, session4, session5, session6);
 
             Ticket ticket1 = new() { Id = ticket1Id, Seat = seat1, Session = session1, CreationTime = DateTime.UtcNow };

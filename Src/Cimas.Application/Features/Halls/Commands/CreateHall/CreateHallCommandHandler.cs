@@ -53,7 +53,6 @@ namespace Cimas.Application.Features.Halls.Commands.CreateHall
         private List<HallSeat> GenerateSeats(Hall hall, int numberOfRows, int numberOfColumns)
         {
             List<HallSeat> seats = new();
-            int numberOfSeat = 1;
 
             for (int i = 0; i < numberOfRows; i++)
             {
@@ -61,14 +60,11 @@ namespace Cimas.Application.Features.Halls.Commands.CreateHall
                 {
                     seats.Add(new HallSeat()
                     {
-                        Number = numberOfSeat,
                         Row = i,
                         Column = j,
                         Hall = hall,
                         Status = HallSeatStatus.Available
                     });
-
-                    numberOfSeat++;
                 }
             }
 

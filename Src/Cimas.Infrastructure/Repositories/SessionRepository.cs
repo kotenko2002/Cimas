@@ -25,8 +25,8 @@ namespace Cimas.Infrastructure.Repositories
                 .Where(session => 
                     session.Hall.CinemaId == cinemaId
                     && !session.Hall.IsDeleted
-                    && fromDateTime <= session.StartTime
-                    && toDateTime >= session.StartTime)
+                    && fromDateTime <= session.StartDateTime
+                    && toDateTime >= session.StartDateTime)
                 .ToListAsync();
         }
 
@@ -47,8 +47,8 @@ namespace Cimas.Infrastructure.Repositories
                 .Include(session => session.Film)
                 .Where(session => session.HallId == hallId)
                 .AnyAsync(existingSession =>
-                    !(newSessionEndDateTime <= existingSession.StartTime
-                        || newSessionStartDateTime >= existingSession.StartTime + existingSession.Film.Duration));
+                    !(newSessionEndDateTime <= existingSession.StartDateTime
+                        || newSessionStartDateTime >= existingSession.StartDateTime + existingSession.Film.Duration));
         }
     }
 }

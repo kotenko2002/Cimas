@@ -6,7 +6,7 @@ namespace Cimas.Domain.Entities.Sessions
 {
     public class Session : BaseEntity
     {
-        public DateTime StartTime { get; set; }
+        public DateTime StartDateTime { get; set; }
 
         public Guid HallId { get; set; }
         public virtual Hall Hall { get; set; }

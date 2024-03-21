@@ -72,8 +72,8 @@ namespace Cimas.Api.Common.Mapping
 
             config.NewConfig<Session, SessionResponse>()
                 .Map(dest => dest.Id, src => src.Id)
-                .Map(dest => dest.StartDateTime, src => src.StartTime)
-                .Map(dest => dest.EndDateTime, src => src.StartTime + src.Film.Duration)
+                .Map(dest => dest.StartDateTime, src => src.StartDateTime)
+                .Map(dest => dest.EndDateTime, src => src.StartDateTime + src.Film.Duration)
                 .Map(dest => dest.HallName, src => src.Hall.Name)
                 .Map(dest => dest.FilmName, src => src.Film.Name);
         }

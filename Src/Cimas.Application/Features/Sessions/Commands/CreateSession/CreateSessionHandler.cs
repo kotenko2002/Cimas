@@ -57,7 +57,7 @@ namespace Cimas.Application.Features.Sessions.Commands.CreateSession
 
             Session session = new Session()
             {
-                StartTime = command.StartTime,
+                StartDateTime = command.StartTime,
                 Hall = hall,
                 Film = film
             };

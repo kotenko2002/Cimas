@@ -107,7 +107,6 @@ namespace Cimas.Infrastructure.Common
 
             modelBuilder.Entity<HallSeat>(builder =>
             {
-                builder.Property(c => c.Number).IsRequired();
                 builder.Property(c => c.Row).IsRequired();
                 builder.Property(c => c.Column).IsRequired();
                 builder.Property(c => c.Status).IsRequired();
@@ -121,7 +120,7 @@ namespace Cimas.Infrastructure.Common
 
             modelBuilder.Entity<Session>(builder =>
             {
-                builder.Property(c => c.StartTime).IsRequired();
+                builder.Property(c => c.StartDateTime).IsRequired();
 
                 builder
                     .HasOne(s => s.Hall)

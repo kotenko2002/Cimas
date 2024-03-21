@@ -4,7 +4,6 @@ namespace Cimas.Domain.Entities.Halls
 {
     public class HallSeat : BaseEntity
     {
-        public int Number { get; set; }
         public int Row { get; set; }
         public int Column { get; set; }
         public HallSeatStatus Status { get; set; }

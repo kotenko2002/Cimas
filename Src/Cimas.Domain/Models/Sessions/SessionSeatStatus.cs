@@ -5,6 +5,7 @@
         NotExists = 0,
         Available = 1,
         Unavailable = 2,
-        Booked
+        Booked = 3,
+        Sold = 4
     }
 }

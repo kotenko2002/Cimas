@@ -74,6 +74,7 @@ namespace Cimas.Infrastructure.Auth
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
             );
         }
+
         private string GenerateRefreshToken()
         {
             var randomNumber = new byte[64];

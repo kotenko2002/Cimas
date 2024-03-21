@@ -45,7 +45,6 @@ namespace Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId
                     {
                         TicketId = ticket.Id,
                         SeatId = seat.Id,
-                        Number = seat.Number,
                         Row = seat.Row,
                         Column = seat.Column,
                         Status = SessionSeatStatus.Booked
@@ -57,7 +56,6 @@ namespace Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId
                 .Select(hallSeat => new SessionSeat()
                 {
                     SeatId = hallSeat.Id,
-                    Number = hallSeat.Number,
                     Row = hallSeat.Row,
                     Column = hallSeat.Column,
                     Status = (SessionSeatStatus)hallSeat.Status
