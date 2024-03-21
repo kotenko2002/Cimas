@@ -1,6 +1,6 @@
 ﻿namespace Cimas.Api.Contracts.Cinemas
 {
-    public record GetCinemaResponse(
+    public record CinemaResponse(
         Guid Id,
         string Name,
         string Adress

@@ -57,7 +57,7 @@ namespace Cimas.Api.Controllers
             ErrorOr<List<Film>> getFilmsResult = await _mediator.Send(query);
 
             return getFilmsResult.Match(
-                halls => Ok(halls.Adapt<List<GetFilmResponse>>()),
+                halls => Ok(halls.Adapt<List<FilmResponse>>()),
                 Problem
             );
         }

@@ -81,7 +81,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Act
                 var response = await client.GetAsync($"{_baseUrl}/{cinema1Id}");
 
-                var films = await GetResponseContent<List<GetFilmResponse>>(response);
+                var films = await GetResponseContent<List<FilmResponse>>(response);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
