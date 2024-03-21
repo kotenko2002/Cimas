@@ -1,7 +1,7 @@
 ﻿using Cimas.Api.Common.Extensions;
 using Cimas.Api.Contracts.Tickets;
-using Cimas.Application.Features.Tickets.Commands.CreateTicket;
-using Cimas.Application.Features.Tickets.Commands.DeleteTicket;
+using Cimas.Application.Features.Tickets.Commands.CreateTickets;
+using Cimas.Application.Features.Tickets.Commands.DeleteTickets;
 using Cimas.Domain.Entities.Users;
 using ErrorOr;
 using Mapster;
@@ -33,7 +33,7 @@ namespace Cimas.Api.Controllers
                 return Problem(userIdResult.Errors);
             }
 
-            var command = (userIdResult.Value, sessionId, request).Adapt<CreateTicketCommand>();
+            var command = (userIdResult.Value, sessionId, request).Adapt<CreateTicketsCommand>();
             ErrorOr<Success> createTicketResult = await _mediator.Send(command);
 
             return createTicketResult.Match(
@@ -51,7 +51,7 @@ namespace Cimas.Api.Controllers
                 return Problem(userIdResult.Errors);
             }
 
-            var command = new DeleteTicketCommand(userIdResult.Value, request.TikectIds);
+            var command = new DeleteTicketsCommand(userIdResult.Value, request.TikectIds);
             ErrorOr<Success> createTicketResult = await _mediator.Send(command);
 
             return createTicketResult.Match(

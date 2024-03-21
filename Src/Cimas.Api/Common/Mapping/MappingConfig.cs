@@ -8,7 +8,7 @@ using Mapster;
 using Cimas.Application.Features.Films.Commands.CreateFilm;
 using Cimas.Api.Contracts.Films;
 using Cimas.Api.Contracts.Sessions;
-using Cimas.Application.Features.Tickets.Commands.CreateTicket;
+using Cimas.Application.Features.Tickets.Commands.CreateTickets;
 using Cimas.Api.Contracts.Tickets;
 using Cimas.Application.Features.Sessions.Commands.CreateSession;
 using Cimas.Application.Features.Sessions.Queries.GetSessionsByRange;
@@ -80,7 +80,7 @@ namespace Cimas.Api.Common.Mapping
 
         private void AddTicketControllerConfigs(TypeAdapterConfig config)
         {
-            config.NewConfig<(Guid UserId, Guid SessionId, CreateTicketsRequest requset), CreateTicketCommand>()
+            config.NewConfig<(Guid UserId, Guid SessionId, CreateTicketsRequest requset), CreateTicketsCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest.SessionId, src => src.SessionId)
                 .Map(dest => dest, src => src.requset);

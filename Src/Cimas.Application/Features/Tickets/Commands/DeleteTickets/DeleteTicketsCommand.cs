@@ -1,9 +1,9 @@
 ﻿using ErrorOr;
 using MediatR;
 
-namespace Cimas.Application.Features.Tickets.Commands.DeleteTicket
+namespace Cimas.Application.Features.Tickets.Commands.DeleteTickets
 {
-    public record DeleteTicketCommand(
+    public record DeleteTicketsCommand(
         Guid UserId,
         List<Guid> TicketIds
     ) : IRequest<ErrorOr<Success>>;

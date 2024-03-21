@@ -6,14 +6,14 @@ using Cimas.Domain.Entities.Users;
 using ErrorOr;
 using MediatR;
 
-namespace Cimas.Application.Features.Tickets.Commands.DeleteTicket
+namespace Cimas.Application.Features.Tickets.Commands.DeleteTickets
 {
-    public class DeleteTicketHandler : IRequestHandler<DeleteTicketCommand, ErrorOr<Success>>
+    public class DeleteTicketsHandler : IRequestHandler<DeleteTicketsCommand, ErrorOr<Success>>
     {
         private readonly IUnitOfWork _uow;
         private readonly ICustomUserManager _userManager;
 
-        public DeleteTicketHandler(
+        public DeleteTicketsHandler(
             IUnitOfWork uow,
             ICustomUserManager userManager)
         {
@@ -21,7 +21,7 @@ namespace Cimas.Application.Features.Tickets.Commands.DeleteTicket
             _userManager = userManager;
         }
 
-        public async Task<ErrorOr<Success>> Handle(DeleteTicketCommand command, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Success>> Handle(DeleteTicketsCommand command, CancellationToken cancellationToken)
         {
             List<Ticket> tickets = await _uow.TicketRepository.GetTicketsByIdsAsync(command.TicketIds);
             if (tickets.Count != command.TicketIds.Count)

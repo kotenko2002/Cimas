@@ -2,7 +2,7 @@
 using Cimas.Api.Contracts.Halls;
 using Cimas.Api.Contracts.Sessions;
 using Cimas.Api.Contracts.Tickets;
-using Cimas.Application.Features.Tickets.Commands.CreateTicket;
+using Cimas.Application.Features.Tickets.Commands.CreateTickets;
 using Cimas.Domain.Entities.Tickets;
 using Newtonsoft.Json;
 using NUnit.Framework;

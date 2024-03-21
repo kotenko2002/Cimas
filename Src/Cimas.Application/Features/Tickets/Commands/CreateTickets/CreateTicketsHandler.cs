@@ -7,14 +7,14 @@ using Cimas.Domain.Entities.Users;
 using ErrorOr;
 using MediatR;
 
-namespace Cimas.Application.Features.Tickets.Commands.CreateTicket
+namespace Cimas.Application.Features.Tickets.Commands.CreateTickets
 {
-    public class CreateTicketHandler : IRequestHandler<CreateTicketCommand, ErrorOr<Success>>
+    public class CreateTicketsHandler : IRequestHandler<CreateTicketsCommand, ErrorOr<Success>>
     {
         private readonly IUnitOfWork _uow;
         private readonly ICustomUserManager _userManager;
 
-        public CreateTicketHandler(
+        public CreateTicketsHandler(
             IUnitOfWork uow,
             ICustomUserManager userManager)
         {
@@ -22,7 +22,7 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTicket
             _userManager = userManager;
         }
 
-        public async Task<ErrorOr<Success>> Handle(CreateTicketCommand command, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Success>> Handle(CreateTicketsCommand command, CancellationToken cancellationToken)
         {
             
             Session session = await _uow.SessionRepository.GetByIdAsync(command.SessionId);

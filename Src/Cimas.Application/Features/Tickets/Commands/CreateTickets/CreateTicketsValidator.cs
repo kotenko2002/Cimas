@@ -3,11 +3,11 @@ using Cimas.Domain.Entities.Tickets;
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace Cimas.Application.Features.Tickets.Commands.CreateTicket
+namespace Cimas.Application.Features.Tickets.Commands.CreateTickets
 {
-    public class CreateTicketValidator : AbstractValidator<CreateTicketCommand>
+    public class CreateTicketsValidator : AbstractValidator<CreateTicketsCommand>
     {
-        public CreateTicketValidator()
+        public CreateTicketsValidator()
         {
             RuleFor(x => x.Tickets)
                 .NotEmpty()
@@ -25,7 +25,7 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTicket
         private bool HaveUniqueIds(List<CreateTicketModel> seats)
            => seats.DistinctBy(seat => seat.SeatId).Count() == seats.Count;
 
-        private bool AreValidSeats(List<CreateTicketModel> seats, ValidationContext<CreateTicketCommand> context)
+        private bool AreValidSeats(List<CreateTicketModel> seats, ValidationContext<CreateTicketsCommand> context)
         {
             var invalidSeats = seats.Where(seat => !IsValiSeat(seat)).ToList();
 

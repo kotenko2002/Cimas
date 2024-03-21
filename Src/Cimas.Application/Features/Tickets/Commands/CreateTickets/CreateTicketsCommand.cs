@@ -2,9 +2,9 @@
 using ErrorOr;
 using MediatR;
 
-namespace Cimas.Application.Features.Tickets.Commands.CreateTicket
+namespace Cimas.Application.Features.Tickets.Commands.CreateTickets
 {
-    public record CreateTicketCommand(
+    public record CreateTicketsCommand(
         Guid UserId,
         Guid SessionId,
         List<CreateTicketModel> Tickets

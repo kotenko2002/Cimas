@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace Cimas.Application.Features.Tickets.Commands.DeleteTicket
+namespace Cimas.Application.Features.Tickets.Commands.DeleteTickets
 {
-    public class DeleteTicketValidator : AbstractValidator<DeleteTicketCommand>
+    public class DeleteTicketsValidator : AbstractValidator<DeleteTicketsCommand>
     {
-        public DeleteTicketValidator()
+        public DeleteTicketsValidator()
         {
             RuleFor(x => x.TicketIds)
              .NotEmpty()
