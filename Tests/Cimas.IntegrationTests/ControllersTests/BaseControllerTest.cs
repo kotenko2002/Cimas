@@ -42,6 +42,8 @@ namespace Cimas.IntegrationTests.ControllersTests
         protected readonly Guid hall1Id = Guid.NewGuid();
         protected readonly Guid seat1Id = Guid.NewGuid();
         protected readonly Guid seat2Id = Guid.NewGuid();
+        protected readonly Guid seat3Id = Guid.NewGuid();
+        protected readonly Guid seat4Id = Guid.NewGuid();
         protected readonly Guid film1Id = Guid.NewGuid();
         protected readonly Guid film3Id = Guid.NewGuid();
         protected readonly Guid session1Id = Guid.NewGuid();
@@ -149,10 +151,10 @@ namespace Cimas.IntegrationTests.ControllersTests
             Hall hall3 = new() { Id = Guid.NewGuid(), Cinema = cinema2, Name = "Hall #3" };
             await context.Halls.AddRangeAsync(hall1, hall2, hall3);
 
-            HallSeat seat1 = new() { Id = seat1Id, Hall = hall1, Row = 0, Column = 0, Number = 1, Status = HallSeatStatus.NotExists };
-            HallSeat seat2 = new() { Id = seat2Id, Hall = hall1, Row = 0, Column = 1, Number = 2, Status = HallSeatStatus.NotExists };
-            HallSeat seat3 = new() { Id = Guid.NewGuid(), Hall = hall1, Row = 1, Column = 0, Number = 3, Status = HallSeatStatus.NotExists };
-            HallSeat seat4 = new() { Id = Guid.NewGuid(), Hall = hall1, Row = 1, Column = 1, Number = 4, Status = HallSeatStatus.NotExists };
+            HallSeat seat1 = new() { Id = seat1Id, Hall = hall1, Row = 0, Column = 0, Number = 1, Status = HallSeatStatus.Available };
+            HallSeat seat2 = new() { Id = seat2Id, Hall = hall1, Row = 0, Column = 1, Number = 2, Status = HallSeatStatus.Available };
+            HallSeat seat3 = new() { Id = seat3Id, Hall = hall1, Row = 1, Column = 0, Number = 3, Status = HallSeatStatus.Available };
+            HallSeat seat4 = new() { Id = seat4Id, Hall = hall1, Row = 1, Column = 1, Number = 4, Status = HallSeatStatus.Available };
             await context.Seats.AddRangeAsync(seat1, seat2, seat3, seat4);
 
             Film film1 = new() { Id = film1Id, Cinema = cinema1, Name = "Film #1", Duration = new TimeSpan(1, 0, 0) };

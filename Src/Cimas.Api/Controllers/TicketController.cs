@@ -24,8 +24,8 @@ namespace Cimas.Api.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateTicket(CreateTicketsRequest request)
+        [HttpPost("{sessionId}")]
+        public async Task<IActionResult> CreateTicket(Guid sessionId, CreateTicketsRequest request)
         {
             ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
             if (userIdResult.IsError)
@@ -33,7 +33,7 @@ namespace Cimas.Api.Controllers
                 return Problem(userIdResult.Errors);
             }
 
-            var command = (userIdResult.Value, request).Adapt<CreateTicketCommand>();
+            var command = (userIdResult.Value, sessionId, request).Adapt<CreateTicketCommand>();
             ErrorOr<Success> createTicketResult = await _mediator.Send(command);
 
             return createTicketResult.Match(

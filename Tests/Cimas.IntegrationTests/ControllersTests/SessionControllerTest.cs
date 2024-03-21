@@ -208,7 +208,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
                 Assert.That(sessions.Count, Is.EqualTo(4));
                 foreach (var session in sessions)
-                    Assert.That(session.Id.ToString(), Is.Not.EqualTo("00000000-0000-0000-0000-000000000000"));
+                    Assert.That(session.TicketId.ToString(), Is.Not.EqualTo("00000000-0000-0000-0000-000000000000"));
             });
         }
 

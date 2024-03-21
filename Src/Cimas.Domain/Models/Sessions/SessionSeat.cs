@@ -2,7 +2,8 @@
 {
     public class SessionSeat
     {
-        public Guid Id { get; set; }
+        public Guid? TicketId { get; set; }
+        public Guid SeatId { get; set; }
 
         public int Number { get; set; }
         public int Row { get; set; }

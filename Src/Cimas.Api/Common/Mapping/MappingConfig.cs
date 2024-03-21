@@ -80,9 +80,10 @@ namespace Cimas.Api.Common.Mapping
 
         private void AddTicketControllerConfigs(TypeAdapterConfig config)
         {
-            config.NewConfig<(Guid UserId, CreateTicketsRequest requset), CreateTicketCommand>()
+            config.NewConfig<(Guid UserId, Guid SessionId, CreateTicketsRequest requset), CreateTicketCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
-                .Map(dest => dest, src => src.requset);
+                .Map(dest => dest.SessionId, src => src.SessionId)
+                .Map(dest => dest.SeatIds, src => src.requset.SeatIds);
         }
     }
 }

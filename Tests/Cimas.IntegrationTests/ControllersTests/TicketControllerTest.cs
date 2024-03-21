@@ -1,4 +1,5 @@
-﻿using Cimas.Api.Contracts.Halls;
+﻿using Cimas.Api.Contracts.Films;
+using Cimas.Api.Contracts.Halls;
 using Cimas.Api.Contracts.Sessions;
 using Cimas.Api.Contracts.Tickets;
 using Cimas.Application.Features.Tickets.Commands.CreateTicket;
@@ -24,14 +25,14 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: worker1UserName);
 
-                //var requestModel = new CreateTicketsRequest();
-                //var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
+                var requestModel = new CreateTicketsRequest(new List<Guid> { seat3Id, seat4Id});
+                var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
-                //// Act
-                //var response = await client.PostAsync($"{_baseUrl}", content);
+                // Act
+                var response = await client.PostAsync($"{_baseUrl}/{session1Id}", content);
 
-                //// Assert
-                //Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
+                // Assert
+                Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
             });
         }
         #endregion

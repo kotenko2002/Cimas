@@ -43,7 +43,8 @@ namespace Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId
 
                     return new SessionSeat()
                     {
-                        Id = ticket.Id,
+                        TicketId = ticket.Id,
+                        SeatId = seat.Id,
                         Number = seat.Number,
                         Row = seat.Row,
                         Column = seat.Column,
@@ -55,7 +56,7 @@ namespace Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId
             List<SessionSeat> hallSeats = hall.Seats
                 .Select(hallSeat => new SessionSeat()
                 {
-                    Id = hallSeat.Id,
+                    SeatId = hallSeat.Id,
                     Number = hallSeat.Number,
                     Row = hallSeat.Row,
                     Column = hallSeat.Column,
@@ -65,8 +66,8 @@ namespace Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId
 
             List<SessionSeat> sessionSeats = hallSeats
                 .ExceptBy(
-                    tickets.Select(ticket => ticket.Id),
-                    e => e.Id)
+                    tickets.Select(ticket => ticket.SeatId),
+                    sessionSeat => sessionSeat.SeatId)
                 .Union(tickets)
                 .ToList();
 

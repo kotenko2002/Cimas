@@ -191,7 +191,7 @@ namespace Cimas.IntegrationTests.ControllersTests
 
                 var requestModel = new UpdateHallSeatsRequst(new List<HallSeatModel>()
                 {
-                    new HallSeatModel(seat1Id, HallSeatStatus.Available),
+                    new HallSeatModel(seat1Id, HallSeatStatus.NotExists),
                     new HallSeatModel(seat2Id, HallSeatStatus.Unavailable),
                 });
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
@@ -214,7 +214,7 @@ namespace Cimas.IntegrationTests.ControllersTests
 
                 var requestModel = new UpdateHallSeatsRequst(new List<HallSeatModel>()
                 {
-                    new HallSeatModel(seat1Id, HallSeatStatus.Available),
+                    new HallSeatModel(seat1Id, HallSeatStatus.NotExists),
                     new HallSeatModel(seat2Id, HallSeatStatus.Unavailable),
                 });
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
@@ -237,7 +237,7 @@ namespace Cimas.IntegrationTests.ControllersTests
 
                 var requestModel = new UpdateHallSeatsRequst(new List<HallSeatModel>()
                 {
-                    new HallSeatModel(Guid.NewGuid(), HallSeatStatus.Available),
+                    new HallSeatModel(Guid.NewGuid(), HallSeatStatus.NotExists),
                     new HallSeatModel(seat2Id, HallSeatStatus.Unavailable),
                 });
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");

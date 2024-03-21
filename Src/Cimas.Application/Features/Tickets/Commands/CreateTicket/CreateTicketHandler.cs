@@ -25,23 +25,21 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTicket
         public async Task<ErrorOr<Success>> Handle(CreateTicketCommand command, CancellationToken cancellationToken)
         {
             
-            Guid? sessionId = command.Tickets.GetSingleDistinctIdOrNull(ticket => ticket.SessionId);
-            if (!sessionId.HasValue)
-            {
-                return Error.Failure(description: "Session Ids are not all the same");
-            }
-
-            Session session = await _uow.SessionRepository.GetByIdAsync(sessionId.Value);
+            Session session = await _uow.SessionRepository.GetByIdAsync(command.SessionId);
             if (session is null)
             {
                 return Error.NotFound(description: "Session with such id does not exist");
             }
 
-            List<Guid> seatsIds = command.Tickets.Select(ticket => ticket.SeatId).ToList();
-            List<HallSeat> seats = await _uow.SeatRepository.GetSeatsByIdsAsync(seatsIds);
-            if (seatsIds.Count != seats.Count)
+            List<HallSeat> seats = await _uow.SeatRepository.GetSeatsByIdsAsync(command.SeatIds);
+            if (command.SeatIds.Count != seats.Count)
             {
                 return Error.NotFound(description: "One or more seats with such ids does not exist");
+            }
+
+            if(seats.Any(seat => seat.Status != HallSeatStatus.Available))
+            {
+                return Error.Failure(description: "One or more seats with such ids are not avalible");
             }
 
             Guid? hallId = seats.GetSingleDistinctIdOrNull(seat => seat.HallId);
@@ -59,18 +57,18 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTicket
 
             bool isTicketsAlreadyExists = await _uow.TicketRepository.IsTicketsAlreadyExists(
                 session.Id,
-                command.Tickets.Select(ticket => ticket.SeatId).ToList());
+                command.SeatIds);
             if (isTicketsAlreadyExists)
             {
                 return Error.Failure(description: "Ticket for one of the seats is already sold out");
             }
 
-            List<Ticket> tickets = command.Tickets
-                .Select(ticket => new Ticket()
+            List<Ticket> tickets = command.SeatIds
+                .Select(seatId => new Ticket()
                 {
                     CreationTime = DateTime.UtcNow,
                     Session = session,
-                    Seat = seats.First(seat => seat.Id == ticket.SeatId)
+                    Seat = seats.First(seat => seat.Id == seatId)
                 }).ToList();
 
             await _uow.TicketRepository.AddRangeAsync(tickets);
