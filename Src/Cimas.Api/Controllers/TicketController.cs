@@ -2,6 +2,8 @@
 using Cimas.Api.Contracts.Tickets;
 using Cimas.Application.Features.Tickets.Commands.CreateTickets;
 using Cimas.Application.Features.Tickets.Commands.DeleteTickets;
+using Cimas.Application.Features.Tickets.Commands.UpdateTickets;
+using Cimas.Domain.Entities.Sessions;
 using Cimas.Domain.Entities.Users;
 using ErrorOr;
 using Mapster;
@@ -34,6 +36,24 @@ namespace Cimas.Api.Controllers
             }
 
             var command = (userIdResult.Value, sessionId, request).Adapt<CreateTicketsCommand>();
+            ErrorOr<Success> createTicketResult = await _mediator.Send(command);
+
+            return createTicketResult.Match(
+                NoContent,
+                Problem
+            );
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> UpdateTickets(UpdateTicketsRequest request)
+        {
+            ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
+            if (userIdResult.IsError)
+            {
+                return Problem(userIdResult.Errors);
+            }
+
+            var command = (userIdResult.Value, request).Adapt<UpdateTicketsCommand>();
             ErrorOr<Success> createTicketResult = await _mediator.Send(command);
 
             return createTicketResult.Match(

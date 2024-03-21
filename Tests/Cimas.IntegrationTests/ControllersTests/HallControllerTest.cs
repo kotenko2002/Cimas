@@ -189,11 +189,10 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: owner1UserName);
 
-                var requestModel = new UpdateHallSeatsRequst(new List<HallSeatModel>()
-                {
-                    new HallSeatModel(seat1Id, HallSeatStatus.NotExists),
-                    new HallSeatModel(seat2Id, HallSeatStatus.Unavailable),
-                });
+                var requestModel = new UpdateHallSeatsRequst([
+                    new (seat1Id, HallSeatStatus.NotExists),
+                    new (seat2Id, HallSeatStatus.Unavailable)
+                ]);
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
@@ -212,11 +211,10 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: owner1UserName);
 
-                var requestModel = new UpdateHallSeatsRequst(new List<HallSeatModel>()
-                {
-                    new HallSeatModel(seat1Id, HallSeatStatus.NotExists),
-                    new HallSeatModel(seat2Id, HallSeatStatus.Unavailable),
-                });
+                var requestModel = new UpdateHallSeatsRequst([
+                    new (seat1Id, HallSeatStatus.NotExists),
+                    new (seat2Id, HallSeatStatus.Unavailable)
+                ]);
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
@@ -235,11 +233,10 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: owner1UserName);
 
-                var requestModel = new UpdateHallSeatsRequst(new List<HallSeatModel>()
-                {
-                    new HallSeatModel(Guid.NewGuid(), HallSeatStatus.NotExists),
-                    new HallSeatModel(seat2Id, HallSeatStatus.Unavailable),
-                });
+                var requestModel = new UpdateHallSeatsRequst([
+                    new (seat1Id, HallSeatStatus.NotExists),
+                    new (seat2Id, HallSeatStatus.Unavailable)
+                ]);
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
@@ -258,11 +255,10 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: owner2UserName);
 
-                var requestModel = new UpdateHallSeatsRequst(new List<HallSeatModel>()
-                {
-                    new HallSeatModel(seat1Id, HallSeatStatus.Available),
-                    new HallSeatModel(seat2Id, HallSeatStatus.Unavailable),
-                });
+                var requestModel = new UpdateHallSeatsRequst([
+                    new (seat1Id, HallSeatStatus.NotExists),
+                    new (seat2Id, HallSeatStatus.Unavailable)
+                ]);
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act

@@ -13,6 +13,7 @@ using Cimas.Api.Contracts.Tickets;
 using Cimas.Application.Features.Sessions.Commands.CreateSession;
 using Cimas.Application.Features.Sessions.Queries.GetSessionsByRange;
 using Cimas.Domain.Entities.Sessions;
+using Cimas.Application.Features.Tickets.Commands.UpdateTickets;
 
 namespace Cimas.Api.Common.Mapping
 {
@@ -83,6 +84,10 @@ namespace Cimas.Api.Common.Mapping
             config.NewConfig<(Guid UserId, Guid SessionId, CreateTicketsRequest requset), CreateTicketsCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest.SessionId, src => src.SessionId)
+                .Map(dest => dest, src => src.requset);
+
+            config.NewConfig<(Guid UserId, UpdateTicketsRequest requset), UpdateTicketsCommand>()
+                .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest, src => src.requset);
         }
     }

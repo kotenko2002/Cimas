@@ -170,8 +170,8 @@ namespace Cimas.IntegrationTests.ControllersTests
             Session session6 = new() { Id = Guid.NewGuid(), Film = film3, Hall = hall3, StartDateTime = DateTime.UtcNow.AddDays(4) };
             await context.Sessions.AddRangeAsync(session1, session2, session3, session4, session5, session6);
 
-            Ticket ticket1 = new() { Id = ticket1Id, Seat = seat1, Session = session1, CreationTime = DateTime.UtcNow };
-            Ticket ticket2 = new() { Id = ticket2Id, Seat = seat2, Session = session1, CreationTime = DateTime.UtcNow };
+            Ticket ticket1 = new() { Id = ticket1Id, Seat = seat1, Session = session1, Status = TicketStatus.Booked, CreationTime = DateTime.UtcNow };
+            Ticket ticket2 = new() { Id = ticket2Id, Seat = seat2, Session = session1, Status = TicketStatus.Sold, CreationTime = DateTime.UtcNow };
             Ticket ticket3 = new() { Id = Guid.NewGuid(), Seat = seat3, Session = session3, CreationTime = DateTime.UtcNow };
             await context.Tickets.AddRangeAsync(ticket1, ticket2, ticket3);
 

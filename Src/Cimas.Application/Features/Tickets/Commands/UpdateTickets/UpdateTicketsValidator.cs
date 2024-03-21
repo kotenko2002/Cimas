@@ -2,11 +2,11 @@
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace Cimas.Application.Features.Tickets.Commands.CreateTickets
+namespace Cimas.Application.Features.Tickets.Commands.UpdateTickets
 {
-    public class CreateTicketsValidator : AbstractValidator<CreateTicketsCommand>
+    public class UpdateTicketsValidator : AbstractValidator<UpdateTicketsCommand>
     {
-        public CreateTicketsValidator()
+        public UpdateTicketsValidator()
         {
             RuleFor(x => x.Tickets)
                 .NotEmpty()
@@ -21,23 +21,23 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTickets
                 });
         }
 
-        private bool HaveUniqueIds(List<CreateTicketModel> seats)
-           => seats.DistinctBy(seat => seat.SeatId).Count() == seats.Count;
+        private bool HaveUniqueIds(List<UpdateTicketModel> seats)
+            => seats.DistinctBy(seat => seat.TicketId).Count() == seats.Count;
 
-        private bool AreValidSeats(List<CreateTicketModel> seats, ValidationContext<CreateTicketsCommand> context)
+        private bool AreValidSeats(List<UpdateTicketModel> seats, ValidationContext<UpdateTicketsCommand> context)
         {
             var invalidSeats = seats.Where(seat => !IsValiSeat(seat)).ToList();
 
             foreach (var invalidSeat in invalidSeats)
             {
                 context.AddFailure(new ValidationFailure(
-                    "Seats",
-                    $"Seat with Id: {invalidSeat.SeatId} is not valid. Please ensure the seat has a valid Id, and has a valid status"));
+                    "Tickets",
+                    $"Ticket with Id: {invalidSeat.TicketId} is not valid. Please ensure the seat has a valid Id, and has a valid status"));
             }
 
             return !invalidSeats.Any();
         }
-        private bool IsValiSeat(CreateTicketModel ticket)
-            => ticket.SeatId != Guid.Empty && Enum.IsDefined(typeof(TicketStatus), ticket.Status);
+        private bool IsValiSeat(UpdateTicketModel ticket)
+            => ticket.TicketId != Guid.Empty && Enum.IsDefined(typeof(TicketStatus), ticket.Status);
     }
 }
