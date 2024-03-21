@@ -6,6 +6,6 @@ namespace Cimas.Application.Interfaces
     {
         Task<List<Ticket>> GetTicketsBySessionIdAsync(Guid sessionId);
         Task<List<Ticket>> GetTicketsByIdsAsync(List<Guid> ids);
-        Task<bool> IsTicketsAlreadyExists(Guid sessionId, List<Guid> seatIds);
+        Task<bool> TicketsAlreadyExists(Guid sessionId, List<Guid> seatIds);
     }
 }

@@ -23,7 +23,7 @@ namespace Cimas.Infrastructure.Repositories
                .ToListAsync();
         }
 
-        public async Task<bool> IsTicketsAlreadyExists(Guid sessionId, List<Guid> seatIds)
+        public async Task<bool> TicketsAlreadyExists(Guid sessionId, List<Guid> seatIds)
         {
             return await Sourse
                 .Where(ticket => ticket.SessionId == sessionId)

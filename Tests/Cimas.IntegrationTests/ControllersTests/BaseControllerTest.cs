@@ -44,11 +44,14 @@ namespace Cimas.IntegrationTests.ControllersTests
         protected readonly Guid seat2Id = Guid.NewGuid();
         protected readonly Guid seat3Id = Guid.NewGuid();
         protected readonly Guid seat4Id = Guid.NewGuid();
+        protected readonly Guid seat5Id = Guid.NewGuid();
         protected readonly Guid film1Id = Guid.NewGuid();
         protected readonly Guid film3Id = Guid.NewGuid();
         protected readonly Guid session1Id = Guid.NewGuid();
+        protected readonly Guid session2Id = Guid.NewGuid();
         protected readonly Guid ticket1Id = Guid.NewGuid();
         protected readonly Guid ticket2Id = Guid.NewGuid();
+        protected readonly Guid ticket3Id = Guid.NewGuid();
         #endregion
 
         public async Task PerformTest(Func<HttpClient, Task> testFunc, Action<IServiceCollection> configureServices = null)
@@ -155,7 +158,8 @@ namespace Cimas.IntegrationTests.ControllersTests
             HallSeat seat2 = new() { Id = seat2Id, Hall = hall1, Row = 0, Column = 1, Status = HallSeatStatus.Available };
             HallSeat seat3 = new() { Id = seat3Id, Hall = hall1, Row = 1, Column = 0, Status = HallSeatStatus.Available };
             HallSeat seat4 = new() { Id = seat4Id, Hall = hall1, Row = 1, Column = 1, Status = HallSeatStatus.Available };
-            await context.Seats.AddRangeAsync(seat1, seat2, seat3, seat4);
+            HallSeat seat5 = new() { Id = seat5Id, Hall = hall2, Row = 0, Column = 0, Status = HallSeatStatus.Available };
+            await context.Seats.AddRangeAsync(seat1, seat2, seat3, seat4, seat5);
 
             Film film1 = new() { Id = film1Id, Cinema = cinema1, Name = "Film #1", Duration = new TimeSpan(1, 0, 0) };
             Film film2 = new() { Id = Guid.NewGuid(), Cinema = cinema1, Name = "Film #2", Duration = new TimeSpan(1, 0, 0), IsDeleted = true };
@@ -163,7 +167,7 @@ namespace Cimas.IntegrationTests.ControllersTests
             await context.Films.AddRangeAsync(film1, film2, film3);
 
             Session session1 = new() { Id = session1Id, Film = film1, Hall = hall1, StartDateTime = DateTime.UtcNow };
-            Session session2 = new() { Id = Guid.NewGuid(), Film = film2, Hall = hall1, StartDateTime = DateTime.UtcNow.AddMinutes(15) + film1.Duration };
+            Session session2 = new() { Id = session2Id, Film = film2, Hall = hall1, StartDateTime = DateTime.UtcNow.AddMinutes(15) + film1.Duration };
             Session session3 = new() { Id = Guid.NewGuid(), Film = film3, Hall = hall3, StartDateTime = DateTime.UtcNow.AddDays(1) };
             Session session4 = new() { Id = Guid.NewGuid(), Film = film1, Hall = hall1, StartDateTime = DateTime.UtcNow.AddDays(2) };
             Session session5 = new() { Id = Guid.NewGuid(), Film = film2, Hall = hall1, StartDateTime = DateTime.UtcNow.AddDays(3) };
@@ -172,7 +176,7 @@ namespace Cimas.IntegrationTests.ControllersTests
 
             Ticket ticket1 = new() { Id = ticket1Id, Seat = seat1, Session = session1, Status = TicketStatus.Booked, CreationTime = DateTime.UtcNow };
             Ticket ticket2 = new() { Id = ticket2Id, Seat = seat2, Session = session1, Status = TicketStatus.Sold, CreationTime = DateTime.UtcNow };
-            Ticket ticket3 = new() { Id = Guid.NewGuid(), Seat = seat3, Session = session3, CreationTime = DateTime.UtcNow };
+            Ticket ticket3 = new() { Id = ticket3Id, Seat = seat3, Session = session3, CreationTime = DateTime.UtcNow };
             await context.Tickets.AddRangeAsync(ticket1, ticket2, ticket3);
 
             await context.SaveChangesAsync();

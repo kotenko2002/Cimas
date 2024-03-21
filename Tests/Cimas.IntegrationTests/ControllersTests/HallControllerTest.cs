@@ -234,8 +234,8 @@ namespace Cimas.IntegrationTests.ControllersTests
                 await GenerateTokenAndSetAsHeader(username: owner1UserName);
 
                 var requestModel = new UpdateHallSeatsRequst([
-                    new (seat1Id, HallSeatStatus.NotExists),
-                    new (seat2Id, HallSeatStatus.Unavailable)
+                    new (Guid.NewGuid(), HallSeatStatus.NotExists),
+                    new (Guid.NewGuid(), HallSeatStatus.Unavailable)
                 ]);
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
