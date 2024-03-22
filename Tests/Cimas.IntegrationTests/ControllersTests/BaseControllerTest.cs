@@ -11,7 +11,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Cimas.Infrastructure.Identity;
 using System.Data;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
@@ -127,7 +126,7 @@ namespace Cimas.IntegrationTests.ControllersTests
         {
             using var scope = _factory.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<CimasDbContext>();
-            var userManager = scope.ServiceProvider.GetRequiredService<CustomUserManager>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
             foreach (var role in Roles.GetRoles())
@@ -183,7 +182,7 @@ namespace Cimas.IntegrationTests.ControllersTests
         }
 
         private async Task<User> AddUser(
-            CustomUserManager userManager,
+            UserManager<User> userManager,
             Company company,
             string username,
             string role)

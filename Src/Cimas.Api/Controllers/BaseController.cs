@@ -1,5 +1,4 @@
 ﻿using ErrorOr;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 
@@ -10,58 +9,56 @@ namespace Cimas.Api.Controllers
     {
         protected readonly IMediator _mediator;
 
-        public BaseController(
-            IMediator mediator)
+        public BaseController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
+        protected IActionResult NoContent(Success success) => NoContent();
+
         protected IActionResult Problem(List<Error> errors)
         {
-            if (errors.Count is 0)
+            if (errors.Count == 0)
             {
                 return Problem();
             }
 
-            if (errors.All(error => error.Type == ErrorType.Validation))
-            {
-                return ValidationProblem(errors);
-            }
+            Error firstError = errors.First();
+            List<string> errorMessages = errors.Select(e => e.Description).ToList();
 
-            return Problem(errors[0]);
+            return GenerateProblemDetails(errorMessages, firstError.Type);
         }
 
-        protected IActionResult Problem(Error error)
+        private IActionResult GenerateProblemDetails(List<string> errors, ErrorType errorType)
         {
-            var statusCode = error.Type switch
+            (int statusCode, string title, string type) = errorType switch
             {
-                ErrorType.Failure => StatusCodes.Status400BadRequest,
-                ErrorType.Validation => StatusCodes.Status422UnprocessableEntity,
-                ErrorType.Conflict => StatusCodes.Status409Conflict,
-                ErrorType.NotFound => StatusCodes.Status404NotFound,
-                ErrorType.Unauthorized => StatusCodes.Status401Unauthorized,
-                ErrorType.Forbidden => StatusCodes.Status403Forbidden,
-                _ => StatusCodes.Status500InternalServerError,
+                ErrorType.Failure => (StatusCodes.Status400BadRequest, "Bad Request", "1"),
+                ErrorType.Validation => (StatusCodes.Status422UnprocessableEntity, "One or more validation errors occurred.", "1"),
+                ErrorType.Conflict => (StatusCodes.Status409Conflict, "Conflict", "2"),
+                ErrorType.NotFound => (StatusCodes.Status404NotFound, "Not Found", "3"),
+                ErrorType.Unauthorized => (StatusCodes.Status401Unauthorized, "Unauthorized", "4"),
+                ErrorType.Forbidden => (StatusCodes.Status403Forbidden, "Forbidden", "5"),
+                _ => (StatusCodes.Status500InternalServerError, "Internal Server Error", "6"),
             };
 
-            return Problem(statusCode: statusCode, detail: error.Description);
-        }
-
-        protected IActionResult ValidationProblem(List<Error> errors)
-        {
-            var modelStateDictionary = new ModelStateDictionary();
-
-            foreach (var error in errors)
+            var problemDetails = new ExtendedProblemDetails
             {
-                modelStateDictionary.AddModelError(
-                    error.Code,
-                    error.Description);
-            }
+                Type = $"https://tools.ietf.org/html/rfc9110#section-15.5.{type}",
+                Title = title,
+                Status = statusCode,
+                Errors = errors
+            };
 
-            return ValidationProblem(modelStateDictionary);
+            return new ObjectResult(problemDetails)
+            {
+                StatusCode = statusCode
+            };
         }
+    }
 
-        protected IActionResult NoContent(Success success)
-            => NoContent();
+    public class ExtendedProblemDetails : ProblemDetails
+    {
+        public List<string> Errors { get; set; }
     }
 }

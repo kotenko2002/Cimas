@@ -1,24 +1,22 @@
 ﻿using Cimas.Application.Interfaces;
 using Cimas.Domain.Entities.Halls;
 using Cimas.Domain.Entities.Sessions;
+using Cimas.Domain.Entities.Tickets;
 using Cimas.Domain.Entities.Users;
 using Cimas.Domain.Models.Sessions;
 using ErrorOr;
 using MediatR;
+using System.Net.Sockets;
 
 namespace Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId
 {
     public class GetSeatsBySessionIdHandler : IRequestHandler<GetSeatsBySessionIdQuery, ErrorOr<List<SessionSeat>>>
     {
         private readonly IUnitOfWork _uow;
-        private readonly ICustomUserManager _userManager;
 
-        public GetSeatsBySessionIdHandler(
-            IUnitOfWork uow,
-            ICustomUserManager userManager)
+        public GetSeatsBySessionIdHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _userManager = userManager;
         }
 
         public async Task<ErrorOr<List<SessionSeat>>> Handle(GetSeatsBySessionIdQuery query, CancellationToken cancellationToken)
@@ -30,44 +28,29 @@ namespace Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId
             }
 
             Hall hall = await _uow.HallRepository.GetHallIncludedCinemaAndSeatsByIdAsync(session.HallId);
-            User user = await _userManager.FindByIdAsync(query.UserId.ToString());
+            User user = await _uow.UserRepository.GetByIdAsync(query.UserId);
             if (user.CompanyId != hall.Cinema.CompanyId)
             {
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");
             }
 
-            List<SessionSeat> tickets = session.Tickets
-                .Select(ticket =>
-                {
-                    HallSeat seat = hall.Seats.FirstOrDefault(seat => seat.Id == ticket.SeatId);
+            Dictionary<Guid, Ticket> ticketsDict = session.Tickets.ToDictionary(ticket => ticket.SeatId, ticket => ticket);
 
-                    return new SessionSeat()
-                    {
-                        TicketId = ticket.Id,
-                        SeatId = seat.Id,
-                        Row = seat.Row,
-                        Column = seat.Column,
-                        Status = (SessionSeatStatus)ticket.Status
-                    };
-                })
-                .ToList();
+            List<SessionSeat> sessionSeats = hall.Seats.Select(hallSeat =>
+            {
+                ticketsDict.TryGetValue(hallSeat.Id, out var ticket);
 
-            List<SessionSeat> hallSeats = hall.Seats
-                .Select(hallSeat => new SessionSeat()
+                return new SessionSeat
                 {
+                    TicketId = ticket?.Id,
                     SeatId = hallSeat.Id,
                     Row = hallSeat.Row,
                     Column = hallSeat.Column,
-                    Status = (SessionSeatStatus)hallSeat.Status
-                })
-                .ToList();
-
-            List<SessionSeat> sessionSeats = hallSeats
-                .ExceptBy(
-                    tickets.Select(ticket => ticket.SeatId),
-                    sessionSeat => sessionSeat.SeatId)
-                .Union(tickets)
-                .ToList();
+                    Status = ticket != null
+                        ? (SessionSeatStatus)ticket.Status
+                        : (SessionSeatStatus)hallSeat.Status
+                };
+            }).ToList();
 
             return sessionSeats;
         }

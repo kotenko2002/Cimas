@@ -12,14 +12,10 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTickets
     public class CreateTicketsHandler : IRequestHandler<CreateTicketsCommand, ErrorOr<Success>>
     {
         private readonly IUnitOfWork _uow;
-        private readonly ICustomUserManager _userManager;
 
-        public CreateTicketsHandler(
-            IUnitOfWork uow,
-            ICustomUserManager userManager)
+        public CreateTicketsHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _userManager = userManager;
         }
 
         public async Task<ErrorOr<Success>> Handle(CreateTicketsCommand command, CancellationToken cancellationToken)
@@ -49,14 +45,14 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTickets
                 return Error.Failure(description: "The seat does not belong to the same hall as the session");
             }
 
-            User user = await _userManager.FindByIdAsync(command.UserId.ToString());
+            User user = await _uow.UserRepository.GetByIdAsync(command.UserId);
             Hall hall = await _uow.HallRepository.GetHallIncludedCinemaByIdAsync(hallId.Value);
             if (user.CompanyId != hall.Cinema.CompanyId)
             {
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");
             }
 
-            bool isTicketsAlreadyExists = await _uow.TicketRepository.TicketsAlreadyExists(
+            bool isTicketsAlreadyExists = await _uow.TicketRepository.TicketsAlreadyExistsAsync(
                 session.Id,
                 seatIds);
             if (isTicketsAlreadyExists)

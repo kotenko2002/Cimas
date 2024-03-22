@@ -9,14 +9,10 @@ namespace Cimas.Application.Features.Films.Commands.DeleteFilm
     public class DeleteFilmHandler : IRequestHandler<DeleteFilmCommand, ErrorOr<Success>>
     {
         private readonly IUnitOfWork _uow;
-        private readonly ICustomUserManager _userManager;
 
-        public DeleteFilmHandler(
-            IUnitOfWork uow,
-            ICustomUserManager userManager)
+        public DeleteFilmHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _userManager = userManager;
         }
 
         public async Task<ErrorOr<Success>> Handle(DeleteFilmCommand command, CancellationToken cancellationToken)
@@ -27,7 +23,7 @@ namespace Cimas.Application.Features.Films.Commands.DeleteFilm
                 return Error.NotFound(description: "Film with such id does not exist");
             }
 
-            User user = await _userManager.FindByIdAsync(command.UserId.ToString());
+            User user = await _uow.UserRepository.GetByIdAsync(command.UserId);
             if (user.CompanyId != film.Cinema.CompanyId)
             {
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");

@@ -11,14 +11,10 @@ namespace Cimas.Application.Features.Tickets.Commands.DeleteTickets
     public class DeleteTicketsHandler : IRequestHandler<DeleteTicketsCommand, ErrorOr<Success>>
     {
         private readonly IUnitOfWork _uow;
-        private readonly ICustomUserManager _userManager;
 
-        public DeleteTicketsHandler(
-            IUnitOfWork uow,
-            ICustomUserManager userManager)
+        public DeleteTicketsHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _userManager = userManager;
         }
 
         public async Task<ErrorOr<Success>> Handle(DeleteTicketsCommand command, CancellationToken cancellationToken)
@@ -36,7 +32,7 @@ namespace Cimas.Application.Features.Tickets.Commands.DeleteTickets
             }
 
             Session session = await _uow.SessionRepository.GetSessionsIncludedHallThenIncludedCinemaByIdAsync(sessionId.Value);
-            User user = await _userManager.FindByIdAsync(command.UserId.ToString());
+            User user = await _uow.UserRepository.GetByIdAsync(command.UserId);
             if (user.CompanyId != session.Hall.Cinema.CompanyId)
             {
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");

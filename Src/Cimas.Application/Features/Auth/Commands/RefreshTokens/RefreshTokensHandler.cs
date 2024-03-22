@@ -3,17 +3,18 @@ using Cimas.Domain.Entities.Users;
 using Cimas.Domain.Models.Auth;
 using ErrorOr;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
 namespace Cimas.Application.Features.Auth.Commands.RefreshTokens
 {
-    internal class RefreshTokensHandler : IRequestHandler<RefreshTokensCommand, ErrorOr<TokensPair>>
+    public class RefreshTokensHandler : IRequestHandler<RefreshTokensCommand, ErrorOr<TokensPair>>
     {
-        private readonly ICustomUserManager _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly IJwtTokensService _jwtTokensService;
 
         public RefreshTokensHandler(
-            ICustomUserManager userManager,
+            UserManager<User> userManager,
             IJwtTokensService jwtTokensService)
         {
             _userManager = userManager;
@@ -29,6 +30,7 @@ namespace Cimas.Application.Features.Auth.Commands.RefreshTokens
                 return getPrincipalResult.Errors;
             }
 
+            // TODO: make getting user By Id insted if by Name
             string username = getPrincipalResult.Value.Identity.Name;
             User user = await _userManager.FindByNameAsync(username);
             if (user == null || user.RefreshToken != command.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)

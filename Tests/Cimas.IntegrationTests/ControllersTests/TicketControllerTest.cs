@@ -239,7 +239,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: worker1UserName);
 
-                var requestModel = new DeleteTicketsRequest(new List<Guid>() { ticket1Id, ticket2Id });
+                var requestModel = new DeleteTicketsRequest([ticket1Id, ticket2Id]);
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
@@ -258,7 +258,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: worker1UserName);
 
-                var requestModel = new DeleteTicketsRequest(new List<Guid>() { Guid.NewGuid(), ticket2Id });
+                var requestModel = new DeleteTicketsRequest([Guid.NewGuid(), ticket2Id]);
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
@@ -277,7 +277,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: worker1UserName);
 
-                var requestModel = new DeleteTicketsRequest(new List<Guid>() { ticket1Id, ticket3Id });
+                var requestModel = new DeleteTicketsRequest([ticket1Id, ticket3Id]);
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
@@ -296,7 +296,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 // Arrange
                 await GenerateTokenAndSetAsHeader(username: worker2UserName);
 
-                var requestModel = new DeleteTicketsRequest(new List<Guid>() { ticket1Id, ticket2Id });
+                var requestModel = new DeleteTicketsRequest([ticket1Id, ticket2Id]);
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act

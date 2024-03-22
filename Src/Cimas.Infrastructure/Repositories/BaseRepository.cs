@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cimas.Infrastructure.Repositories
 {
-    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
+    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
         protected CimasDbContext _context;
         protected DbSet<TEntity> Sourse;

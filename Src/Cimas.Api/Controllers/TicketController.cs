@@ -3,7 +3,6 @@ using Cimas.Api.Contracts.Tickets;
 using Cimas.Application.Features.Tickets.Commands.CreateTickets;
 using Cimas.Application.Features.Tickets.Commands.DeleteTickets;
 using Cimas.Application.Features.Tickets.Commands.UpdateTickets;
-using Cimas.Domain.Entities.Sessions;
 using Cimas.Domain.Entities.Users;
 using ErrorOr;
 using Mapster;

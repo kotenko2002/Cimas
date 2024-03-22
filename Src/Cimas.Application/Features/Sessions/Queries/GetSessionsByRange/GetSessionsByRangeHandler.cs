@@ -10,14 +10,10 @@ namespace Cimas.Application.Features.Sessions.Queries.GetSessionsByRange
     public class GetSessionsByRangeHandler : IRequestHandler<GetSessionsByRangeQuery, ErrorOr<List<Session>>>
     {
         private readonly IUnitOfWork _uow;
-        private readonly ICustomUserManager _userManager;
 
-        public GetSessionsByRangeHandler(
-            IUnitOfWork uow,
-            ICustomUserManager userManager)
+        public GetSessionsByRangeHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _userManager = userManager;
         }
 
         public async Task<ErrorOr<List<Session>>> Handle(GetSessionsByRangeQuery query, CancellationToken cancellationToken)
@@ -28,7 +24,7 @@ namespace Cimas.Application.Features.Sessions.Queries.GetSessionsByRange
                 return Error.NotFound(description: "Cinema with such id does not exist");
             }
 
-            User user = await _userManager.FindByIdAsync(query.UserId.ToString());
+            User user = await _uow.UserRepository.GetByIdAsync(query.UserId);
             if (user.CompanyId != cinema.CompanyId)
             {
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");

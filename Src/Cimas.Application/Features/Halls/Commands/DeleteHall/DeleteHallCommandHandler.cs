@@ -9,14 +9,10 @@ namespace Cimas.Application.Features.Halls.Commands.DeleteHall
     public class DeleteHallCommandHandler : IRequestHandler<DeleteHallCommand, ErrorOr<Success>>
     {
         private readonly IUnitOfWork _uow;
-        private readonly ICustomUserManager _userManager;
 
-        public DeleteHallCommandHandler(
-            IUnitOfWork uow,
-            ICustomUserManager userManager)
+        public DeleteHallCommandHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _userManager = userManager;
         }
 
         public async Task<ErrorOr<Success>> Handle(DeleteHallCommand command, CancellationToken cancellationToken)
@@ -27,7 +23,7 @@ namespace Cimas.Application.Features.Halls.Commands.DeleteHall
                 return Error.NotFound(description: "Hall with such id does not exist");
             }
 
-            User user = await _userManager.FindByIdAsync(command.UserId.ToString());
+            User user = await _uow.UserRepository.GetByIdAsync(command.UserId);
             if (user.CompanyId != hall.Cinema.CompanyId)
             {
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");

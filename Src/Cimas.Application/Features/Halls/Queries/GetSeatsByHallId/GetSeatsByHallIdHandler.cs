@@ -9,14 +9,10 @@ namespace Cimas.Application.Features.Halls.Queries.GetSeatsByHallId
     public class GetSeatsByHallIdHandler : IRequestHandler<GetSeatsByHallIdQuery, ErrorOr<List<HallSeat>>>
     {
         private readonly IUnitOfWork _uow;
-        private readonly ICustomUserManager _userManager;
 
-        public GetSeatsByHallIdHandler(
-            IUnitOfWork uow,
-            ICustomUserManager userManager)
+        public GetSeatsByHallIdHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _userManager = userManager;
         }
 
         public async Task<ErrorOr<List<HallSeat>>> Handle(GetSeatsByHallIdQuery query, CancellationToken cancellationToken)
@@ -27,13 +23,13 @@ namespace Cimas.Application.Features.Halls.Queries.GetSeatsByHallId
                 return Error.NotFound(description: "Hall with such id does not exist");
             }
 
-            User user = await _userManager.FindByIdAsync(query.UserId.ToString());
+            User user = await _uow.UserRepository.GetByIdAsync(query.UserId);
             if (user.CompanyId != hall.Cinema.CompanyId)
             {
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");
             }
 
-            return await _uow.SeatRepository.GetSeatsByHallId(hall.Id);
+            return await _uow.SeatRepository.GetSeatsByHallIdAsync(hall.Id);
         }
     }
 }
