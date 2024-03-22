@@ -1,10 +1,12 @@
 ﻿using Cimas.Application.Interfaces;
 using Cimas.Domain.Entities.Halls;
 using Cimas.Domain.Entities.Sessions;
+using Cimas.Domain.Entities.Tickets;
 using Cimas.Domain.Entities.Users;
 using Cimas.Domain.Models.Sessions;
 using ErrorOr;
 using MediatR;
+using System.Net.Sockets;
 
 namespace Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId
 {
@@ -32,38 +34,23 @@ namespace Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");
             }
 
-            List<SessionSeat> tickets = session.Tickets
-                .Select(ticket =>
-                {
-                    HallSeat seat = hall.Seats.FirstOrDefault(seat => seat.Id == ticket.SeatId);
+            Dictionary<Guid, Ticket> ticketsDict = session.Tickets.ToDictionary(ticket => ticket.SeatId, ticket => ticket);
 
-                    return new SessionSeat()
-                    {
-                        TicketId = ticket.Id,
-                        SeatId = seat.Id,
-                        Row = seat.Row,
-                        Column = seat.Column,
-                        Status = (SessionSeatStatus)ticket.Status
-                    };
-                })
-                .ToList();
+            List<SessionSeat> sessionSeats = hall.Seats.Select(hallSeat =>
+            {
+                ticketsDict.TryGetValue(hallSeat.Id, out var ticket);
 
-            List<SessionSeat> hallSeats = hall.Seats
-                .Select(hallSeat => new SessionSeat()
+                return new SessionSeat
                 {
+                    TicketId = ticket?.Id,
                     SeatId = hallSeat.Id,
                     Row = hallSeat.Row,
                     Column = hallSeat.Column,
-                    Status = (SessionSeatStatus)hallSeat.Status
-                })
-                .ToList();
-
-            List<SessionSeat> sessionSeats = hallSeats
-                .ExceptBy(
-                    tickets.Select(ticket => ticket.SeatId),
-                    sessionSeat => sessionSeat.SeatId)
-                .Union(tickets)
-                .ToList();
+                    Status = ticket != null
+                        ? (SessionSeatStatus)ticket.Status
+                        : (SessionSeatStatus)hallSeat.Status
+                };
+            }).ToList();
 
             return sessionSeats;
         }
