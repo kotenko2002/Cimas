@@ -56,7 +56,7 @@ namespace Cimas.Application.Features.Tickets.Commands.CreateTickets
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");
             }
 
-            bool isTicketsAlreadyExists = await _uow.TicketRepository.TicketsAlreadyExists(
+            bool isTicketsAlreadyExists = await _uow.TicketRepository.TicketsAlreadyExistsAsync(
                 session.Id,
                 seatIds);
             if (isTicketsAlreadyExists)

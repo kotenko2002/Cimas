@@ -9,7 +9,7 @@ namespace Cimas.Infrastructure.Repositories
     {
         public SeatRepository(CimasDbContext context) : base(context) {}
 
-        public async Task<List<HallSeat>> GetSeatsByHallId(Guid hallId)
+        public async Task<List<HallSeat>> GetSeatsByHallIdAsync(Guid hallId)
         {
             return await Sourse
                .Where(seat => seat.HallId == hallId)

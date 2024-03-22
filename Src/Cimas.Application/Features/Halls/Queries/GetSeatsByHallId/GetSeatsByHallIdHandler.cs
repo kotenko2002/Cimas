@@ -33,7 +33,7 @@ namespace Cimas.Application.Features.Halls.Queries.GetSeatsByHallId
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");
             }
 
-            return await _uow.SeatRepository.GetSeatsByHallId(hall.Id);
+            return await _uow.SeatRepository.GetSeatsByHallIdAsync(hall.Id);
         }
     }
 }
