@@ -9,19 +9,15 @@ namespace Cimas.Application.Features.Cinemas.Commands.CreateCinema
     public class CreateCinemaCommandHandler : IRequestHandler<CreateCinemaCommand, ErrorOr<Cinema>>
     {
         private readonly IUnitOfWork _uow;
-        private readonly ICustomUserManager _userManager;
 
-        public CreateCinemaCommandHandler(
-            IUnitOfWork uow,
-            ICustomUserManager userManager)
+        public CreateCinemaCommandHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _userManager = userManager;
         }
 
         public async Task<ErrorOr<Cinema>> Handle(CreateCinemaCommand command, CancellationToken cancellationToken)
         {
-            User user = await _userManager.FindByIdAsync(command.UserId.ToString());
+            User user = await _uow.UserRepository.GetByIdAsync(command.UserId);
      
             var cinema = new Cinema()
             {

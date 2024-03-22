@@ -9,6 +9,7 @@
         IFilmRepository FilmRepository { get; }
         ISessionRepository SessionRepository { get; }
         ITicketRepository TicketRepository { get; }
+        IUserRepository UserRepository { get; }
 
         Task CompleteAsync();
     }

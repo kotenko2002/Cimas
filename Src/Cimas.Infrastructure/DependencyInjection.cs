@@ -1,9 +1,7 @@
-﻿using Cimas.Application;
-using Cimas.Application.Interfaces;
+﻿using Cimas.Application.Interfaces;
 using Cimas.Domain.Entities.Users;
 using Cimas.Infrastructure.Auth;
 using Cimas.Infrastructure.Common;
-using Cimas.Infrastructure.Identity;
 using Cimas.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -36,8 +34,7 @@ namespace Cimas.Infrastructure
         {
             services.AddIdentity<User, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<CimasDbContext>()
-                .AddUserManager<CustomUserManager>();
-            services.AddScoped<ICustomUserManager, CustomUserManager>();
+                .AddDefaultTokenProviders();
             services.AddDbContext<CimasDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 

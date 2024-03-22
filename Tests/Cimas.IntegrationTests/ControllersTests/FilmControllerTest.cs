@@ -10,7 +10,7 @@ namespace Cimas.IntegrationTests.ControllersTests
     {
         private const string _baseUrl = "films";
 
-        #region CreateHall
+        #region CreateFilm
         [Test]
         public Task FilmController_CreateFilm_ShouldReturnOk()
         {
@@ -69,7 +69,7 @@ namespace Cimas.IntegrationTests.ControllersTests
         }
         #endregion
 
-        #region GetHallsByCinemaId
+        #region GetFilmsByCinemaId
         [Test]
         public Task FilmController_GetFilmsByCinemaId_ShouldReturnOk()
         {
@@ -124,7 +124,7 @@ namespace Cimas.IntegrationTests.ControllersTests
         }
         #endregion
 
-        #region DeleteHall
+        #region DeleteFilm
         [Test]
         public Task FilmController_DeleteFilm_ShouldReturnOk()
         {

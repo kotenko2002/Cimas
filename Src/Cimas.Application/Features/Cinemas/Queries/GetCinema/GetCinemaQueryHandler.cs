@@ -9,14 +9,10 @@ namespace Cimas.Application.Features.Cinemas.Queries.GetCinema
     public class GetCinemaQueryHandler : IRequestHandler<GetCinemaQuery, ErrorOr<Cinema>>
     {
         private readonly IUnitOfWork _uow;
-        private readonly ICustomUserManager _userManager;
 
-        public GetCinemaQueryHandler(
-            IUnitOfWork uow,
-            ICustomUserManager userManager)
+        public GetCinemaQueryHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _userManager = userManager;
         }
 
         public async Task<ErrorOr<Cinema>> Handle(GetCinemaQuery query, CancellationToken cancellationToken)
@@ -27,7 +23,7 @@ namespace Cimas.Application.Features.Cinemas.Queries.GetCinema
                 return Error.NotFound(description: "Cinema with such id does not exist");
             }
 
-            User user = await _userManager.FindByIdAsync(query.UserId.ToString());
+            User user = await _uow.UserRepository.GetByIdAsync(query.UserId);
             if (user.CompanyId != cinema.CompanyId)
             {
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");

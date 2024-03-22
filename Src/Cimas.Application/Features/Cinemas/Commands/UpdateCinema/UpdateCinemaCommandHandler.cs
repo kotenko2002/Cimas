@@ -9,14 +9,10 @@ namespace Cimas.Application.Features.Cinemas.Commands.UpdateCinema
     public class UpdateCinemaCommandHandler : IRequestHandler<UpdateCinemaCommand, ErrorOr<Success>>
     {
         private readonly IUnitOfWork _uow;
-        private readonly ICustomUserManager _userManager;
 
-        public UpdateCinemaCommandHandler(
-            IUnitOfWork uow,
-            ICustomUserManager userManager)
+        public UpdateCinemaCommandHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _userManager = userManager;
         }
 
         public async Task<ErrorOr<Success>> Handle(UpdateCinemaCommand command, CancellationToken cancellationToken)
@@ -27,7 +23,7 @@ namespace Cimas.Application.Features.Cinemas.Commands.UpdateCinema
                 return Error.NotFound(description: "Cinema with such id does not exist");
             }
             
-            User user = await _userManager.FindByIdAsync(command.UserId.ToString());
+            User user = await _uow.UserRepository.GetByIdAsync(command.UserId);
             if (user.CompanyId != cinema.CompanyId)
             {
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");

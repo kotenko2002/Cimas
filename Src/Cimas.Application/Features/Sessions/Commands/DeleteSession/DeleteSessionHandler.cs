@@ -10,14 +10,10 @@ namespace Cimas.Application.Features.Sessions.Commands.DeleteSession
     public class DeleteSessionHandler : IRequestHandler<DeleteSessionCommand, ErrorOr<Success>>
     {
         private readonly IUnitOfWork _uow;
-        private readonly ICustomUserManager _userManager;
 
-        public DeleteSessionHandler(
-            IUnitOfWork uow,
-            ICustomUserManager userManager)
+        public DeleteSessionHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _userManager = userManager;
         }
 
         public async Task<ErrorOr<Success>> Handle(DeleteSessionCommand command, CancellationToken cancellationToken)
@@ -28,7 +24,7 @@ namespace Cimas.Application.Features.Sessions.Commands.DeleteSession
                 return Error.NotFound(description: "Session with such id does not exist");
             }
 
-            User user = await _userManager.FindByIdAsync(command.UserId.ToString());
+            User user = await _uow.UserRepository.GetByIdAsync(command.UserId);
             if (user.CompanyId != session.Hall.Cinema.CompanyId)
             {
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");

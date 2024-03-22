@@ -15,13 +15,13 @@ namespace Cimas.Api.Controllers
     {
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ICustomUserManager _userManager;
+        private readonly UserManager<User> _userManager;
 
         public RolesController(
             IMediator mediator,
             RoleManager<IdentityRole<Guid>> roleManager,
             IHttpContextAccessor httpContextAccessor,
-            ICustomUserManager userManager) : base(mediator)
+            UserManager<User> userManager) : base(mediator)
         {
             _roleManager = roleManager;
             _httpContextAccessor = httpContextAccessor;

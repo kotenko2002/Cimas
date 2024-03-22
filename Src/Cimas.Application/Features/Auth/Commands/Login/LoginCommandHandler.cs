@@ -11,11 +11,11 @@ namespace Cimas.Application.Features.Auth.Commands.Login
 {
     public class LoginCommandHandler : IRequestHandler<LoginCommand, ErrorOr<TokensPair>>
     {
-        private readonly ICustomUserManager _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly IJwtTokensService _jwtTokensService;
 
         public LoginCommandHandler(
-            ICustomUserManager userManager,
+            UserManager<User> userManager,
             IJwtTokensService jwtTokensService)
         {
             _userManager = userManager;

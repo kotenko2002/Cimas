@@ -11,14 +11,10 @@ namespace Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId
     public class GetSeatsBySessionIdHandler : IRequestHandler<GetSeatsBySessionIdQuery, ErrorOr<List<SessionSeat>>>
     {
         private readonly IUnitOfWork _uow;
-        private readonly ICustomUserManager _userManager;
 
-        public GetSeatsBySessionIdHandler(
-            IUnitOfWork uow,
-            ICustomUserManager userManager)
+        public GetSeatsBySessionIdHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _userManager = userManager;
         }
 
         public async Task<ErrorOr<List<SessionSeat>>> Handle(GetSeatsBySessionIdQuery query, CancellationToken cancellationToken)
@@ -30,7 +26,7 @@ namespace Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId
             }
 
             Hall hall = await _uow.HallRepository.GetHallIncludedCinemaAndSeatsByIdAsync(session.HallId);
-            User user = await _userManager.FindByIdAsync(query.UserId.ToString());
+            User user = await _uow.UserRepository.GetByIdAsync(query.UserId);
             if (user.CompanyId != hall.Cinema.CompanyId)
             {
                 return Error.Forbidden(description: "You do not have the necessary permissions to perform this action");

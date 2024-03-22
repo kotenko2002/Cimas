@@ -1,8 +1,6 @@
-﻿using Cimas.Domain.Entities;
-
-namespace Cimas.Application.Interfaces
+﻿namespace Cimas.Application.Interfaces
 {
-    public interface IBaseRepository<TEntity> where TEntity : BaseEntity
+    public interface IBaseRepository<TEntity> where TEntity : class
     {
         Task AddAsync(TEntity entity);
         Task AddRangeAsync(IEnumerable<TEntity> entities);
