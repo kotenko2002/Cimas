@@ -7,6 +7,9 @@ namespace Cimas.Application.Features.Auth.Commands.Register
     {
         public RegisterCommandValidator()
         {
+            RuleFor(x => x.Company)
+                .NotEmpty();
+
             RuleFor(x => x.Username)
                 .NotEmpty()
                 .MinimumLength(6);

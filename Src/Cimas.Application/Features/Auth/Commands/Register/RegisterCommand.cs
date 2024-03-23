@@ -1,10 +1,11 @@
-﻿using ErrorOr;
+﻿using Cimas.Domain.Entities.Companies;
+using ErrorOr;
 using MediatR;
 
 namespace Cimas.Application.Features.Auth.Commands.Register
 {
     public record RegisterCommand(
-        Guid CompanyId,
+        Company Company,
         string Username,
         string Password,
         string Role

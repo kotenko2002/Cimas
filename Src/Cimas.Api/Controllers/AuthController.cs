@@ -5,6 +5,7 @@ using Cimas.Api.Contracts.Auth;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Cimas.Domain.Entities.Users;
 
 namespace Cimas.Api.Controllers
 {
@@ -27,11 +28,10 @@ namespace Cimas.Api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
-            var command = request.Adapt<RegisterCommand>();
+            var command = (Roles.Owner, request).Adapt<RegisterCommand>();
+            var registerResult = await _mediator.Send(command);
 
-            var loginResult = await _mediator.Send(command);
-
-            return loginResult.Match(
+            return registerResult.Match(
                 res => Ok(),
                 Problem
             );

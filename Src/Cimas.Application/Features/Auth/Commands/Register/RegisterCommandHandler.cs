@@ -24,12 +24,6 @@ namespace Cimas.Application.Features.Auth.Commands.Register
 
         public async Task<ErrorOr<Success>> Handle(RegisterCommand command, CancellationToken cancellationToken)
         {
-            var company = await _uow.CompanyRepository.GetByIdAsync(command.CompanyId);
-            if(company is null)
-            {
-                return Error.NotFound(description: "Company with such id does not exist");
-            }
-
             User existsUser = await _userManager.FindByNameAsync(command.Username);
             if (existsUser is not null)
             {
@@ -38,7 +32,7 @@ namespace Cimas.Application.Features.Auth.Commands.Register
 
             var user = new User()
             {
-                Company = company,
+                Company = command.Company,
                 UserName = command.Username,
                 SecurityStamp = Guid.NewGuid().ToString(),
             };

@@ -6,7 +6,6 @@ using Cimas.Domain.Entities.Users;
 using Cimas.Domain.Models.Sessions;
 using ErrorOr;
 using MediatR;
-using System.Net.Sockets;
 
 namespace Cimas.Application.Features.Sessions.Queries.GetSeatsBySessionId
 {
