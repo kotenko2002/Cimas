@@ -14,6 +14,6 @@ namespace Cimas.Domain.Entities.WorkDays
         public Guid UserId { get; set; }
         public virtual User User { get; set; }
 
-        public Report Report { get; set; }
+        public virtual Report Report { get; set; }
     }
 }

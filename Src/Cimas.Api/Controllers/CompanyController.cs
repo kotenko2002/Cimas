@@ -21,7 +21,7 @@ namespace Cimas.Api.Controllers
             var createCompanyResult = await _mediator.Send(command);
 
             return createCompanyResult.Match(
-                Ok,
+                company => Ok(company.Adapt<CompanyResponse>()),
                 Problem
             );
         }

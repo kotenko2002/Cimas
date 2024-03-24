@@ -13,8 +13,6 @@ namespace Cimas.Infrastructure.Repositories
         {
             return await Sourse
                 .Include(company => company.Users)
-                //.ThenInclude(user => user.UserRoles) // Перше завантаження ролей користувача, якщо UserRoles - це зв'язна таблиця
-                //.ThenInclude(userRole => userRole.Role) // 
                 .FirstOrDefaultAsync(company => company.Id == companyId);
         }
     }

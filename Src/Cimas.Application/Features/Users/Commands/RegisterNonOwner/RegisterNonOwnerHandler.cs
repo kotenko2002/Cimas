@@ -3,6 +3,7 @@ using Cimas.Application.Interfaces;
 using Cimas.Domain.Entities.Companies;
 using Cimas.Domain.Entities.Users;
 using ErrorOr;
+using Mapster;
 using MediatR;
 
 namespace Cimas.Application.Features.Users.Commands.RegisterNonOwner
@@ -19,19 +20,15 @@ namespace Cimas.Application.Features.Users.Commands.RegisterNonOwner
             _mediator = mediator;
         }
 
-        public async Task<ErrorOr<Success>> Handle(RegisterNonOwnerCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Success>> Handle(RegisterNonOwnerCommand command, CancellationToken cancellationToken)
         {
-            User owner = await _uow.UserRepository.GetByIdAsync(request.OwnerUserId);
+            User owner = await _uow.UserRepository.GetByIdAsync(command.OwnerUserId);
 
             Company company = await _uow.CompanyRepository.GetByIdAsync(owner.CompanyId);
 
-            var command = new RegisterCommand(
-                company,
-                request.Username,
-                request.Password,
-                request.Role);
+            var registerCommand = (company, Roles.Owner, command).Adapt<RegisterCommand>();
 
-            return await _mediator.Send(command);
+            return await _mediator.Send(registerCommand);
         }
     }
 }

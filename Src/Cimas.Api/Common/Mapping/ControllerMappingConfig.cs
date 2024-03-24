@@ -15,6 +15,8 @@ using Cimas.Application.Features.Sessions.Commands.CreateSession;
 using Cimas.Application.Features.Sessions.Queries.GetSessionsByRange;
 using Cimas.Application.Features.Tickets.Commands.CreateTickets;
 using Cimas.Application.Features.Tickets.Commands.UpdateTickets;
+using Cimas.Application.Features.Users.Commands.RegisterNonOwner;
+using Cimas.Application.Features.Users.Commands.RegisterOwner;
 using Cimas.Domain.Entities.Sessions;
 using Mapster;
 
@@ -25,74 +27,74 @@ namespace Cimas.Api.Common.Mapping
         public static TypeAdapterConfig AddControllerMappingConfig(this TypeAdapterConfig config)
         {
             config
-                .AddAuthControllerConfig()
+                //.AddAuthControllerConfig()
                 .AddCinemaControllerConfig()
                 .AddFilmControllerConfig()
                 .AddHallControllerConfig()
                 .AddSessionControllerConfig()
-                .AddTicketControllerConfig();
-                //.AddUserControllerConfig();
+                .AddTicketControllerConfig()
+                .AddUserControllerConfig();
 
             return config;
         }
 
-        private static TypeAdapterConfig AddAuthControllerConfig(this TypeAdapterConfig config)
-        {
-            config.NewConfig<(string Role, RegisterRequest requset), RegisterCommand>()
-                .Map(dest => dest.Role, src => src.Role)
-                .Map(dest => dest, src => src.requset);
+        //private static TypeAdapterConfig AddAuthControllerConfig(this TypeAdapterConfig config)
+        //{
+        //    //config.NewConfig<(string Role, RegisterRequest Requset), RegisterCommand>()
+        //    //    .Map(dest => dest.Role, src => src.Role)
+        //    //    .Map(dest => dest, src => src.Requset);
 
-            return config;
-        }
+        //    //return config;
+        //}
 
         private static TypeAdapterConfig AddCinemaControllerConfig(this TypeAdapterConfig config)
         {
-            config.NewConfig<(Guid UserId, CreateCinemaRequest requset), CreateCinemaCommand>()
+            config.NewConfig<(Guid UserId, CreateCinemaRequest Requset), CreateCinemaCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
-                .Map(dest => dest, src => src.requset);
+                .Map(dest => dest, src => src.Requset);
 
-            config.NewConfig<(Guid UserId, Guid CinemaId, UpdateCinemaRequest requset), UpdateCinemaCommand>()
+            config.NewConfig<(Guid UserId, Guid CinemaId, UpdateCinemaRequest Requset), UpdateCinemaCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest.CinemaId, src => src.CinemaId)
-                .Map(dest => dest, src => src.requset);
+                .Map(dest => dest, src => src.Requset);
 
             return config;
         }
 
         private static TypeAdapterConfig AddFilmControllerConfig(this TypeAdapterConfig config)
         {
-            config.NewConfig<(Guid UserId, Guid CinemaId, CreateFilmRequest requset), CreateFilmCommand>()
+            config.NewConfig<(Guid UserId, Guid CinemaId, CreateFilmRequest Requset), CreateFilmCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest.CinemaId, src => src.CinemaId)
-                .Map(dest => dest, src => src.requset);
+                .Map(dest => dest, src => src.Requset);
 
             return config;
         }
 
         private static TypeAdapterConfig AddHallControllerConfig(this TypeAdapterConfig config)
         {
-            config.NewConfig<(Guid UserId, Guid CinemaId, CreateHallRequest requset), CreateHallCommand>()
+            config.NewConfig<(Guid UserId, Guid CinemaId, CreateHallRequest Requset), CreateHallCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest.CinemaId, src => src.CinemaId)
-                .Map(dest => dest, src => src.requset);
+                .Map(dest => dest, src => src.Requset);
 
-            config.NewConfig<(Guid UserId, Guid HallId, UpdateHallSeatsRequst requset), UpdateHallSeatsCommand>()
+            config.NewConfig<(Guid UserId, Guid HallId, UpdateHallSeatsRequst Requset), UpdateHallSeatsCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest.HallId, src => src.HallId)
-                .Map(dest => dest, src => src.requset);
+                .Map(dest => dest, src => src.Requset);
 
             return config;
         }
 
         private static TypeAdapterConfig AddSessionControllerConfig(this TypeAdapterConfig config)
         {
-            config.NewConfig<(Guid UserId, CreateSessionRequest requset), CreateSessionCommand>()
+            config.NewConfig<(Guid UserId, CreateSessionRequest Requset), CreateSessionCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
-                .Map(dest => dest, src => src.requset);
+                .Map(dest => dest, src => src.Requset);
 
-            config.NewConfig<(Guid UserId, GetSessionsByRangeRequest requset), GetSessionsByRangeQuery>()
+            config.NewConfig<(Guid UserId, GetSessionsByRangeRequest Requset), GetSessionsByRangeQuery>()
                 .Map(dest => dest.UserId, src => src.UserId)
-                .Map(dest => dest, src => src.requset);
+                .Map(dest => dest, src => src.Requset);
 
             config.NewConfig<Session, SessionResponse>()
                 .Map(dest => dest.Id, src => src.Id)
@@ -106,25 +108,28 @@ namespace Cimas.Api.Common.Mapping
 
         private static TypeAdapterConfig AddTicketControllerConfig(this TypeAdapterConfig config)
         {
-            config.NewConfig<(Guid UserId, Guid SessionId, CreateTicketsRequest requset), CreateTicketsCommand>()
+            config.NewConfig<(Guid UserId, Guid SessionId, CreateTicketsRequest Requset), CreateTicketsCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest.SessionId, src => src.SessionId)
-                .Map(dest => dest, src => src.requset);
+                .Map(dest => dest, src => src.Requset);
 
-            config.NewConfig<(Guid UserId, UpdateTicketsRequest requset), UpdateTicketsCommand>()
+            config.NewConfig<(Guid UserId, UpdateTicketsRequest Requset), UpdateTicketsCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
-                .Map(dest => dest, src => src.requset);
+                .Map(dest => dest, src => src.Requset);
 
             return config;
         }
 
-        //private static TypeAdapterConfig AddUserControllerConfig(this TypeAdapterConfig config)
-        //{
-        //    config.NewConfig<(Guid UserId, RegisterNonOwnerRequest requset), CreateUserCommand>()
-        //        .Map(dest => dest.OwnerUserId, src => src.UserId)
-        //        .Map(dest => dest, src => src.requset);
+        private static TypeAdapterConfig AddUserControllerConfig(this TypeAdapterConfig config)
+        {
+            //config.NewConfig<RegisterOwnerRequest, RegisterOwnerCommand>()
+            //    .Map(dest => dest, src => src);
 
-        //    return config;
-        //}
+            config.NewConfig<(Guid UserId, RegisterNonOwnerRequest Requset), RegisterNonOwnerCommand>()
+                .Map(dest => dest.OwnerUserId, src => src.UserId)
+                .Map(dest => dest, src => src.Requset);
+
+            return config;
+        }
     }
 }
