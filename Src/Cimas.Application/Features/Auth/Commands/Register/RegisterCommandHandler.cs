@@ -1,4 +1,5 @@
 ﻿using Cimas.Application.Interfaces;
+using Cimas.Domain.Entities.Companies;
 using Cimas.Domain.Entities.Users;
 using ErrorOr;
 using MediatR;
@@ -30,9 +31,15 @@ namespace Cimas.Application.Features.Auth.Commands.Register
                 return Error.Conflict(description: "User with such username is already exists");
             }
 
+            Company company = await _uow.CompanyRepository.GetByIdAsync(command.CompanyId);
+            if (company is null)
+            {
+                return Error.NotFound(description: "Company with such id does not exist");
+            }
+
             var user = new User()
             {
-                Company = command.Company,
+                Company = company,
                 UserName = command.Username,
                 SecurityStamp = Guid.NewGuid().ToString(),
             };

@@ -1,6 +1,5 @@
 ﻿using Cimas.Application.Features.Auth.Commands.Register;
 using Cimas.Application.Interfaces;
-using Cimas.Domain.Entities.Companies;
 using Cimas.Domain.Entities.Users;
 using ErrorOr;
 using Mapster;
@@ -24,9 +23,7 @@ namespace Cimas.Application.Features.Users.Commands.RegisterNonOwner
         {
             User owner = await _uow.UserRepository.GetByIdAsync(command.OwnerUserId);
 
-            Company company = await _uow.CompanyRepository.GetByIdAsync(owner.CompanyId);
-
-            var registerCommand = (company, Roles.Owner, command).Adapt<RegisterCommand>();
+            var registerCommand = (owner.CompanyId, Roles.Owner, command).Adapt<RegisterCommand>();
 
             return await _mediator.Send(registerCommand);
         }

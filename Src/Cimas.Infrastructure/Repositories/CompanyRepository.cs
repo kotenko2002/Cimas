@@ -12,8 +12,15 @@ namespace Cimas.Infrastructure.Repositories
         public async Task<Company> GetCompaniesIncludedUsersByIdAsync(Guid companyId)
         {
             return await Sourse
-                .Include(company => company.Users)
-                .FirstOrDefaultAsync(company => company.Id == companyId);
+                .Where(company => company.Id == companyId)
+                .Select(company => new Company()
+                {
+                    Id = company.Id,
+                    Name = company.Name,
+                    Cinemas = company.Cinemas,
+                    Users = company.Users.Where(user => !user.IsFired).ToList()
+                })
+                .FirstOrDefaultAsync();
         }
     }
 }

@@ -33,8 +33,7 @@ namespace Cimas.Application.Features.Users.Commands.RegisterOwner
                 return Error.NotFound(description: "Company with such id does not exist");
             }
 
-            List<User> activeEmployees = company.Users.Where(user => !user.IsFired).ToList();
-            foreach (User user in activeEmployees)
+            foreach (User user in company.Users)
             {
                 IList<string> userRoles = await _userManager.GetRolesAsync(user);
 
@@ -44,7 +43,7 @@ namespace Cimas.Application.Features.Users.Commands.RegisterOwner
                 }
             }
 
-            var registerCommand = (company, Roles.Owner, command).Adapt<RegisterCommand>();
+            var registerCommand = (company.Id, Roles.Owner, command).Adapt<RegisterCommand>();
 
             return await _mediator.Send(registerCommand);
         }

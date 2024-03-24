@@ -7,8 +7,18 @@
         public const string Reviewer = "Reviewer";
 
         public static string[] GetRoles()
-        {
-            return [Owner, Worker, Reviewer];
-        }
+            => [Owner, Worker, Reviewer];
+
+        public static string[] GetNonOwnerRoles()
+            => [Worker, Reviewer];
+
+        public static bool IsRoleValid(this string role)
+            => GetRoles().Contains(role);
+
+        public static bool IsOwner(this string role)
+            => role == Owner;
+
+        public static bool IsNonOwner(this string role)
+            => GetNonOwnerRoles().Contains(role);
     }
 }

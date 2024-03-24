@@ -122,9 +122,6 @@ namespace Cimas.Api.Common.Mapping
 
         private static TypeAdapterConfig AddUserControllerConfig(this TypeAdapterConfig config)
         {
-            //config.NewConfig<RegisterOwnerRequest, RegisterOwnerCommand>()
-            //    .Map(dest => dest, src => src);
-
             config.NewConfig<(Guid UserId, RegisterNonOwnerRequest Requset), RegisterNonOwnerCommand>()
                 .Map(dest => dest.OwnerUserId, src => src.UserId)
                 .Map(dest => dest, src => src.Requset);
