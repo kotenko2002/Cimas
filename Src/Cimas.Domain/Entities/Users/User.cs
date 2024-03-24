@@ -6,9 +6,10 @@ namespace Cimas.Domain.Entities.Users
 {
     public class User : IdentityUser<Guid>
     {
+        public string FisrtName { get; set; }
+        public string LastName { get; set; }
         public string RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
-
         public bool IsFired { get; set; }
 
         public Guid CompanyId { get; set; }

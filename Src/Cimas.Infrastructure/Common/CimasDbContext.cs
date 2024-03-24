@@ -47,6 +47,8 @@ namespace Cimas.Infrastructure.Common
 
             modelBuilder.Entity<User>(builder =>
             {
+                builder.Property(c => c.FisrtName).IsRequired();
+                builder.Property(c => c.LastName).IsRequired();
                 builder.Property(c => c.IsFired).IsRequired();
 
                 builder

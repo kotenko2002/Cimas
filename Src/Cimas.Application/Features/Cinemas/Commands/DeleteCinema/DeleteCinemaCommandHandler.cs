@@ -3,8 +3,6 @@ using Cimas.Domain.Entities.Cinemas;
 using Cimas.Domain.Entities.Users;
 using ErrorOr;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
-using System.Data;
 
 namespace Cimas.Application.Features.Cinemas.Commands.DeleteCinema
 {
@@ -32,6 +30,8 @@ namespace Cimas.Application.Features.Cinemas.Commands.DeleteCinema
             }
 
             await _uow.CinemaRepository.RemoveAsync(cinema);
+            //TODO: add deleting all related entities
+
             await _uow.CompleteAsync();
 
             return Result.Success;

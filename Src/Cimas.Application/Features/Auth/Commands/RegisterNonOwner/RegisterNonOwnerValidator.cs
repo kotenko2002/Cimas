@@ -2,15 +2,12 @@
 using Cimas.Domain.Entities.Users;
 using FluentValidation;
 
-namespace Cimas.Application.Features.Auth.Commands.Register
+namespace Cimas.Application.Features.Auth.Commands.RegisterNonOwner
 {
-    public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
+    public class RegisterNonOwnerValidator : AbstractValidator<RegisterNonOwnerCommand>
     {
-        public RegisterCommandValidator()
+        public RegisterNonOwnerValidator()
         {
-            RuleFor(x => x.CompanyId)
-                .NotEmpty();
-
             RuleFor(x => x.FisrtName)
                 .NotEmpty();
 
@@ -27,11 +24,11 @@ namespace Cimas.Application.Features.Auth.Commands.Register
 
             RuleFor(x => x.Role)
                 .NotEmpty()
-                .Must(role => role.IsRoleValid())
+                .Must(role => role.IsNonOwner())
                 .WithMessage(GenerateNonValidRoleErrorMessage);
         }
 
-        private string GenerateNonValidRoleErrorMessage(RegisterCommand command)
-            => command.Role.GenerateNonValidRoleErrorMessage(Roles.GetRoles());
+        private string GenerateNonValidRoleErrorMessage(RegisterNonOwnerCommand command)
+            => command.Role.GenerateNonValidRoleErrorMessage(Roles.GetNonOwnerRoles());
     }
 }

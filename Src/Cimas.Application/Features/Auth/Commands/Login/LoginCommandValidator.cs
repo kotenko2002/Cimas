@@ -12,7 +12,7 @@ namespace Cimas.Application.Features.Auth.Commands.Login
 
             RuleFor(x => x.Password)
                 .NotEmpty()
-                .MinimumLength(8);
+                .MinimumLength(6);
         }
     }
 }

@@ -23,5 +23,13 @@ namespace Cimas.Application.Common.Extensions
             return ruleBuilder.Must(list => list.All(item => Enum.IsDefined(typeof(TEnum), enumSelector(item))))
                 .WithMessage($"All enum values must be valid. Valid values are: {enumDescriptions}");
         }
+
+        public static string GenerateNonValidRoleErrorMessage(this string role, string[] validRoles)
+        {
+            string[] roles = validRoles.Select(role => $"'{role}'").ToArray();
+            string validRolesText = $"{string.Join(", ", roles.Take(roles.Length - 1))} or {roles.Last()}";
+
+            return $"'Role' must be: {validRolesText}. You entered '{role}'";
+        }
     }
 }
