@@ -27,7 +27,7 @@ namespace Cimas.Api.Controllers
         }
 
         [HttpPost("register/owner")]
-        public async Task<IActionResult> Register(RegisterOwnerRequest request)
+        public async Task<IActionResult> RegisterOwner(RegisterOwnerRequest request)
         {
             var command = request.Adapt<RegisterOwnerCommand>();
             ErrorOr<Success> registerOwnerResult = await _mediator.Send(command);
@@ -39,7 +39,7 @@ namespace Cimas.Api.Controllers
         }
 
         [HttpPost("register/nonowner"), Authorize(Roles = Roles.Owner)]
-        public async Task<IActionResult> CreateUser(RegisterNonOwnerRequest request)
+        public async Task<IActionResult> RegisterNonOwner(RegisterNonOwnerRequest request)
         {
             ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
             if (userIdResult.IsError)

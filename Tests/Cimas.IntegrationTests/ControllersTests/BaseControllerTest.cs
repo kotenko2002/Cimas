@@ -37,6 +37,9 @@ namespace Cimas.IntegrationTests.ControllersTests
         protected readonly string reviewer1UserName = "reviewer1";
         protected readonly string reviewer2UserName = "reviewer2";
 
+        protected readonly string owner1FisrtRefreshToken 
+            = "VbrQY4xob1rIK68PK79rc7tyflGtdlwCfU7IitKKkHYZvi84DijfZcwgT29KLUZzFUdBEL8ybVPCkKPfcXwjNQ==";
+
         protected readonly Guid worker1Id = Guid.NewGuid();
         protected readonly Guid cinema1Id = Guid.NewGuid();
         protected readonly Guid hall1Id = Guid.NewGuid();
@@ -73,7 +76,7 @@ namespace Cimas.IntegrationTests.ControllersTests
             _factory.Dispose();
         }
 
-        public async Task GenerateTokenAndSetAsHeader(string username)
+        public async Task<string> GenerateTokenAndSetAsHeader(string username, bool setTikenAsHeader = true)
         {
             using var scope = _factory.Services.CreateScope();
             var config = scope.ServiceProvider.GetRequiredService<IOptions<JwtConfig>>().Value;
@@ -84,6 +87,7 @@ namespace Cimas.IntegrationTests.ControllersTests
             var authClaims = new List<Claim>
             {
                 new("userId", user.Id.ToString()),
+                new(ClaimTypes.Name, user.UserName),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
             IList<string> userRoles = await userManager.GetRolesAsync(user);
@@ -101,7 +105,12 @@ namespace Cimas.IntegrationTests.ControllersTests
             );
 
             string token = new JwtSecurityTokenHandler().WriteToken(accessToken);
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            if (setTikenAsHeader)
+            {
+                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+
+            return token;
         }
 
         public async Task<T> GetResponseContent<T>(HttpResponseMessage response)
@@ -137,7 +146,7 @@ namespace Cimas.IntegrationTests.ControllersTests
             Company company2 = new() { Id = Guid.NewGuid(), Name = "Company #2" };
             await context.Companies.AddRangeAsync(company1, company2);
 
-            User owner1 = await AddUser(userManager, company1, owner1UserName, Roles.Owner, "O1FirstName", "O1LastName");
+            User owner1 = await AddUser(userManager, company1, owner1UserName, Roles.Owner, "O1FirstName", "O1LastName", refreshToken: owner1FisrtRefreshToken);
             User owner2 = await AddUser(userManager, company2, owner2UserName, Roles.Owner, "O2FirstName", "O2LastName");
             User worker1 = await AddUser(userManager, company1, worker1UserName, Roles.Worker, "W1FirstName", "W1LastName", worker1Id);
             User worker2 = await AddUser(userManager, company2, worker2UserName, Roles.Worker, "W2FirstName", "W2LastName");
@@ -189,7 +198,8 @@ namespace Cimas.IntegrationTests.ControllersTests
             string role,
             string fisrtName,
             string lastName,
-            Guid? id = null)
+            Guid? id = null,
+            string refreshToken = null)
         {
             var user = new User()
             {
@@ -198,7 +208,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 FisrtName = fisrtName,
                 LastName = lastName,
                 UserName = username,
-                RefreshToken = "refresh_token",
+                RefreshToken = refreshToken ?? "refresh_token",
                 RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(1)
             };
 
