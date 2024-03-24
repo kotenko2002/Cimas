@@ -1,6 +1,5 @@
 ﻿using Cimas.Api.Common.Extensions;
 using Cimas.Api.Contracts.Users;
-using Cimas.Application.Features.Auth.Commands.Register;
 using Cimas.Application.Features.Users.Commands.FireUser;
 using Cimas.Application.Features.Users.Commands.RegisterNonOwner;
 using Cimas.Application.Features.Users.Commands.RegisterOwner;
@@ -34,7 +33,7 @@ namespace Cimas.Api.Controllers
             ErrorOr<Success> registerOwnerResult = await _mediator.Send(command);
 
             return registerOwnerResult.Match(
-                res => Ok(),
+                NoContent,
                 Problem
             );
         }
@@ -57,40 +56,40 @@ namespace Cimas.Api.Controllers
             );
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetCompanyUsers()
-        //{
-        //    ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
-        //    if (userIdResult.IsError)
-        //    {
-        //        return Problem(userIdResult.Errors);
-        //    }
+        [HttpGet]
+        public async Task<IActionResult> GetCompanyUsers()
+        {
+            ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
+            if (userIdResult.IsError)
+            {
+                return Problem(userIdResult.Errors);
+            }
 
-        //    var query = new GetCompanyUsersQuery();
-        //    ErrorOr<List<User>> getUsersResult = await _mediator.Send(query);
+            var query = new GetCompanyUsersQuery(userIdResult.Value);
+            ErrorOr<List<User>> getUsersResult = await _mediator.Send(query);
 
-        //    return getUsersResult.Match(
-        //        Ok,
-        //        Problem
-        //    );
-        //}
+            return getUsersResult.Match(
+                users => Ok(users.Adapt<List<UserResponse>>()),
+                Problem
+            );
+        }
 
-        //[HttpDelete("{userId}")]
-        //public async Task<IActionResult> FireUser(Guid userId)
-        //{
-        //    ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
-        //    if (userIdResult.IsError)
-        //    {
-        //        return Problem(userIdResult.Errors);
-        //    }
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> FireUser(Guid userId)
+        {
+            ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
+            if (userIdResult.IsError)
+            {
+                return Problem(userIdResult.Errors);
+            }
 
-        //    var command = new FireUserCommand();
-        //    ErrorOr<Success> deleteUserResult = await _mediator.Send(command);
+            var command = new FireUserCommand(userIdResult.Value, userId);
+            ErrorOr<Success> deleteUserResult = await _mediator.Send(command);
 
-        //    return deleteUserResult.Match(
-        //        NoContent,
-        //        Problem
-        //    );
-        //}
+            return deleteUserResult.Match(
+                NoContent,
+                Problem
+            );
+        }
     }
 }

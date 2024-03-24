@@ -6,7 +6,9 @@ namespace Cimas.Application.Features.Users.Commands.FireUser
     {
         public FireUserValidator()
         {
-            
+
+            RuleFor(x => x.UserToFireId)
+                .NotEmpty();
         }
     }
 }
