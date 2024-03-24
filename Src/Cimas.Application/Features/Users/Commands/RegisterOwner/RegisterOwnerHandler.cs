@@ -1,4 +1,5 @@
 ﻿using Cimas.Application.Features.Auth.Commands.Register;
+using Cimas.Application.Features.Companies.Commands.CreateCompany;
 using Cimas.Application.Interfaces;
 using Cimas.Domain.Entities.Companies;
 using Cimas.Domain.Entities.Users;
@@ -27,24 +28,17 @@ namespace Cimas.Application.Features.Users.Commands.RegisterOwner
 
         public async Task<ErrorOr<Success>> Handle(RegisterOwnerCommand command, CancellationToken cancellationToken)
         {
-            Company company = await _uow.CompanyRepository.GetCompaniesIncludedUsersByIdAsync(command.CompanyId);
-            if (company is null)
+            var createCompanyCommand = new CreateCompanyCommand(command.CompanyName);
+            ErrorOr<Company> createCompanyResult = await _mediator.Send(createCompanyCommand);
+
+            if (createCompanyResult.IsError)
             {
-                return Error.NotFound(description: "Company with such id does not exist");
+                return createCompanyResult.Errors;
             }
 
-            foreach (User user in company.Users)
-            {
-                IList<string> userRoles = await _userManager.GetRolesAsync(user);
+            Guid companyId = createCompanyResult.Value.Id;
 
-                if(userRoles.Contains(Roles.Owner))
-                {
-                    return Error.Forbidden(description: "The company already has an owner");
-                }
-            }
-
-            var registerCommand = (company.Id, Roles.Owner, command).Adapt<RegisterCommand>();
-
+            var registerCommand = (companyId, Roles.Owner, command).Adapt<RegisterCommand>();
             return await _mediator.Send(registerCommand);
         }
     }

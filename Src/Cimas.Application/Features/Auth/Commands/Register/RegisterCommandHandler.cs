@@ -10,16 +10,13 @@ namespace Cimas.Application.Features.Auth.Commands.Register
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<Success>>
     {
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly IUnitOfWork _uow;
 
         public RegisterCommandHandler(
             UserManager<User> userManager,
-            RoleManager<IdentityRole<Guid>> roleManager,
             IUnitOfWork uow)
         {
             _userManager = userManager;
-            _roleManager = roleManager;
             _uow = uow;
         }
 
@@ -40,6 +37,8 @@ namespace Cimas.Application.Features.Auth.Commands.Register
             var user = new User()
             {
                 Company = company,
+                FisrtName = command.FisrtName,
+                LastName = command.LastName,
                 UserName = command.Username,
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
@@ -52,11 +51,6 @@ namespace Cimas.Application.Features.Auth.Commands.Register
                         code: "Password",
                         description: e.Description))
                     .ToList();
-            }
-
-            if(!await _roleManager.RoleExistsAsync(command.Role))
-            {
-                throw new InvalidOperationException("Role doesn't exists");
             }
 
             await _userManager.AddToRoleAsync(user, command.Role);

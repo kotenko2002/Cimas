@@ -4,7 +4,9 @@ using MediatR;
 namespace Cimas.Application.Features.Users.Commands.RegisterOwner
 {
     public record RegisterOwnerCommand(
-        Guid CompanyId,
+        string CompanyName,
+        string FisrtName,
+        string LastName,
         string Username,
         string Password
     ) : IRequest<ErrorOr<Success>>;

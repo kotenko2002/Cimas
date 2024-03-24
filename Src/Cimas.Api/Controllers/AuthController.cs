@@ -1,11 +1,9 @@
 ﻿using Cimas.Application.Features.Auth.Commands.Login;
 using Cimas.Application.Features.Auth.Commands.RefreshTokens;
-using Cimas.Application.Features.Auth.Commands.Register;
 using Cimas.Api.Contracts.Auth;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Cimas.Domain.Entities.Users;
 
 namespace Cimas.Api.Controllers
 {
@@ -15,27 +13,6 @@ namespace Cimas.Api.Controllers
         public AuthController(
             IMediator mediator
         ) : base(mediator) {}
-
-        /*
-        * TODO: 
-        * 
-        * 1) impl another register endpoint for adding new workers,
-        * check userId from jwt token and is user Owner
-        * 
-        * 2) edit current register endpoint logic. Make sure that
-        * company doesnt have any user
-        */
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterRequest request)
-        {
-            var command = (Roles.Owner, request).Adapt<RegisterCommand>();
-            var registerResult = await _mediator.Send(command);
-
-            return registerResult.Match(
-                res => Ok(),
-                Problem
-            );
-        }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest request)

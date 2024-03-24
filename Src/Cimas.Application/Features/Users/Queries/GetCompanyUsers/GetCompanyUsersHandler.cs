@@ -21,7 +21,9 @@ namespace Cimas.Application.Features.Users.Queries.GetCompanyUsers
             
             Company company = await _uow.CompanyRepository.GetCompaniesIncludedUsersByIdAsync(owner.CompanyId);
 
-            return company.Users.ToList();
+            return company.Users
+                .Where(user => user.Id != owner.Id)
+                .ToList();
         }
     }
 }

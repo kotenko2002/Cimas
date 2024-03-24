@@ -1,11 +1,9 @@
-﻿using Cimas.Api.Contracts.Auth;
-using Cimas.Api.Contracts.Cinemas;
+﻿using Cimas.Api.Contracts.Cinemas;
 using Cimas.Api.Contracts.Films;
 using Cimas.Api.Contracts.Halls;
 using Cimas.Api.Contracts.Sessions;
 using Cimas.Api.Contracts.Tickets;
 using Cimas.Api.Contracts.Users;
-using Cimas.Application.Features.Auth.Commands.Register;
 using Cimas.Application.Features.Cinemas.Commands.CreateCinema;
 using Cimas.Application.Features.Cinemas.Commands.UpdateCinema;
 using Cimas.Application.Features.Films.Commands.CreateFilm;
@@ -27,7 +25,6 @@ namespace Cimas.Api.Common.Mapping
         public static TypeAdapterConfig AddControllerMappingConfig(this TypeAdapterConfig config)
         {
             config
-                //.AddAuthControllerConfig()
                 .AddCinemaControllerConfig()
                 .AddFilmControllerConfig()
                 .AddHallControllerConfig()
@@ -37,15 +34,6 @@ namespace Cimas.Api.Common.Mapping
 
             return config;
         }
-
-        //private static TypeAdapterConfig AddAuthControllerConfig(this TypeAdapterConfig config)
-        //{
-        //    //config.NewConfig<(string Role, RegisterRequest Requset), RegisterCommand>()
-        //    //    .Map(dest => dest.Role, src => src.Role)
-        //    //    .Map(dest => dest, src => src.Requset);
-
-        //    //return config;
-        //}
 
         private static TypeAdapterConfig AddCinemaControllerConfig(this TypeAdapterConfig config)
         {

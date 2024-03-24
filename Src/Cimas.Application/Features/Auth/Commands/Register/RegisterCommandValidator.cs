@@ -11,13 +11,19 @@ namespace Cimas.Application.Features.Auth.Commands.Register
             RuleFor(x => x.CompanyId)
                 .NotEmpty();
 
+            RuleFor(x => x.FisrtName)
+                .NotEmpty();
+
+            RuleFor(x => x.LastName)
+                .NotEmpty();
+
             RuleFor(x => x.Username)
                 .NotEmpty()
                 .MinimumLength(6);
 
             RuleFor(x => x.Password)
                 .NotEmpty()
-                .MinimumLength(8);
+                .MinimumLength(6);
 
             RuleFor(x => x.Role)
                 .NotEmpty()

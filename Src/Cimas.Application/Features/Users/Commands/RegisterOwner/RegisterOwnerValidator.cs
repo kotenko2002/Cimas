@@ -6,7 +6,13 @@ namespace Cimas.Application.Features.Users.Commands.RegisterOwner
     {
         public RegisterOwnerValidator()
         {
-            RuleFor(x => x.CompanyId)
+            RuleFor(x => x.CompanyName)
+                .NotEmpty();
+
+            RuleFor(x => x.FisrtName)
+                .NotEmpty();
+
+            RuleFor(x => x.LastName)
                 .NotEmpty();
 
             RuleFor(x => x.Username)
@@ -15,7 +21,7 @@ namespace Cimas.Application.Features.Users.Commands.RegisterOwner
 
             RuleFor(x => x.Password)
                 .NotEmpty()
-                .MinimumLength(8);
+                .MinimumLength(6);
         }
     }
 }

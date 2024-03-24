@@ -1,7 +1,9 @@
 ﻿namespace Cimas.Api.Contracts.Users
 {
     public record RegisterOwnerRequest(
-        Guid CompanyId,
+        string CompanyName,
+        string FisrtName,
+        string LastName,
         string Username,
         string Password
     );

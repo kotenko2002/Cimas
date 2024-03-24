@@ -136,12 +136,12 @@ namespace Cimas.IntegrationTests.ControllersTests
             Company company2 = new() { Id = Guid.NewGuid(), Name = "Company #2" };
             await context.Companies.AddRangeAsync(company1, company2);
 
-            User owner1 = await AddUser(userManager, company1, owner1UserName, Roles.Owner);
-            User owner2 = await AddUser(userManager, company2, owner2UserName, Roles.Owner);
-            User worker1 = await AddUser(userManager, company1, worker1UserName, Roles.Worker);
-            User worker2 = await AddUser(userManager, company2, worker2UserName, Roles.Worker);
-            User reviewer1 = await AddUser(userManager, company1, reviewer1UserName, Roles.Reviewer);
-            User reviewer2 = await AddUser(userManager, company2, reviewer2UserName, Roles.Reviewer);
+            User owner1 = await AddUser(userManager, company1, owner1UserName, Roles.Owner, "O1FirstName", "O1LastName");
+            User owner2 = await AddUser(userManager, company2, owner2UserName, Roles.Owner, "O2FirstName", "O2LastName");
+            User worker1 = await AddUser(userManager, company1, worker1UserName, Roles.Worker, "W1FirstName", "W1LastName");
+            User worker2 = await AddUser(userManager, company2, worker2UserName, Roles.Worker, "W2FirstName", "W2LastName");
+            User reviewer1 = await AddUser(userManager, company1, reviewer1UserName, Roles.Reviewer, "R1FirstName", "R1LastName");
+            User reviewer2 = await AddUser(userManager, company2, reviewer2UserName, Roles.Reviewer, "R2FirstName", "R2LastName");
 
             Cinema cinema1 = new() { Id = cinema1Id, Company = company1, Name = "Cinema #1", Adress = "1 street" };
             Cinema cinema2 = new() { Id = Guid.NewGuid(), Company = company2, Name = "Cinema #2", Adress = "2 street" };
@@ -185,11 +185,15 @@ namespace Cimas.IntegrationTests.ControllersTests
             UserManager<User> userManager,
             Company company,
             string username,
-            string role)
+            string role,
+            string fisrtName,
+            string lastName)
         {
             var user = new User()
             {
                 Company = company,
+                FisrtName = fisrtName,
+                LastName = lastName,
                 UserName = username,
                 RefreshToken = "refresh_token",
                 RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(1)
