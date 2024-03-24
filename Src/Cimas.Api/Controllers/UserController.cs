@@ -1,8 +1,6 @@
 ﻿using Cimas.Api.Common.Extensions;
 using Cimas.Api.Contracts.Users;
 using Cimas.Application.Features.Users.Commands.FireUser;
-using Cimas.Application.Features.Users.Commands.RegisterNonOwner;
-using Cimas.Application.Features.Users.Commands.RegisterOwner;
 using Cimas.Application.Features.Users.Queries.GetCompanyUsers;
 using Cimas.Domain.Entities.Users;
 using ErrorOr;
@@ -24,36 +22,6 @@ namespace Cimas.Api.Controllers
         ) : base(mediator)
         {
             _httpContextAccessor = httpContextAccessor;
-        }
-
-        [HttpPost("register/owner"), AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterOwnerRequest request)
-        {
-            var command = request.Adapt<RegisterOwnerCommand>();
-            ErrorOr<Success> registerOwnerResult = await _mediator.Send(command);
-
-            return registerOwnerResult.Match(
-                NoContent,
-                Problem
-            );
-        }
-
-        [HttpPost("register/nonowner")]
-        public async Task<IActionResult> CreateUser(RegisterNonOwnerRequest request)
-        {
-            ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
-            if (userIdResult.IsError)
-            {
-                return Problem(userIdResult.Errors);
-            }
-
-            var command = (userIdResult.Value, request).Adapt<RegisterNonOwnerCommand>();
-            ErrorOr<Success> registerNonOwnerResult = await _mediator.Send(command);
-
-            return registerNonOwnerResult.Match(
-                NoContent,
-                Problem
-            );
         }
 
         [HttpGet]

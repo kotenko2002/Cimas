@@ -2,7 +2,7 @@
 using Cimas.Domain.Entities.Users;
 using FluentValidation;
 
-namespace Cimas.Application.Features.Users.Commands.RegisterNonOwner
+namespace Cimas.Application.Features.Auth.Commands.RegisterNonOwner
 {
     public class RegisterNonOwnerValidator : AbstractValidator<RegisterNonOwnerCommand>
     {

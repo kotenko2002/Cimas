@@ -1,7 +1,7 @@
 ﻿using ErrorOr;
 using MediatR;
 
-namespace Cimas.Application.Features.Users.Commands.RegisterNonOwner
+namespace Cimas.Application.Features.Auth.Commands.RegisterNonOwner
 {
     public record RegisterNonOwnerCommand(
         Guid OwnerUserId,

@@ -5,7 +5,7 @@ using ErrorOr;
 using Mapster;
 using MediatR;
 
-namespace Cimas.Application.Features.Users.Commands.RegisterNonOwner
+namespace Cimas.Application.Features.Auth.Commands.RegisterNonOwner
 {
     public class RegisterNonOwnerHandler : IRequestHandler<RegisterNonOwnerCommand, ErrorOr<Success>>
     {

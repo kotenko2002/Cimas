@@ -4,6 +4,7 @@ using Cimas.Api.Contracts.Halls;
 using Cimas.Api.Contracts.Sessions;
 using Cimas.Api.Contracts.Tickets;
 using Cimas.Api.Contracts.Users;
+using Cimas.Application.Features.Auth.Commands.RegisterNonOwner;
 using Cimas.Application.Features.Cinemas.Commands.CreateCinema;
 using Cimas.Application.Features.Cinemas.Commands.UpdateCinema;
 using Cimas.Application.Features.Films.Commands.CreateFilm;
@@ -13,8 +14,6 @@ using Cimas.Application.Features.Sessions.Commands.CreateSession;
 using Cimas.Application.Features.Sessions.Queries.GetSessionsByRange;
 using Cimas.Application.Features.Tickets.Commands.CreateTickets;
 using Cimas.Application.Features.Tickets.Commands.UpdateTickets;
-using Cimas.Application.Features.Users.Commands.RegisterNonOwner;
-using Cimas.Application.Features.Users.Commands.RegisterOwner;
 using Cimas.Domain.Entities.Sessions;
 using Mapster;
 

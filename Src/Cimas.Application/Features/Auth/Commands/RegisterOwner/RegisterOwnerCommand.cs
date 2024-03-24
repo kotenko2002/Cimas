@@ -1,7 +1,7 @@
 ﻿using ErrorOr;
 using MediatR;
 
-namespace Cimas.Application.Features.Users.Commands.RegisterOwner
+namespace Cimas.Application.Features.Auth.Commands.RegisterOwner
 {
     public record RegisterOwnerCommand(
         string CompanyName,

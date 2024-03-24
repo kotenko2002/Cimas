@@ -1,6 +1,6 @@
 ﻿using Cimas.Application.Features.Auth.Commands.Register;
-using Cimas.Application.Features.Users.Commands.RegisterNonOwner;
-using Cimas.Application.Features.Users.Commands.RegisterOwner;
+using Cimas.Application.Features.Auth.Commands.RegisterNonOwner;
+using Cimas.Application.Features.Auth.Commands.RegisterOwner;
 using Mapster;
 
 namespace Cimas.Api.Common.Mapping

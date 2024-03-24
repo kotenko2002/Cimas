@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Cimas.Application.Features.Users.Commands.RegisterOwner
+namespace Cimas.Application.Features.Auth.Commands.RegisterOwner
 {
     public class RegisterOwnerValidator : AbstractValidator<RegisterOwnerCommand>
     {
