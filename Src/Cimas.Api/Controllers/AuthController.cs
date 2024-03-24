@@ -4,7 +4,6 @@ using Cimas.Api.Contracts.Auth;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Cimas.Api.Contracts.Users;
 using ErrorOr;
 using Microsoft.AspNetCore.Authorization;
 using Cimas.Api.Common.Extensions;

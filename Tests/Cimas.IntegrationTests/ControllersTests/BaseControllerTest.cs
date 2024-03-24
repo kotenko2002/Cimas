@@ -37,6 +37,7 @@ namespace Cimas.IntegrationTests.ControllersTests
         protected readonly string reviewer1UserName = "reviewer1";
         protected readonly string reviewer2UserName = "reviewer2";
 
+        protected readonly Guid worker1Id = Guid.NewGuid();
         protected readonly Guid cinema1Id = Guid.NewGuid();
         protected readonly Guid hall1Id = Guid.NewGuid();
         protected readonly Guid seat1Id = Guid.NewGuid();
@@ -138,7 +139,7 @@ namespace Cimas.IntegrationTests.ControllersTests
 
             User owner1 = await AddUser(userManager, company1, owner1UserName, Roles.Owner, "O1FirstName", "O1LastName");
             User owner2 = await AddUser(userManager, company2, owner2UserName, Roles.Owner, "O2FirstName", "O2LastName");
-            User worker1 = await AddUser(userManager, company1, worker1UserName, Roles.Worker, "W1FirstName", "W1LastName");
+            User worker1 = await AddUser(userManager, company1, worker1UserName, Roles.Worker, "W1FirstName", "W1LastName", worker1Id);
             User worker2 = await AddUser(userManager, company2, worker2UserName, Roles.Worker, "W2FirstName", "W2LastName");
             User reviewer1 = await AddUser(userManager, company1, reviewer1UserName, Roles.Reviewer, "R1FirstName", "R1LastName");
             User reviewer2 = await AddUser(userManager, company2, reviewer2UserName, Roles.Reviewer, "R2FirstName", "R2LastName");
@@ -187,10 +188,12 @@ namespace Cimas.IntegrationTests.ControllersTests
             string username,
             string role,
             string fisrtName,
-            string lastName)
+            string lastName,
+            Guid? id = null)
         {
             var user = new User()
             {
+                Id = id ?? Guid.NewGuid(),
                 Company = company,
                 FisrtName = fisrtName,
                 LastName = lastName,

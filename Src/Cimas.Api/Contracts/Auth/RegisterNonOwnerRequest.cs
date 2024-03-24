@@ -1,4 +1,4 @@
-﻿namespace Cimas.Api.Contracts.Users
+﻿namespace Cimas.Api.Contracts.Auth
 {
     public record RegisterNonOwnerRequest(
         string Username,

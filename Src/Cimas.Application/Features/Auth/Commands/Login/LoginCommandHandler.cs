@@ -45,6 +45,7 @@ namespace Cimas.Application.Features.Auth.Commands.Login
             var authClaims = new List<Claim>
             {
                 new("userId", user.Id.ToString()),
+                new(ClaimTypes.Name, user.UserName),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 

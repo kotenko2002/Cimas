@@ -1,9 +1,9 @@
-﻿using Cimas.Api.Contracts.Cinemas;
+﻿using Cimas.Api.Contracts.Auth;
+using Cimas.Api.Contracts.Cinemas;
 using Cimas.Api.Contracts.Films;
 using Cimas.Api.Contracts.Halls;
 using Cimas.Api.Contracts.Sessions;
 using Cimas.Api.Contracts.Tickets;
-using Cimas.Api.Contracts.Users;
 using Cimas.Application.Features.Auth.Commands.RegisterNonOwner;
 using Cimas.Application.Features.Cinemas.Commands.CreateCinema;
 using Cimas.Application.Features.Cinemas.Commands.UpdateCinema;
