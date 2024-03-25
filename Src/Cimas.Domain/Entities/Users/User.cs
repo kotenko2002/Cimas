@@ -15,6 +15,6 @@ namespace Cimas.Domain.Entities.Users
         public Guid CompanyId { get; set; }
         public virtual Company Company { get; set; }
 
-        public virtual ICollection<WorkDay> WorkDays { get; set; }
+        public virtual ICollection<Workday> WorkDays { get; set; }
     }
 }

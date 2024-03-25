@@ -7,6 +7,6 @@ namespace Cimas.Domain.Entities.Reports
         public RepostStatus Status { get; set; }
 
         public Guid WorkDayId { get; set; }
-        public virtual WorkDay WorkDay { get; set; }
+        public virtual Workday WorkDay { get; set; }
     }
 }

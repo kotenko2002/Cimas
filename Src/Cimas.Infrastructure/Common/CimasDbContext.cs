@@ -26,7 +26,7 @@ namespace Cimas.Infrastructure.Common
         public DbSet<HallSeat> Seats { get; set; }
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
-        public DbSet<WorkDay> WorkDays { get; set; }
+        public DbSet<Workday> WorkDays { get; set; }
         public DbSet<Report> Reports { get; set; }
 
         public CimasDbContext(DbContextOptions<CimasDbContext> options) : base(options) { }
@@ -154,7 +154,7 @@ namespace Cimas.Infrastructure.Common
                     .OnDelete(DeleteBehavior.NoAction);
             });
 
-            modelBuilder.Entity<WorkDay>(builder =>
+            modelBuilder.Entity<Workday>(builder =>
             {
                 builder.Property(c => c.StartDateTime).IsRequired();
 

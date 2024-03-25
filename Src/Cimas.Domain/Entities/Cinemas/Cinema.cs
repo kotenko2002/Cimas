@@ -17,6 +17,6 @@ namespace Cimas.Domain.Entities.Cinemas
         public virtual ICollection<Product> Products { get; set; }
         public virtual ICollection<Hall> Halls { get; set; }
         public virtual ICollection<Film> Films { get; set; }
-        public virtual ICollection<WorkDay> WorkDays { get; set; }
+        public virtual ICollection<Workday> WorkDays { get; set; }
     }
 }

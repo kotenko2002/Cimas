@@ -8,13 +8,14 @@ namespace Cimas.Infrastructure.Repositories
         private readonly CimasDbContext _context;
 
         public ICompanyRepository CompanyRepository { get; }
+        public IUserRepository UserRepository { get; }
         public ICinemaRepository CinemaRepository { get; }
         public IHallRepository HallRepository { get; }
         public ISeatRepository SeatRepository { get; }
         public IFilmRepository FilmRepository { get; }
         public ISessionRepository SessionRepository { get; }
         public ITicketRepository TicketRepository { get; }
-        public IUserRepository UserRepository { get; }
+        public IWorkdayRepository WorkdayRepository { get; }
 
         public UnitOfWork(CimasDbContext context)
         {
@@ -28,6 +29,7 @@ namespace Cimas.Infrastructure.Repositories
             SessionRepository = new SessionRepository(_context);
             TicketRepository = new TicketRepository(_context);
             UserRepository = new UserRepository(_context);
+            WorkdayRepository = new WorkdayRepository(_context);
         }
 
         public async Task CompleteAsync()

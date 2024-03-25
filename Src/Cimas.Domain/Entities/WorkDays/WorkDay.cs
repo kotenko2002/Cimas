@@ -4,7 +4,7 @@ using Cimas.Domain.Entities.Users;
 
 namespace Cimas.Domain.Entities.WorkDays
 {
-    public class WorkDay : BaseEntity
+    public class Workday : BaseEntity
     {
         public DateTime StartDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }
