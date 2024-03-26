@@ -21,6 +21,7 @@ using Cimas.Domain.Entities.Halls;
 using Cimas.Domain.Entities.Films;
 using Cimas.Domain.Entities.Sessions;
 using Cimas.Domain.Entities.Tickets;
+using Cimas.Domain.Entities.WorkDays;
 
 namespace Cimas.IntegrationTests.ControllersTests
 {
@@ -42,6 +43,7 @@ namespace Cimas.IntegrationTests.ControllersTests
 
         protected readonly Guid worker1Id = Guid.NewGuid();
         protected readonly Guid cinema1Id = Guid.NewGuid();
+        protected readonly Guid cinema2Id = Guid.NewGuid();
         protected readonly Guid hall1Id = Guid.NewGuid();
         protected readonly Guid seat1Id = Guid.NewGuid();
         protected readonly Guid seat2Id = Guid.NewGuid();
@@ -154,7 +156,7 @@ namespace Cimas.IntegrationTests.ControllersTests
             User reviewer2 = await AddUser(userManager, company2, reviewer2UserName, Roles.Reviewer, "R2FirstName", "R2LastName");
 
             Cinema cinema1 = new() { Id = cinema1Id, Company = company1, Name = "Cinema #1", Adress = "1 street" };
-            Cinema cinema2 = new() { Id = Guid.NewGuid(), Company = company2, Name = "Cinema #2", Adress = "2 street" };
+            Cinema cinema2 = new() { Id = cinema2Id, Company = company2, Name = "Cinema #2", Adress = "2 street" };
             Cinema cinema3 = new() { Id = Guid.NewGuid(), Company = company1, Name = "Cinema #3", Adress = "3 street" };
             await context.Cinemas.AddRangeAsync(cinema1, cinema2, cinema3);
 
@@ -187,6 +189,9 @@ namespace Cimas.IntegrationTests.ControllersTests
             Ticket ticket2 = new() { Id = ticket2Id, Seat = seat2, Session = session1, Status = TicketStatus.Sold, CreationTime = DateTime.UtcNow };
             Ticket ticket3 = new() { Id = ticket3Id, Seat = seat3, Session = session3, CreationTime = DateTime.UtcNow };
             await context.Tickets.AddRangeAsync(ticket1, ticket2, ticket3);
+
+            Workday workday1 = new() { Id = Guid.NewGuid(), Cinema = cinema2, User = worker2, StartDateTime = DateTime.UtcNow };
+            await context.WorkDays.AddAsync(workday1);
 
             await context.SaveChangesAsync();
         }

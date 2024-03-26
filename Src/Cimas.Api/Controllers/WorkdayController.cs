@@ -44,7 +44,6 @@ namespace Cimas.Api.Controllers
             );
         }
 
-        [AllowAnonymous]
         [HttpGet("current")]
         public async Task<IActionResult> GetCurrentWorkday()
         {
