@@ -11,7 +11,8 @@
         ISessionRepository SessionRepository { get; }
         ITicketRepository TicketRepository { get; }
         IWorkdayRepository WorkdayRepository { get; }
-
+        IProductRepository ProductRepository { get; }
+        
         Task CompleteAsync();
     }
 }

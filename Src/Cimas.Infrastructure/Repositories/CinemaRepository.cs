@@ -9,11 +9,18 @@ namespace Cimas.Infrastructure.Repositories
     {
         public CinemaRepository(CimasDbContext context) : base(context) {}
 
-        public override async Task<Cinema> GetByIdAsync(Guid id)
+        public override async Task<Cinema> GetByIdAsync(Guid cinemaId)
         {
             return await Sourse
                 .Include(cinema => cinema.Company)
-                .FirstOrDefaultAsync(cinema => cinema.Id == id);
+                .FirstOrDefaultAsync(cinema => cinema.Id == cinemaId);
+        }
+
+        public async Task<Cinema> GetCinemaIncludedProductsByIdAsync(Guid cinemaId)
+        {
+            return await Sourse
+                .Include(cinema => cinema.Products)
+                .FirstOrDefaultAsync(cinema => cinema.Id == cinemaId);
         }
 
         public async Task<List<Cinema>> GetCinemasByCompanyIdAsync(Guid companyId)

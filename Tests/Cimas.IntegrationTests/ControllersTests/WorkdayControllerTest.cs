@@ -46,7 +46,7 @@ namespace Cimas.IntegrationTests.ControllersTests
         }
 
         [Test]
-        public Task WorkdayController_StartWorkday_ShouldReturnNotFound_WhenCinemaWithSuckIdDoesNotExist()
+        public Task WorkdayController_StartWorkday_ShouldReturnNotFound_WhenCinemaWithSuchIdDoesNotExist()
         {
             return PerformTest(async (client) =>
             {

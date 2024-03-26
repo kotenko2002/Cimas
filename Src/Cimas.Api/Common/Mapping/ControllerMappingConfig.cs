@@ -2,6 +2,7 @@
 using Cimas.Api.Contracts.Cinemas;
 using Cimas.Api.Contracts.Films;
 using Cimas.Api.Contracts.Halls;
+using Cimas.Api.Contracts.Products;
 using Cimas.Api.Contracts.Sessions;
 using Cimas.Api.Contracts.Tickets;
 using Cimas.Application.Features.Auth.Commands.RegisterNonOwner;
@@ -10,6 +11,7 @@ using Cimas.Application.Features.Cinemas.Commands.UpdateCinema;
 using Cimas.Application.Features.Films.Commands.CreateFilm;
 using Cimas.Application.Features.Halls.Commands.CreateHall;
 using Cimas.Application.Features.Halls.Commands.UpdateHallSeats;
+using Cimas.Application.Features.Products.Commands.CreateProduct;
 using Cimas.Application.Features.Sessions.Commands.CreateSession;
 using Cimas.Application.Features.Sessions.Queries.GetSessionsByRange;
 using Cimas.Application.Features.Tickets.Commands.CreateTickets;
@@ -29,7 +31,8 @@ namespace Cimas.Api.Common.Mapping
                 .AddHallControllerConfig()
                 .AddSessionControllerConfig()
                 .AddTicketControllerConfig()
-                .AddUserControllerConfig();
+                .AddUserControllerConfig()
+                .AddProductControllerConfig();
 
             return config;
         }
@@ -111,6 +114,16 @@ namespace Cimas.Api.Common.Mapping
         {
             config.NewConfig<(Guid UserId, RegisterNonOwnerRequest Requset), RegisterNonOwnerCommand>()
                 .Map(dest => dest.OwnerUserId, src => src.UserId)
+                .Map(dest => dest, src => src.Requset);
+
+            return config;
+        }
+
+        private static TypeAdapterConfig AddProductControllerConfig(this TypeAdapterConfig config)
+        {
+            config.NewConfig<(Guid UserId, Guid CinemaId, CreateProductRequest Requset), CreateProductCommand>()
+                .Map(dest => dest.UserId, src => src.UserId)
+                .Map(dest => dest.CinemaId, src => src.CinemaId)
                 .Map(dest => dest, src => src.Requset);
 
             return config;

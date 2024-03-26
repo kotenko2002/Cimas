@@ -16,6 +16,8 @@ namespace Cimas.Infrastructure.Repositories
         public ISessionRepository SessionRepository { get; }
         public ITicketRepository TicketRepository { get; }
         public IWorkdayRepository WorkdayRepository { get; }
+        public IProductRepository ProductRepository { get; }
+        
 
         public UnitOfWork(CimasDbContext context)
         {
@@ -30,6 +32,7 @@ namespace Cimas.Infrastructure.Repositories
             TicketRepository = new TicketRepository(_context);
             UserRepository = new UserRepository(_context);
             WorkdayRepository = new WorkdayRepository(_context);
+            ProductRepository = new ProductRepository(_context);
         }
 
         public async Task CompleteAsync()

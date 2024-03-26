@@ -22,6 +22,7 @@ using Cimas.Domain.Entities.Films;
 using Cimas.Domain.Entities.Sessions;
 using Cimas.Domain.Entities.Tickets;
 using Cimas.Domain.Entities.WorkDays;
+using Cimas.Domain.Entities.Products;
 
 namespace Cimas.IntegrationTests.ControllersTests
 {
@@ -41,7 +42,6 @@ namespace Cimas.IntegrationTests.ControllersTests
         protected readonly string owner1FisrtRefreshToken 
             = "VbrQY4xob1rIK68PK79rc7tyflGtdlwCfU7IitKKkHYZvi84DijfZcwgT29KLUZzFUdBEL8ybVPCkKPfcXwjNQ==";
 
-        protected readonly Guid worker1Id = Guid.NewGuid();
         protected readonly Guid cinema1Id = Guid.NewGuid();
         protected readonly Guid cinema2Id = Guid.NewGuid();
         protected readonly Guid hall1Id = Guid.NewGuid();
@@ -57,6 +57,8 @@ namespace Cimas.IntegrationTests.ControllersTests
         protected readonly Guid ticket1Id = Guid.NewGuid();
         protected readonly Guid ticket2Id = Guid.NewGuid();
         protected readonly Guid ticket3Id = Guid.NewGuid();
+        protected readonly Guid worker1Id = Guid.NewGuid();
+        protected readonly Guid product1Id = Guid.NewGuid();
         #endregion
 
         public async Task PerformTest(Func<HttpClient, Task> testFunc, Action<IServiceCollection> configureServices = null)
@@ -191,7 +193,11 @@ namespace Cimas.IntegrationTests.ControllersTests
             await context.Tickets.AddRangeAsync(ticket1, ticket2, ticket3);
 
             Workday workday1 = new() { Id = Guid.NewGuid(), Cinema = cinema2, User = worker2, StartDateTime = DateTime.UtcNow };
-            await context.Workdays.AddAsync(workday1);
+            await context.Workdays.AddRangeAsync(workday1);
+
+            Product product1 = new() { Id = product1Id, Cinema = cinema1, Name = "Product #1", Amount = 5, SoldAmount = 4, IncomeAmount = 10, IsDeleted = false };
+            Product product2 = new() { Id = Guid.NewGuid(), Cinema = cinema1, Name = "Product #2", Amount = 3, SoldAmount = 8, IncomeAmount = 15, IsDeleted = false };
+            await context.Products.AddRangeAsync(product1, product2);
 
             await context.SaveChangesAsync();
         }
