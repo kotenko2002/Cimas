@@ -82,7 +82,7 @@ namespace Cimas.Api.Controllers
             );
         }
 
-        [HttpPut("{cinemaId}")]
+        [HttpPatch("{cinemaId}")]
         public async Task<IActionResult> UpdateCinema(Guid cinemaId, UpdateCinemaRequest request)
         {
             ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();

@@ -123,7 +123,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
-                var response = await client.PutAsync($"{_baseUrl}/{cinema1Id}", content);
+                var response = await client.PatchAsync($"{_baseUrl}/{cinema1Id}", content);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
@@ -142,7 +142,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
-                var response = await client.PutAsync($"{_baseUrl}/{Guid.NewGuid()}", content);
+                var response = await client.PatchAsync($"{_baseUrl}/{Guid.NewGuid()}", content);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
@@ -161,7 +161,7 @@ namespace Cimas.IntegrationTests.ControllersTests
                 var content = new StringContent(JsonConvert.SerializeObject(requestModel), Encoding.UTF8, "application/json");
 
                 // Act
-                var response = await client.PutAsync($"{_baseUrl}/{cinema1Id}", content);
+                var response = await client.PatchAsync($"{_baseUrl}/{cinema1Id}", content);
 
                 // Assert
                 Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));

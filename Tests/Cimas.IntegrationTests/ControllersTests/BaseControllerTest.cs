@@ -191,7 +191,7 @@ namespace Cimas.IntegrationTests.ControllersTests
             await context.Tickets.AddRangeAsync(ticket1, ticket2, ticket3);
 
             Workday workday1 = new() { Id = Guid.NewGuid(), Cinema = cinema2, User = worker2, StartDateTime = DateTime.UtcNow };
-            await context.WorkDays.AddAsync(workday1);
+            await context.Workdays.AddAsync(workday1);
 
             await context.SaveChangesAsync();
         }
