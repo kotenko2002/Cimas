@@ -59,6 +59,8 @@ namespace Cimas.IntegrationTests.ControllersTests
         protected readonly Guid ticket3Id = Guid.NewGuid();
         protected readonly Guid worker1Id = Guid.NewGuid();
         protected readonly Guid product1Id = Guid.NewGuid();
+        protected readonly Guid product2Id = Guid.NewGuid();
+        protected readonly Guid product3Id = Guid.NewGuid();
         #endregion
 
         public async Task PerformTest(Func<HttpClient, Task> testFunc, Action<IServiceCollection> configureServices = null)
@@ -196,8 +198,9 @@ namespace Cimas.IntegrationTests.ControllersTests
             await context.Workdays.AddRangeAsync(workday1);
 
             Product product1 = new() { Id = product1Id, Cinema = cinema1, Name = "Product #1", Amount = 5, SoldAmount = 4, IncomeAmount = 10, IsDeleted = false };
-            Product product2 = new() { Id = Guid.NewGuid(), Cinema = cinema1, Name = "Product #2", Amount = 3, SoldAmount = 8, IncomeAmount = 15, IsDeleted = false };
-            await context.Products.AddRangeAsync(product1, product2);
+            Product product2 = new() { Id = product2Id, Cinema = cinema1, Name = "Product #2", Amount = 3, SoldAmount = 8, IncomeAmount = 15, IsDeleted = false };
+            Product product3 = new() { Id = product3Id, Cinema = cinema2, Name = "Product #3", Amount = 6, SoldAmount = 7, IncomeAmount = 1515, IsDeleted = false };
+            await context.Products.AddRangeAsync(product1, product2, product3);
 
             await context.SaveChangesAsync();
         }

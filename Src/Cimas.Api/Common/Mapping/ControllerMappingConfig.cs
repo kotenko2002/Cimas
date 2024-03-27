@@ -12,6 +12,7 @@ using Cimas.Application.Features.Films.Commands.CreateFilm;
 using Cimas.Application.Features.Halls.Commands.CreateHall;
 using Cimas.Application.Features.Halls.Commands.UpdateHallSeats;
 using Cimas.Application.Features.Products.Commands.CreateProduct;
+using Cimas.Application.Features.Products.Commands.UpateProduct;
 using Cimas.Application.Features.Sessions.Commands.CreateSession;
 using Cimas.Application.Features.Sessions.Queries.GetSessionsByRange;
 using Cimas.Application.Features.Tickets.Commands.CreateTickets;
@@ -124,6 +125,10 @@ namespace Cimas.Api.Common.Mapping
             config.NewConfig<(Guid UserId, Guid CinemaId, CreateProductRequest Requset), CreateProductCommand>()
                 .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest.CinemaId, src => src.CinemaId)
+                .Map(dest => dest, src => src.Requset);
+
+            config.NewConfig<(Guid UserId, UpdateProductsRequest Requset), UpateProductsCommand>()
+                .Map(dest => dest.UserId, src => src.UserId)
                 .Map(dest => dest, src => src.Requset);
 
             return config;

@@ -1,8 +1,11 @@
-﻿using Cimas.Api.Common.Extensions;
+﻿using Azure.Core;
+using Cimas.Api.Common.Extensions;
 using Cimas.Api.Contracts.Products;
 using Cimas.Application.Features.Products.Commands.CreateProduct;
 using Cimas.Application.Features.Products.Commands.DeleteProduct;
+using Cimas.Application.Features.Products.Commands.UpateProduct;
 using Cimas.Application.Features.Products.Queries.GetProductsByCinemaId;
+using Cimas.Domain.Entities.Cinemas;
 using Cimas.Domain.Entities.Products;
 using Cimas.Domain.Entities.Users;
 using ErrorOr;
@@ -63,7 +66,7 @@ namespace Cimas.Api.Controllers
         }
 
         [HttpPatch]
-        public async Task<IActionResult> UpateProduct()
+        public async Task<IActionResult> UpateProducts(UpdateProductsRequest request)
         {
             ErrorOr<Guid> userIdResult = _httpContextAccessor.HttpContext.User.GetUserId();
             if (userIdResult.IsError)
@@ -71,9 +74,13 @@ namespace Cimas.Api.Controllers
                 return Problem(userIdResult.Errors);
             }
 
-            // TODO: implement
+            var command = (userIdResult.Value, request).Adapt<UpateProductsCommand>();
+            ErrorOr<Success> upateProductsResult = await _mediator.Send(command);
 
-            return Ok();
+            return upateProductsResult.Match(
+                NoContent,
+                Problem
+            );
         }
 
         [HttpDelete("{productId}")]
